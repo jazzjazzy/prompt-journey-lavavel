@@ -13,13 +13,6 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @vite('resources/js/pj-js/suffix.js')
-        @vite('resources/js/pj-js/images.js')
-        @vite('resources/js/pj-js/parameters.js')
-        @vite('resources/js/pj-js/inputPrompting.js')
-        @vite('resources/js/pj-js/history.js')
-        @vite('resources/js/pj-js/prompts.js')
-        @vite('resources/js/pj-js/shortcuts.js')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
