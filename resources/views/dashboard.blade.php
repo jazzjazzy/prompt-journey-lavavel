@@ -16,16 +16,12 @@
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary m-4 h-fit w-fit">
             <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
-        <div class="alert alert-notice hidden" id="copy-mj-prompt">
-            suffix copid to clipboard
+        <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
+            suffix copied to clipboard
         </div>
     </div>
 </div>
-<div class="mx-12">
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+<div class="mx-12 mt-1">
     <div class="grid grid-cols-10 gap-2">
         <div id="text-field" class="p-2 col-span-7 bg-gradient-to-r from-indigo-500 bg-amber-300 overflow-auto">
             <div class="grid grid-cols-12 gap-2">
