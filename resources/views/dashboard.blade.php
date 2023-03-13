@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="grid grid-cols-12 py-3">
+<div class="grid grid-cols-12 pt-1 m-auto px-12">
     <div class="col-span-10 border-black border-4">
         <div id="pre-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4"></div>
         <div id="pre-prompt-1" class="text-sm align-middle text-gray-400 h-6 pl-4"></div>
@@ -13,16 +13,15 @@
     </div>
     <div class="col-span-2">
 
-        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary h-fit w-fit">
-            <i class="text-8xl m-2 fas fa-copy"></i>
+        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary m-4 h-fit w-fit">
+            <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
+        <div class="alert alert-notice hidden" id="copy-mj-prompt">
+            suffix copid to clipboard
+        </div>
     </div>
 </div>
-<div class="m-3">
-    <div class="font-extrabold text-8xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-        <h1 id="title" class="text-4xl box-content">Prompt Jounrey</h1>
-    </div>
-
+<div class="mx-12">
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Logout</button>
@@ -57,13 +56,13 @@
                         </div>
                         <div class="card-body">
                             <div>
-                                <button id="add-to-suffix-list" class="btn btn-primary">
+                                <button id="add-to-suffix-list" class="btn btn-primary m-0 w-full">
                                     Add as Suffix
                                 </button>
-                                <button id="clear" class="btn btn-primary">
+                                <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
                                     Clear
                                 </button>
-                                <button id="show-history" class="btn btn-primary">
+                                <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
                                     show History
                                 </button>
                             </div>
@@ -76,8 +75,8 @@
                 <div class="card-header bg-gradient-to-r from-green-100 to-green-700">
                     <h2>Basic Parameters</h2>
                 </div>
-                <div class="card-body p-0">
-                    <div class="grid grid-cols-4 gap-2 m-2">
+                <div class="card-body p-0 m-0">
+                    <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="aspect-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-400" for="aspect">--aspect</label>
@@ -299,7 +298,7 @@
                 <div class="grid grid-cols-2">
                     <div class="flex content-start items-center">
                         <div class="alert alert-notice hidden" id="images-notice">
-                            suffix copid to clipboard
+                            suffix copied to clipboard
                         </div>
                     </div>
                     <div class="flex content-end flex-row-reverse">

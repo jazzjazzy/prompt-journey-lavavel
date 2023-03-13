@@ -1,8 +1,12 @@
-
 // chaos field
 $(document).ready(function () {
     // Attach an 'input' event listener to all elements with the 'parameter-class' class
-    $('.parameter-class').on('input', function() {
+    /**
+     * this will directly affect the color of the input field when the user types in it,
+     * changes to these field from the prompt-text input are handled in
+     * parameter.js methods textParmeters() and selectParmeters() and checkboxParmeters() functions
+     */
+    $('.parameter-class').on('input', function () {
         // Get the ID of the input element
         var id = $(this).attr("id");
         // Get the wrapper element using the ID
@@ -27,7 +31,7 @@ $(document).ready(function () {
         }
     });
 
-    function resetPromptsBackgrounds(){
+    function resetPromptsBackgrounds() {
         var labels = wrapper.find('label');
         // Get the background color from the 'data-color' attribute of the wrapper element
         var color = wrapper.attr("data-color");
