@@ -242,8 +242,11 @@ $(document).ready(function () {
             let match = matches[0].match(/^([^ ]+) (.+)/)[2];
             $('#' + paraName).val(match);
             let wrapper = $('#' + paraName + '-wrapper');
+            var labels = wrapper.find('label');
             let color = wrapper.attr("data-color");
-            wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
+            //wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
+            wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
+            labels.removeClass('text-gray-400').addClass('text-gray-200');
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
@@ -291,6 +294,13 @@ $(document).ready(function () {
             //let match = matches[0].match(/^([^ ]+) (.+)/)[2];
             $('#' + paraName).prop("checked", true);
 
+            let wrapper = $('#' + paraName + '-wrapper');
+            var labels = wrapper.find('label');
+            let color = wrapper.attr("data-color");
+            //wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
+            wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
+            labels.removeClass('text-gray-400').addClass('text-gray-200');
+
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
             $('.prompt-text-class').val(promptText);
@@ -298,6 +308,9 @@ $(document).ready(function () {
         updatePromptText();
     }
 
+    /**
+     * update the prompt text by adding the prompt-text field and all the parameters
+     */
     function updatePromptText() {
         // get the text from prompt text area
         $('#prompt').val($('.prompt-text-class').val());

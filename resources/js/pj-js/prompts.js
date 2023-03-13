@@ -4,6 +4,11 @@ $(document).ready(function () {
     //todo: this has been removes as multipart promts are not a proirty right now but mabye in the future
 
     $(document).on('input', '.prompt-text-class', function () {
+
+        //todo: we return this for the moment as it is not complete
+        //maybe we can use it in the future or delete it
+        return;
+
         const regex = /::(\s|\d\s)/g;
         let promptText = $(this).val();
         const matches = promptText.match(regex);
