@@ -6,6 +6,7 @@
 //
 // Alpine.start();
 import $ from 'jquery';
+window.jQuery = $;
 window.$ = $;
 
 import '@selectize/selectize/dist/js/selectize.min.js';

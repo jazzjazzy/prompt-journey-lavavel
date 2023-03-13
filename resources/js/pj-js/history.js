@@ -14,7 +14,7 @@ $(document).ready(function () {
         // Get the value of the input field
         var inputVal = $('#prompt').val();
         // Copy the value to the clipboard
-        navigator.clipboard.writeText(inputVal);
+        navigator.clipboard.writeText("/imagine prompt: "+inputVal);
 
         var nextIndex = savedStrings.length;
         // Add the value to the array of saved strings

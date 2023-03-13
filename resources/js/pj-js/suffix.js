@@ -33,20 +33,18 @@ $(document).ready(function () {
 
         // If no empty input field is found, add a new one
         if (!added) {
-            let inputField = $(createDynamicSuffixRow());
+            let inputField = $(createDynamicSuffixRow(promptText));
             $('#input-suffix-fields').append(inputField);
-            suffixField = inputField.find('.suffix-input');
-            suffixField.val(promptText);
         }
     }
 
-    function createDynamicSuffixRow(){
+    function createDynamicSuffixRow(input =''){
         return ' <div class="flex mt-2">\n' +
             '                            <div class="flex-none px-3">\n' +
             '                                <input type="checkbox" name="suffixAdd[]" class="suffix-add">\n' +
             '                            </div>\n' +
             '                            <div class="grow">\n' +
-            '                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-400">\n' +
+            '                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-400" value="'+ input +'">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
             '                                <button class="icon-button suffix-input-copy">\n' +
