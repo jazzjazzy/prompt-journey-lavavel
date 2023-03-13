@@ -16,17 +16,17 @@ use App\Http\Controllers\SocialiteController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('dashboard');
 });
 
 
 Route::get('/auth/{provider}/redirect', [
     SocialiteController::class , 'redirect'
-])->where('provider', 'facebook|google|github');
+])->where('provider', 'facebook|google|github|twitter');
 
 Route::get('/auth/{provider}/callback', [
     SocialiteController::class, 'callback'
-])->where('provider', 'facebook|google|github');;
+])->where('provider', 'facebook|google|github|twitter');;
 
 
 Route::get('/dashboard', function () {
