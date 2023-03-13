@@ -157,7 +157,7 @@
                     <h2>Model Version Parameters</h2>
                 </div>
                 <div class="card-body">
-                    <div class="grid grid-cols-4 gap-2 m-2 pb-2 px-2">
+                    <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="niji-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-400" for="niji">--niji</label>
@@ -199,7 +199,7 @@
                     <h2>Upscaler Parameters</h2>
                 </div>
                 <div class="card-body ">
-                    <div class="grid grid-cols-4 gap-2 m-2 pb-2 px-2">
+                    <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="uplight-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-400" for="uplight">--uplight</label>
