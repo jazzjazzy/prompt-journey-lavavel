@@ -104,7 +104,7 @@
     .alert{
         float:left;
         @apply text-[12px]
-        bg-green-200 rounded-xl h-5 pr-2 py-2
+        bg-green-200 rounded-xl h-5 pr-1 pt-1
         relative
     }
 
@@ -116,7 +116,7 @@
     }
 
     .alert-notice {
-        @apply py-2 pl-[80px] pr-2 bg-orange-200 border-fuchsia-900;
+        @apply pl-[80px] pr-2 bg-orange-200 border-fuchsia-900;
     }
 
     .alert-notice::before {

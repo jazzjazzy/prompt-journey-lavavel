@@ -22,6 +22,7 @@ $(document).ready(function () {
         $('#pre-prompt-1').text(savedStrings[nextIndex]);
         $('#pre-prompt-2').text(savedStrings[nextIndex - 1]);
         console.log(savedStrings);
+        promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to clipboard');
     }
 
     // Attach a 'keydown' event listener to the input field
@@ -48,6 +49,17 @@ $(document).ready(function () {
             }
         }
     });
+
+    function promptCopyNoticeAlert(paramId, massage) {
+        $(paramId).text(massage);
+        // Slide the div from left to right
+        $(paramId).fadeIn(1000);
+
+        // Wait for 3 seconds before sliding the div from right to left
+        setTimeout(function () {
+            $(paramId).fadeOut(1000);
+        }, 3000);
+    }
 
     $("#show-history").click(function () {
         showHistory();

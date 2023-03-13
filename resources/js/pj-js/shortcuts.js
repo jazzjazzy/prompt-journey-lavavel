@@ -18,7 +18,8 @@ $(document).ready(function () {
         // Ctrl + shift + c = copy generated prompt
         if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
             e.preventDefault(); // prevent the default browser behavior for this key combination
-            copyMjPrompt();
+            //copyMjPrompt();
+            $("#copyMjButton").click();
         }
 
         // Ctrl + alt + shift + s = add as Suffix
