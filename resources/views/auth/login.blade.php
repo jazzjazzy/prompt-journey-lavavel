@@ -47,7 +47,7 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Terms of Service</a></div>
+        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Privacy Policy</a></div>
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
