@@ -51,7 +51,7 @@
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
-        <a href="/auth/google/redirect">
+<!--        <a href="/auth/google/redirect">
         <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
             <div class="flex inline-flex bg-green-900 ">
                 <i class="fab fa-google m-3 text text-white text-[35px]"></i>
@@ -60,7 +60,7 @@
                 Login with Google
             </div>
         </div>
-        </a>
+        </a>-->
         <a href="/auth/github/redirect">
             <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
                 <div class="flex inline-flex bg-gray-900 ">
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </a>
-        <a href="/auth/twitter/redirect">
+<!--        <a href="/auth/twitter/redirect">
             <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
                 <div class="flex inline-flex bg-sky-500">
                     <i class="fab fa-twitter m-3 text text-white text-[35px]"></i>
@@ -90,6 +90,6 @@
                     Login with Facebook
                 </div>
             </div>
-        </a>
+        </a>-->
     </div>
 </x-guest-layout>
