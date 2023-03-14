@@ -19,6 +19,14 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+Route::get('/terms-of-service', function () {
+    return view('terms_of_service');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('privacy_policy');
+});
+
 
 Route::get('/auth/{provider}/redirect', [
     SocialiteController::class , 'redirect'

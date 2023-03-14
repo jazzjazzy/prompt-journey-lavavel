@@ -47,8 +47,9 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Terms of Service</a></div>
     </form>
-    <hr class="border border-slate-300 my-12">
+    <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
         <a href="/auth/google/redirect">
         <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
