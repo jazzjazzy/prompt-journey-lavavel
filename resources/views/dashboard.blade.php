@@ -271,10 +271,10 @@
                 <div id="input-image-fields">
                     <div class="flex">
                         <div class="flex-none px-3">
-                            <input type="checkbox" name="suffixAdd[]" class="images-add">
+                            <input type="checkbox" name="imagesAdd[]" class="images-add">
                         </div>
                         <div class="grow">
-                            <input type="text" name="suffix[]" class="images-input disabled:text-gray-400">
+                            <input type="text" name="images[]" class="images-input disabled:text-gray-400">
                         </div>
                         <div class="flex-none px-3">
                             <button class="icon-button show-image">
@@ -447,8 +447,6 @@
             uplightParam();
             upbetaParam();
             upanimeParam();
-            setPromptWithImagesText();
-            setPromptWithSuffixText();
 
         });
 

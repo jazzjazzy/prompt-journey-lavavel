@@ -85,8 +85,7 @@ $(document).ready(function () {
 
     }
 
-    $(".show-image").click(function () {
-
+    $('#input-image-fields').on('click', '.show-image', function () {
         var parentDiv = $(this).closest('.flex');
         var imgUrl = parentDiv.find('.images-input').val();
 
@@ -114,7 +113,6 @@ $(document).ready(function () {
      */
     $('#input-image-fields').on('click', '.images-input-copy', function () {
         var parentDiv = $(this).closest('.flex').find('.images-input');
-        ;
 
         var inputVal = parentDiv.val();
         if (inputVal !== '') {
@@ -156,10 +154,10 @@ $(document).ready(function () {
     function getImagePromptText() {
         let imagesText = '';
         // if field is not empty, add it to the imagesText
-        $('#input-images-fields').children('div').each(function () {
+        $('#input-image-fields').children('div').each(function () {
 
-            $imagesValue = $(this).find('.images-input').val();
-            $imagesAdd = $(this).find('.images-add').is(':checked');
+            let $imagesValue = $(this).find('.images-input').val();
+            let $imagesAdd = $(this).find('.images-add').is(':checked');
 
             if ($imagesAdd && $imagesValue !== '') {
                 imagesText += $imagesValue + ' ';
@@ -168,13 +166,15 @@ $(document).ready(function () {
         return imagesText;
     }
 
+
     function setPromptWithImagesText() {
         let ImagesText = getImagePromptText();
-        $('#prompt').val($('#prompt').val() + ' ' + $.trim(ImagesText));
+        $('#prompt').val( $.trim(ImagesText) + ' ' + $('#prompt').val());
     }
 
     $.extend(window, {
-        setPromptWithImagesText: setPromptWithImagesText
+        setPromptWithImagesText: setPromptWithImagesText,
+        getImagePromptText: getImagePromptText
     });
 
 

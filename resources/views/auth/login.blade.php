@@ -4,7 +4,11 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
+        <div>
+            <a href="{{ route('register') }}"
+               class="w-full inline-flex justify-center items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">Register now</a>
+        </div>
+        <hr class="border border-slate-300 mt-6 mb-6">
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')"/>
@@ -36,6 +40,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
+
             @if (Route::has('password.request'))
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                href="{{ route('password.request') }}">
@@ -47,20 +52,21 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a href="/privacy-policy">Privacy Policy</a></div>
+        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a
+                href="/privacy-policy">Privacy Policy</a></div>
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
-<!--        <a href="/auth/google/redirect">
-        <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-            <div class="flex inline-flex bg-green-900 ">
-                <i class="fab fa-google m-3 text text-white text-[35px]"></i>
-            </div>
-            <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                Login with Google
-            </div>
-        </div>
-        </a>-->
+        <!--        <a href="/auth/google/redirect">
+                <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                    <div class="flex inline-flex bg-green-900 ">
+                        <i class="fab fa-google m-3 text text-white text-[35px]"></i>
+                    </div>
+                    <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                        Login with Google
+                    </div>
+                </div>
+                </a>-->
         <a href="/auth/github/redirect">
             <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
                 <div class="flex inline-flex bg-gray-900 ">
@@ -71,25 +77,25 @@
                 </div>
             </div>
         </a>
-<!--        <a href="/auth/twitter/redirect">
-            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                <div class="flex inline-flex bg-sky-500">
-                    <i class="fab fa-twitter m-3 text text-white text-[35px]"></i>
-                </div>
-                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                    Login with Twitter
-                </div>
-            </div>
-        </a>
-        <a href="/auth/facebook/redirect">
-            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                <div class="flex inline-flex bg-slate-800">
-                    <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
-                </div>
-                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                    Login with Facebook
-                </div>
-            </div>
-        </a>-->
+        <!--        <a href="/auth/twitter/redirect">
+                    <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                        <div class="flex inline-flex bg-sky-500">
+                            <i class="fab fa-twitter m-3 text text-white text-[35px]"></i>
+                        </div>
+                        <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                            Login with Twitter
+                        </div>
+                    </div>
+                </a>
+                <a href="/auth/facebook/redirect">
+                    <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                        <div class="flex inline-flex bg-slate-800">
+                            <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
+                        </div>
+                        <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                            Login with Facebook
+                        </div>
+                    </div>
+                </a>-->
     </div>
 </x-guest-layout>

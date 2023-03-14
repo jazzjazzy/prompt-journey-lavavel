@@ -158,7 +158,8 @@ $(document).ready(function () {
 
     $.extend(window, {
         setPromptWithSuffixText: setPromptWithSuffixText,
-        addToSuffixList: addToSuffixList
+        addToSuffixList: addToSuffixList,
+        getSuffixPromptText:getSuffixPromptText
     });
 
 });

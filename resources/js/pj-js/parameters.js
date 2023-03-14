@@ -313,30 +313,39 @@ $(document).ready(function () {
      */
     function updatePromptText() {
         // get the text from prompt text area
-        $('#prompt').val($('.prompt-text-class').val());
+        let promptValue = $.trim($('.prompt-text-class').val());
+        var paramValue = '';
+        var suffix = ''
+        var images = '';
 
         // add the parameters to the prompt text
         $("input.parameter-class, select.parameter-class").each(function () {
             var type = $(this).attr("type");
             var paraName = $(this).attr("id");
-            var paramValue = '';
 
             if (type === "checkbox" && $('#' + paraName).is(":checked")) {
-                paramValue = ' --' + paraName;
+                paramValue += ' --' + paraName;
             } else if (type === "text" && $('#' + paraName).val() !== '') {
-                paramValue = ' --' + paraName + ' ' + $('#' + paraName).val();
+                paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
             } else if (type !== "checkbox" && type !== "text") {
                 var selection = $('#' + paraName).selectize();
                 if (selection[0].selectize.getValue() !== '') {
-                    paramValue = ' --' + paraName + ' ' + selection[0].selectize.getValue();
+                    paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
                 }
             }
-            if (paramValue !== '') {
-                $('#prompt').val(function (index, value) {
-                    return value += paramValue;
-                });
-            }
         });
+
+        // get the list of suffixes and image
+        images = getImagePromptText();
+        suffix = getSuffixPromptText();
+
+        // check if we have a suffix or images and add a space if we do
+        suffix = (suffix === '')? '': ' ' + $.trim(suffix);
+        images = (images === '')? '': $.trim(images) + ' ';
+        paramValue = (paramValue === '')? '': ' ' + $.trim(paramValue);
+
+        //build the prompt text
+        $('#prompt').val( images + promptValue + paramValue + suffix);
     }
 
     function getPromptText() {
