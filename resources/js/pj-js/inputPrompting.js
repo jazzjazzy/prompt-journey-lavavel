@@ -24,10 +24,10 @@ $(document).ready(function () {
         // Add or remove the appropriate background color class based on the input element state
         if (isChecked || hasValue) {
             wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
-            labels.removeClass('text-gray-400').addClass('text-gray-200');
+            labels.removeClass('text-gray-600').addClass('text-gray-200');
         } else {
             wrapper.removeClass('bg-' + color + '-700').addClass('bg-' + color + '-300');
-            labels.removeClass('text-gray-200').addClass('text-gray-400');
+            labels.removeClass('text-gray-200').addClass('text-gray-600');
         }
     });
 

@@ -246,7 +246,7 @@ $(document).ready(function () {
             let color = wrapper.attr("data-color");
             //wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
             wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
-            labels.removeClass('text-gray-400').addClass('text-gray-200');
+            labels.removeClass('text-gray-600').addClass('text-gray-200');
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
@@ -299,7 +299,7 @@ $(document).ready(function () {
             let color = wrapper.attr("data-color");
             //wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
             wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
-            labels.removeClass('text-gray-400').addClass('text-gray-200');
+            labels.removeClass('text-gray-600').addClass('text-gray-200');
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));

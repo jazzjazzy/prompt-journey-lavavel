@@ -3,13 +3,13 @@
 @section('content')
 <div class="grid grid-cols-12 pt-1 m-auto px-12">
     <div class="col-span-10 border-black border-4">
-        <div id="pre-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4"></div>
-        <div id="pre-prompt-1" class="text-sm align-middle text-gray-400 h-6 pl-4"></div>
+        <div id="pre-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="pre-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
         <textarea
             class="disabled: focus:outline-none w-full h-24 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
             id="prompt"></textarea>
-        <div id="post-prompt-1" class="text-sm align-middle text-gray-400 h-6 pl-4"></div>
-        <div id="post-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4"></div>
+        <div id="post-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="post-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
     </div>
     <div class="col-span-2">
 
@@ -22,8 +22,8 @@
     </div>
 </div>
 <div class="mx-12 mt-1">
-    <div class="grid grid-cols-10 gap-2">
-        <div id="text-field" class="p-2 col-span-7 bg-gradient-to-r from-indigo-500 bg-amber-300 overflow-auto">
+    <div class="grid grid-cols-10">
+        <div id="text-field" class="p-2 col-span-7 bg-gradient-to-r from-gray-100 bg-gray-300 overflow-auto">
             <div class="grid grid-cols-12 gap-2">
                 <div class="col-span-10">
                     <div class="card">
@@ -75,7 +75,7 @@
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="aspect-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="aspect">--aspect</label>
+                                <label class="col-span-4 text-gray-600" for="aspect">--aspect</label>
                                 <div class="col-span-8">
                                     <select id="aspect" class="parameter-class w-full"></select>
                                 </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div id="chaos-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="chaos">--chaos</label>
+                                <label class="col-span-4 text-gray-600" for="chaos">--chaos</label>
                                 <div class="col-span-8">
                                     <input type="text" id="chaos" class="parameter-class">
                                 </div>
@@ -91,7 +91,7 @@
                         </div>
                         <div id="quality-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="aspect">--quality</label>
+                                <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
                                     <select id="quality" class="parameter-class w-full"></select>
                                 </div>
@@ -99,7 +99,7 @@
                         </div>
                         <div id="no-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="no">--no</label>
+                                <label class="col-span-4 text-gray-600" for="no">--no</label>
                                 <div class="col-span-8">
                                     <input type="text" id="no" class="parameter-class">
                                 </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div id="seed-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="seed">--seed</label>
+                                <label class="col-span-4 text-gray-600" for="seed">--seed</label>
                                 <div class="col-span-8">
                                     <input type="text" id="seed" class="parameter-class">
                                 </div>
@@ -115,7 +115,7 @@
                         </div>
                         <div id="stop-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="stop">--stop</label>
+                                <label class="col-span-4 text-gray-600" for="stop">--stop</label>
                                 <div class="col-span-8">
                                     <input type="text" id="stop" class="parameter-class">
                                 </div>
@@ -123,7 +123,7 @@
                         </div>
                         <div id="style-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="style">--style</label>
+                                <label class="col-span-4 text-gray-600" for="style">--style</label>
                                 <div class="col-span-8">
                                     <select id="style" class="parameter-class w-full"></select>
                                 </div>
@@ -131,7 +131,7 @@
                         </div>
                         <div id="version-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="version">--version</label>
+                                <label class="col-span-4 text-gray-600" for="version">--version</label>
                                 <div class="col-span-8">
                                     <select id="version" class="parameter-class w-full"></select>
                                 </div>
@@ -139,7 +139,7 @@
                         </div>
                         <div id="stylize-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="stylize">--stylize</label>
+                                <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
                                 <div class="col-span-8">
                                     <input type="text" id="stylize" class="parameter-class w-full">
                                 </div>
@@ -156,7 +156,7 @@
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="niji-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="niji">--niji</label>
+                                <label class="col-span-4 text-gray-600" for="niji">--niji</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="niji" class="parameter-class">
                                 </div>
@@ -164,7 +164,7 @@
                         </div>
                         <div id="hd-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="hd">--hd</label>
+                                <label class="col-span-4 text-gray-600" for="hd">--hd</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="hd" class="parameter-class">
                                 </div>
@@ -172,7 +172,7 @@
                         </div>
                         <div id="test-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="test">--test</label>
+                                <label class="col-span-4 text-gray-600" for="test">--test</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="test" class="parameter-class">
                                 </div>
@@ -180,7 +180,7 @@
                         </div>
                         <div id="testp-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="testp">--testp</label>
+                                <label class="col-span-4 text-gray-600" for="testp">--testp</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="testp" class="parameter-class">
                                 </div>
@@ -198,7 +198,7 @@
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="uplight-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="uplight">--uplight</label>
+                                <label class="col-span-4 text-gray-600" for="uplight">--uplight</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="uplight" class="parameter-class">
                                 </div>
@@ -206,7 +206,7 @@
                         </div>
                         <div id="upbeta-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="upbeta">--upbeta</label>
+                                <label class="col-span-4 text-gray-600" for="upbeta">--upbeta</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="upbeta" class="parameter-class">
                                 </div>
@@ -214,7 +214,7 @@
                         </div>
                         <div id="upanime-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-400" for="upanime">--upanime</label>
+                                <label class="col-span-4 text-gray-600" for="upanime">--upanime</label>
                                 <div class="col-span-8">
                                     <input type="checkbox" id="upanime" class="parameter-class">
                                 </div>
@@ -224,7 +224,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-2 col-span-3 bg-green-300">
+        <div class="p-2 col-span-3 bg-gradient-to-l from-gray-100 bg-gray-300">
             <div id="suffix" class="card">
                 <div class="card-header">
                     <h2>suffix</h2>
@@ -236,7 +236,7 @@
                                 <input type="checkbox" name="suffixAdd[]" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-400">
+                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-600">
                             </div>
                             <div class="flex-none px-3">
                                 <button class="icon-button suffix-input-copy">
@@ -274,7 +274,7 @@
                             <input type="checkbox" name="imagesAdd[]" class="images-add">
                         </div>
                         <div class="grow">
-                            <input type="text" name="images[]" class="images-input disabled:text-gray-400">
+                            <input type="text" name="images[]" class="images-input disabled:text-gray-600">
                         </div>
                         <div class="flex-none px-3">
                             <button class="icon-button show-image">
