@@ -167,6 +167,11 @@ $(document).ready(function () {
      });*/
 
     $(document).on('keydown', function (e) {
+        // Ctrl + shift + c = copy generated prompt to clipboard
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+            e.preventDefault(); // prevent the default browser behavior for this key combination
+            copyMjPrompt();
+        }
         //Ctrl + alt + c = focus chaos
         if (e.ctrlKey && e.altKey && e.keyCode === 67) {
             e.preventDefault();
