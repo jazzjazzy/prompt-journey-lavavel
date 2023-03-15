@@ -234,57 +234,60 @@ $(document).ready(function () {
         if (!e.ctrlKey && e.altKey && e.keyCode === 65) {
             e.preventDefault();
             $("#upanime").prop("checked", function (index, value) {
+                checkboxColor($("#upanime"));
                 return !value;
             });
-            checkboxColor($("#upanime"));
+
         }
         //alt + h = focus hd
         else if (!e.ctrlKey && e.altKey && e.keyCode === 72) {
             e.preventDefault();
-            $("#hd").prop("checked", function (index, value) {
+           $("#hd").prop("checked", function (index, value) {
+                checkboxColor($("#hd"));
                 return !value;
             });
-            checkboxColor($("#hd"));
+
         }
         //alt + l = focus uplight
         else if (!e.ctrlKey && e.altKey && e.keyCode === 76) {
             e.preventDefault();
             $("#uplight").prop("checked", function (index, value) {
+                checkboxColor($("#uplight"));
                 return !value;
             });
-            checkboxColor($("#uplight"));
+
         }
         //alt + n = focus niji
         else if (!e.ctrlKey && e.altKey && e.keyCode === 78) {
             e.preventDefault();
             $("#niji").prop("checked", function (index, value) {
+                checkboxColor($("#niji"));
                 return !value;
             });
-            checkboxColor($("#niji"));
         }
         //alt + p = focus testp
         else if (!e.ctrlKey && e.altKey && e.keyCode === 80) {
             e.preventDefault();
             $("#testp").prop("checked", function (index, value) {
+                checkboxColor($("#testp"));
                 return !value;
             });
-            checkboxColor($("#testp"));
         }
         //alt + t = focus test
         else if (!e.ctrlKey && e.altKey && e.keyCode === 84) {
             e.preventDefault();
             $("#test").prop("checked", function (index, value) {
+                checkboxColor($("#test"));
                 return !value;
             });
-            checkboxColor($("#test"));
         }
         //alt + b = focus upbeta
         else if (!e.ctrlKey && e.altKey && e.keyCode === 66) {
             e.preventDefault();
             $("#upbeta").prop("checked", function (index, value) {
+                checkboxColor($("#upbeta"));
                 return !value;
             });
-            checkboxColor($("#upbeta"));
         }
         //Ctrl + space = focus prompt
         else if (e.ctrlKey && e.keyCode === 32) {
@@ -305,12 +308,17 @@ $(document).ready(function () {
             let color = wrapper.attr("data-color");
             // Add or remove the appropriate background color class based on the input element state
             if (param.is(':checked')) {
-                wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
+                param.prop('checked', false);
+                wrapper.removeClass('bg-' + color + '-700').addClass('bg-' + color + '-300');
                 labels.removeClass('text-gray-400').addClass('text-gray-200');
             } else {
-                wrapper.removeClass('bg-' + color + '-700').addClass('bg-' + color + '-300');
+                param.prop('checked', true);
+                wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
                 labels.removeClass('text-gray-200').addClass('text-gray-400');
             }
+
+            var functionName = id +"Param";
+            window[functionName]();
         }
 
     });

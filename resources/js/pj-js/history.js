@@ -65,13 +65,13 @@ $(document).ready(function () {
         showHistory();
     });
 
-    function showHistory() {
+    function showHistory(){
         let history = '<div class="overlay w-full">\n' +
-            '        <div class="card w-1/2 bg-gray-100">\n' +
+            '        <div class="card w-1/2 bg-gray-100 w-3/4 h-full">\n' +
             '            <div class="max-w-7xl mx-auto">\n' +
             '                <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>\n' +
-            '                <div class="card-body flex flex-col h-ful;">\n' +
-            '                    <ul class="list-none pl-8 divide-y divide-gray-300">';
+            '                <div class="card-body flex flex-col h-full">\n' +
+            '                    <ul class="list-none pl-8 divide-y divide-gray-300 overflow-auto">';
 
         if (savedStrings.length === 0) {
             history = history + '<li class="py-4 px-6 {{ $loop->last ? \'\' : \'border-b\' }}">\n' +
@@ -91,7 +91,7 @@ $(document).ready(function () {
             '                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">\n' +
             '                        Close\n' +
             '                    </button>\n' +
-            '                    <button class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">\n' +
+            '                    <button id ="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">\n' +
             '                        Clear History\n' +
             '                    </button>\n' +
             '                </div>' +
@@ -111,6 +111,10 @@ $(document).ready(function () {
             $(".overlay").remove();
         });
     };
+
+    $("#clear-history").click(function () {
+        savedStrings = [];
+    });
 
     $.extend( window,{
         showHistory: showHistory,
