@@ -22,6 +22,7 @@ const versionOptions = [
     {value: '2', text: '2'},
     {value: '3', text: '3'},
     {value: '4', text: '4'},
+    {value: '5', text: '5'},
 ];
 
 const styleOptions = [
