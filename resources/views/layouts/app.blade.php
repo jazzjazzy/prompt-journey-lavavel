@@ -54,4 +54,14 @@
         </div>
     </body>
 </html>
+<script>
+    $(document).ready(function() {
+        $('.popup-youtube').magnificPopup({
+            type: 'iframe'
+        });
+    });
+</script>
+
+
+
 @yield('scripts')

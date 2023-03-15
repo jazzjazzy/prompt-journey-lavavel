@@ -2,6 +2,7 @@
 @import 'overlay.css';
 @import 'textarea-expander.css';
 @import '@selectize/selectize/dist/css/selectize.css';
+@import 'magnific-popup/dist/magnific-popup.css';
 
 @tailwind base;
 @tailwind components;

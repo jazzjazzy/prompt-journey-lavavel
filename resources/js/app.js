@@ -11,6 +11,8 @@ window.$ = $;
 
 import '@selectize/selectize/dist/js/selectize.min.js';
 
+import 'magnific-popup/dist/jquery.magnific-popup.min.js';
+
 import './pj-js/suffix';
 import './pj-js/suffix';
 import './pj-js/images';
