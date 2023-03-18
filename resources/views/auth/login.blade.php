@@ -72,16 +72,16 @@
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
-        <!--        <a href="/auth/google/redirect">
-                <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                    <div class="flex inline-flex bg-green-900 ">
-                        <i class="fab fa-google m-3 text text-white text-[35px]"></i>
-                    </div>
-                    <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                        Login with Google
-                    </div>
+        <a href="/auth/google/redirect">
+            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                <div class="flex inline-flex bg-green-900 ">
+                    <i class="fab fa-google m-3 text text-white text-[35px]"></i>
                 </div>
-                </a>-->
+                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                    Login with Google
+                </div>
+            </div>
+        </a>
         <a href="/auth/github/redirect">
             <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
                 <div class="flex inline-flex bg-gray-900 ">
@@ -101,16 +101,16 @@
                             Login with Twitter
                         </div>
                     </div>
-                </a>
-                <a href="/auth/facebook/redirect">
-                    <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                        <div class="flex inline-flex bg-slate-800">
-                            <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
-                        </div>
-                        <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                            Login with Facebook
-                        </div>
-                    </div>
                 </a>-->
+        <a href="/auth/facebook/redirect">
+            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                <div class="flex inline-flex bg-slate-800">
+                    <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
+                </div>
+                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                    Login with Facebook
+                </div>
+            </div>
+        </a>
     </div>
 </x-guest-layout>

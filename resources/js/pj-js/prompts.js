@@ -3,6 +3,7 @@ $(document).ready(function () {
 
     //todo: this has been removes as multipart promts are not a proirty right now but mabye in the future
 
+    /*
     $(document).on('input', '.prompt-text-class', function () {
 
         //todo: we return this for the moment as it is not complete
@@ -37,21 +38,30 @@ $(document).ready(function () {
             }
         }
     });
+*/
 
-    $('#prompt-multi-button').on('click', function () {
+    /***
+     * Add a new row to the prompt
+     */
+    //todo: this has been removes as multipart promts are not a proirty right now but mabye in the future
+
+/*    $('#prompt-multi-button').on('click', function () {
+
         let inputFields = $('.input-prompt-fields');
 
         // Create a new row
         let newRow = createDynamicPromptRow();
         // Insert the new row after the current row
         inputFields.after(newRow);
-    });
+    });*/
+
 
     /**
      * Create a new Dynamic Prompt row
      *
      * todo: this has been removed from the front end to be done at a later date as it is not a priority
      */
+    /*
     function createDynamicPromptRow(newPromptText = '' ) {
         const newRow = $('<div>', {class: 'grid grid-cols-12 gap-2 input-prompt-fields'});
         const newTextarea = $('<textarea>', {
@@ -73,6 +83,15 @@ $(document).ready(function () {
         newRow.append($('<div>', {class: 'col-span-1 w-fit'}).append(newWeight));
 
         return newRow;
+    }*/
+    function expandTextarea(textarea) {
+        textarea.style.height = 'auto'; // Reset the height
+        const scrollHeight = textarea.scrollHeight;
+        textarea.style.height = scrollHeight + 'px';
     }
+
+    $.extend({
+        expandTextarea: expandTextarea
+    });
 
 });

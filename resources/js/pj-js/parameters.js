@@ -1,3 +1,5 @@
+
+//section select arrays
 const aspectOptions = [
     {value: '1:1', text: '1:1'},
     {value: '2:3', text: '2:3'},
@@ -32,6 +34,7 @@ const styleOptions = [
 ];
 
 
+// section select controls
 $(document).ready(function () {
 
 
@@ -90,6 +93,7 @@ $(document).ready(function () {
         dropdownParent: 'body'
     });
 
+    //section param action calls
     /*******************
      * Lister for any changes to the parameters to update the prompt text
      ******************/
@@ -143,7 +147,7 @@ $(document).ready(function () {
     });
 
 
-
+//section param functions
     /*******************
      * functions to update the prompt text
      */
@@ -228,7 +232,7 @@ $(document).ready(function () {
         const regex = /--upanime/g;
         checkboxParameters('upanime', regex, versionSelect);
     }
-
+    //section textparams
     /*******************
      * functions to update the prompt text
      * @param paraName
@@ -256,6 +260,7 @@ $(document).ready(function () {
         updatePromptText();
     }
 
+    //section selectparams
     /*******************
      * functions to update the prompt text
      * @param paraName
@@ -286,6 +291,7 @@ $(document).ready(function () {
         updatePromptText();
     }
 
+    //section checkboxparams
     function checkboxParameters(paraName, regex) {
         let promptText = $('.prompt-text-class').val();
 
@@ -312,6 +318,7 @@ $(document).ready(function () {
     /**
      * update the prompt text by adding the prompt-text field and all the parameters
      */
+    //section update master prompt
     function updatePromptText() {
         // get the text from prompt text area
         let promptValue = $.trim($('.prompt-text-class').val());
@@ -345,8 +352,13 @@ $(document).ready(function () {
         images = (images === '')? '': $.trim(images) + ' ';
         paramValue = (paramValue === '')? '': ' ' + $.trim(paramValue);
 
-        //build the prompt text
-        $('#prompt').val( images + promptValue + paramValue + suffix);
+
+        //build the Main Prompt text
+        const mainPrompt = $('#prompt');
+        mainPrompt.prop('disabled', false);
+        mainPrompt.val( images + promptValue + paramValue + suffix);
+        $.expandTextarea(mainPrompt[0]);
+        mainPrompt.prop('disabled', true);
     }
 
     function getPromptText() {
@@ -385,6 +397,8 @@ $(document).ready(function () {
         e.preventDefault();
         $.clearAllPromptText();
     });
+
+
     $.extend(window, {
         aspectParam: aspect,
         chaosParam: chaos,
