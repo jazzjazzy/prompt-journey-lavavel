@@ -12,7 +12,9 @@ window.$ = jQuery;
 /**
  * imported npm packages
  */
-import 'sortablejs';
+import Sortable from 'sortablejs';
+window.Sortable = Sortable;
+
 import '@selectize/selectize/dist/js/selectize.min.js';
 import 'magnific-popup';
 
