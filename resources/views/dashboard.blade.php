@@ -26,7 +26,7 @@
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary m-4 h-fit w-fit">
             <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
-        {{--  Main prompt copy button --}}
+        {{-- Main prompt copy button --}}
         <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
             suffix copied to clipboard
         </div>
@@ -67,9 +67,22 @@
                         </div>
                         <div class="card-body">
                             <div>
-                                <button id="add-to-suffix-list" class="btn btn-primary m-0 w-full">
-                                    Add as Suffix
-                                </button>
+
+                                <div class="card p-0 m-0">
+
+                                        <div class="grid grid-cols-12 gap-1 p-1 m-0">
+                                            <div class="w-full bg-gray-300 col-span-12 flex items-center justify-center p-0 m-0">Add as Suffix</div>
+                                            <button id="add-to-suffix-list"
+                                                    class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                                All
+                                            </button>
+                                            <button id="pramas-to-suffix-list"
+                                                    class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                                Parmas
+                                            </button>
+                                        </div>
+                                    </div>
+
                                 <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
                                     Clear
                                 </button>
@@ -331,7 +344,7 @@
 
 @section('script')
 <script type="module">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.popup-youtube').magnificPopup({
             type: 'iframe'
         });

@@ -25,14 +25,31 @@ $(document).ready(function () {
      * Add a new suffix row
      */
     $('#add-to-suffix-list').on('click', function () {
+        addToSuffixList(true);
+    });
+
+    $('#pramas-to-suffix-list').on('click', function () {
         addToSuffixList();
     });
 
-    function addToSuffixList() {
+    function allToSuffixList(withPrompt = false) {
+        addToSuffixList(true);
+    }
+
+    function paramsToSuffixList(withPrompt = false) {
+        addToSuffixList();
+    }
+    function addToSuffixList(withPrompt = false) {
         var inputFields = $('#input-suffix-fields').find('.suffix-input');
         var added = false;
+        let promptText;
 
-        let promptText = getPromptText();
+        if(withPrompt){
+            promptText = getPromptText();
+        }else{
+            promptText = getPramaText();
+        }
+
         // Find the first empty input field
         inputFields.each(function () {
             if ($(this).val() === '') {
@@ -172,7 +189,8 @@ $(document).ready(function () {
 
     $.extend(window, {
         setPromptWithSuffixText: setPromptWithSuffixText,
-        addToSuffixList: addToSuffixList,
+        allToSuffixList: allToSuffixList,
+        paramsToSuffixList: paramsToSuffixList,
         getSuffixPromptText: getSuffixPromptText
     });
 

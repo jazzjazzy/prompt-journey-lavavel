@@ -183,10 +183,16 @@ $(document).ready(function () {
             let selectize = $('#aspect')[0].selectize;
             selectize.focus();
         }
-        //Ctrl + alt + shift + s = add as Suffix
+        //Ctrl + alt + shift + s = all Suffix
         else if (e.ctrlKey && e.altKey && e.shiftKey && e.keyCode === 83) {
             e.preventDefault();
-            addToSuffixList();
+            allToSuffixList();
+        }
+
+        //Ctrl + alt + shift + s = params Suffix
+        else if (e.ctrlKey && e.altKey && e.shiftKey && e.keyCode === 80) {
+            e.preventDefault();
+            paramsToSuffixList();
         }
         //Ctrl + alt + shift + F4 = clear all
         else if (e.ctrlKey && e.altKey && e.shiftKey && e.keyCode === 115) {
