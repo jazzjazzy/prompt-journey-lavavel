@@ -37,7 +37,7 @@ $(document).ready(function () {
         var color = wrapper.attr("data-color");
     }
 
-    function clearAllPromptText() {
+    function clearAllPromptText(withPromptText = false) {
 
 
         $("input.parameter-class, select.parameter-class").each(function () {
@@ -70,9 +70,10 @@ $(document).ready(function () {
             labels.removeClass('text-gray-200').addClass('text-gray-400').addClass('text-gray-400');
         });
 
-        $('#prompt-text').val('');
-        $('#prompt').val('');
-
+        if(withPromptText){
+            $('#prompt-text').val('');
+        }
+        updatePromptText();
     }
 
     $.extend({

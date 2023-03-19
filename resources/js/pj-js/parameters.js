@@ -362,14 +362,20 @@ $(document).ready(function () {
     }
 
     function getPromptText() {
+        let promptsSting =  getPromptTextString(true);
+        $.clearAllPromptText(true);
+        return promptsSting;
+    }
+
+    function getPramaText() {
         let promptsSting =  getPromptTextString();
         $.clearAllPromptText();
         return promptsSting;
     }
 
-    function getPromptTextString() {
+    function getPromptTextString(withPromptText = false) {
 
-        var value = $('.prompt-text-class').val();
+        var value = (withPromptText) ? $('.prompt-text-class').val() : '';
 
         $("input.parameter-class, select.parameter-class").each(function () {
             var type = $(this).attr("type");
@@ -417,6 +423,7 @@ $(document).ready(function () {
         upbetaParam: upbeta,
         upanimeParam: upanime,
         getPromptText: getPromptText,
+        getPramaText: getPramaText,
         updatePromptText: updatePromptText,
     });
 });
