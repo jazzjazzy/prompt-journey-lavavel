@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     function createDynamicSuffixRow(input = '') {
         return ' <div class="flex mt-2">' +
-            '                            <span class="handle cursor-grab">&#9776;</span>' +
+            '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
             '                                <input type="checkbox" name="suffixAdd[]" class="suffix-add">\n' +
             '                            </div>\n' +
