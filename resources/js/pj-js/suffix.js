@@ -1,4 +1,16 @@
 $(document).ready(function () {
+
+    // Your SortableJS initialization code goes here.
+    let inputSuffixFields = document.getElementById('input-suffix-fields');
+    const suffixSortable = new Sortable(inputSuffixFields, {
+        handle: '.handle',
+        direction: 'vertical',
+        animation: 150,
+        onEnd: function (/**Event*/evt) {
+            updatePromptText();
+        }
+    });
+
     /**
      * Add a new suffix row
      */
@@ -38,7 +50,8 @@ $(document).ready(function () {
     }
 
     function createDynamicSuffixRow(input = '') {
-        return ' <div class="flex mt-2">\n' +
+        return ' <div class="flex mt-2">' +
+            '                            <span class="handle cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
             '                                <input type="checkbox" name="suffixAdd[]" class="suffix-add">\n' +
             '                            </div>\n' +
@@ -64,27 +77,28 @@ $(document).ready(function () {
     // attach a click event handler to the .suffix-add checkboxes
     $('#input-suffix-fields').on('click', '.suffix-add', function () {
         // get the parent div of the clicked checkbox
-        var parentDiv = $(this).closest('.flex').find('.suffix-input');
+        /* var parentDiv = $(this).closest('.flex').find('.suffix-input');
 
-        // check if the checkbox is checked
-        if ($(this).is(':checked')) {
-            // get the value of the corresponding .suffix-input field
-            var inputVal = parentDiv.val();
-            parentDiv.prop('disabled', true);
-            // append the value to the #prompt text
-            console.log($('#prompt').val());
-            if ($('#prompt').val() !== '') {
-                $('#prompt').val($.trim($('#prompt').val()) + ' ' + inputVal);
-            } else {
-                $('#prompt').val(inputVal);
-            }
-        } else {
-            // get the value of the corresponding .suffix-input field
-            var inputVal = parentDiv.val();
-            parentDiv.prop('disabled', false);
-            // remove the value from the #prompt text
-            $('#prompt').val($('#prompt').val().replace(inputVal, ''));
-        }
+         // check if the checkbox is checked
+         if ($(this).is(':checked')) {
+             // get the value of the corresponding .suffix-input field
+             var inputVal = parentDiv.val();
+             parentDiv.prop('disabled', true);
+             // append the value to the #prompt text
+             console.log($('#prompt').val());
+             if ($('#prompt').val() !== '') {
+                 $('#prompt').val($.trim($('#prompt').val()) + ' ' + inputVal);
+             } else {
+                 $('#prompt').val(inputVal);
+             }
+         } else {
+             // get the value of the corresponding .suffix-input field
+             var inputVal = parentDiv.val();
+             parentDiv.prop('disabled', false);
+             // remove the value from the #prompt text
+             $('#prompt').val($('#prompt').val().replace(inputVal, ''));
+         }*/
+        updatePromptText();
     });
 
     /**
@@ -159,7 +173,7 @@ $(document).ready(function () {
     $.extend(window, {
         setPromptWithSuffixText: setPromptWithSuffixText,
         addToSuffixList: addToSuffixList,
-        getSuffixPromptText:getSuffixPromptText
+        getSuffixPromptText: getSuffixPromptText
     });
 
 });

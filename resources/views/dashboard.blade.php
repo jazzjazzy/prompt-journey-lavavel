@@ -247,6 +247,7 @@
                 <div class="card-body">
                     <div id="input-suffix-fields">
                         <div class="flex mt-2">
+                            <span class="handle cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
                                 <input type="checkbox" name="suffixAdd[]" class="suffix-add">
                             </div>

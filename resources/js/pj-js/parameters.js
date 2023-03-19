@@ -416,7 +416,8 @@ $(document).ready(function () {
         uplightParam: uplight,
         upbetaParam: upbeta,
         upanimeParam: upanime,
-        getPromptText: getPromptText
+        getPromptText: getPromptText,
+        updatePromptText: updatePromptText,
     });
 });
 
