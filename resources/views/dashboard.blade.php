@@ -328,7 +328,15 @@
 <div id="overlayHistory"></div>
 @endsection
 
-@section('scripts')
+@section('script')
+<script type="module">
+    $(document).ready(function() {
+        $('.popup-youtube').magnificPopup({
+            type: 'iframe'
+        });
+    });
+</script>
+
 <script type="module">
 
 

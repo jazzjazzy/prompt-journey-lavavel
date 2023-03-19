@@ -17,7 +17,12 @@
                     </x-nav-link>
                 </div>
 
-                        <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out"><div class="pt-3 flex justify-center items-center">watch me<i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i></div></a>
+                        <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
+                            <div class="pt-3 flex justify-center items-center">
+                                watch me
+                                <i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i>
+                            </div>
+                        </a>
 
 
             </div>

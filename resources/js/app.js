@@ -5,20 +5,15 @@
 // window.Alpine = Alpine;
 //
 // Alpine.start();
-import $ from 'jquery';
-window.jQuery = $;
-window.$ = $;
+import jQuery from 'jquery';
+window.jQuery = jQuery;
+window.$ = jQuery;
 
+/**
+ * imported npm packages
+ */
+import 'sortablejs';
 import '@selectize/selectize/dist/js/selectize.min.js';
+import 'magnific-popup';
 
-import 'magnific-popup/dist/jquery.magnific-popup.min.js';
-
-import './pj-js/suffix';
-import './pj-js/suffix';
-import './pj-js/images';
-import './pj-js/parameters';
-import './pj-js/inputPrompting';
-import './pj-js/history';
-import './pj-js/prompts';
-import './pj-js/shortcuts';
 
