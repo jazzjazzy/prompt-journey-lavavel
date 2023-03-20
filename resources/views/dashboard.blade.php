@@ -12,7 +12,7 @@
         {{-- *********************** --}}
         <div class="p-0 m-0 grow-wrap">
         <textarea
-            class="focus:outline-none w-full h-24 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
+            class="focus:outline-none w-full h-16 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
             disabled
             id="prompt">
         </textarea>
@@ -23,7 +23,7 @@
     </div>
     <div class="col-span-2">
 
-        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary m-4 h-fit w-fit">
+        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
             <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
         {{-- Main prompt copy button --}}
@@ -78,7 +78,7 @@
                                             </button>
                                             <button id="pramas-to-suffix-list"
                                                     class="btn btn-primary col-span-6 m-0 p-1 w-full">
-                                                Parmas
+                                                Params
                                             </button>
                                         </div>
                                     </div>

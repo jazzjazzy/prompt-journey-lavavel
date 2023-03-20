@@ -4,13 +4,13 @@
 // chaos field
 $(document).ready(function () {
 
-    $(document).on('keydown', function (e) {
-        if (e.keyCode === 38 || e.keyCode === 40) { // up or down arrow key
-            e.preventDefault(); // stop default scrolling behavior
-            let delta = e.keyCode === 38 ? -50 : 50; // determine scroll direction
-            $('#myDiv').scrollTop($('#myDiv').scrollTop() + delta); // scroll the div
-        }
-    });
+    // $(document).on('keydown', function (e) {
+    //     if (e.keyCode === 38 || e.keyCode === 40) { // up or down arrow key
+    //         e.preventDefault(); // stop default scrolling behavior
+    //         let delta = e.keyCode === 38 ? -50 : 50; // determine scroll direction
+    //         $('#myDiv').scrollTop($('#myDiv').scrollTop() + delta); // scroll the div
+    //     }
+    // });
 
 
     /* $(document).on('keyup',function (e) {

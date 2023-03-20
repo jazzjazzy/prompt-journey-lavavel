@@ -320,45 +320,50 @@ $(document).ready(function () {
      */
     //section update master prompt
     function updatePromptText() {
-        // get the text from prompt text area
-        let promptValue = $.trim($('.prompt-text-class').val());
-        var paramValue = '';
-        var suffix = ''
-        var images = '';
 
-        // add the parameters to the prompt text
-        $("input.parameter-class, select.parameter-class").each(function () {
-            var type = $(this).attr("type");
-            var paraName = $(this).attr("id");
+        if(window.currentIndex === window.savedStrings.length) {
+            // get the text from prompt text area
+            let promptValue = $.trim($('.prompt-text-class').val());
+            var paramValue = '';
+            var suffix = ''
+            var images = '';
 
-            if (type === "checkbox" && $('#' + paraName).is(":checked")) {
-                paramValue += ' --' + paraName;
-            } else if (type === "text" && $('#' + paraName).val() !== '') {
-                paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
-            } else if (type !== "checkbox" && type !== "text") {
-                var selection = $('#' + paraName).selectize();
-                if (selection[0].selectize.getValue() !== '') {
-                    paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
+            // add the parameters to the prompt text
+            $("input.parameter-class, select.parameter-class").each(function () {
+
+
+                var type = $(this).attr("type");
+                var paraName = $(this).attr("id");
+
+                if (type === "checkbox" && $('#' + paraName).is(":checked")) {
+                    paramValue += ' --' + paraName;
+                } else if (type === "text" && $('#' + paraName).val() !== '') {
+                    paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
+                } else if (type !== "checkbox" && type !== "text") {
+                    var selection = $('#' + paraName).selectize();
+                    if (selection[0].selectize.getValue() !== '') {
+                        paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
+                    }
                 }
-            }
-        });
+            });
 
-        // get the list of suffixes and image
-        images = getImagePromptText();
-        suffix = getSuffixPromptText();
+            // get the list of suffixes and image
+            images = getImagePromptText();
+            suffix = getSuffixPromptText();
 
-        // check if we have a suffix or images and add a space if we do
-        suffix = (suffix === '')? '': ' ' + $.trim(suffix);
-        images = (images === '')? '': $.trim(images) + ' ';
-        paramValue = (paramValue === '')? '': ' ' + $.trim(paramValue);
+            // check if we have a suffix or images and add a space if we do
+            suffix = (suffix === '') ? '' : ' ' + $.trim(suffix);
+            images = (images === '') ? '' : $.trim(images) + ' ';
+            paramValue = (paramValue === '') ? '' : ' ' + $.trim(paramValue);
 
 
-        //build the Main Prompt text
-        const mainPrompt = $('#prompt');
-        mainPrompt.prop('disabled', false);
-        mainPrompt.val( images + promptValue + paramValue + suffix);
-        $.expandTextarea(mainPrompt[0]);
-        mainPrompt.prop('disabled', true);
+            //build the Main Prompt text
+            const mainPrompt = $('#prompt');
+            mainPrompt.prop('disabled', false);
+            mainPrompt.val(images + promptValue + paramValue + suffix);
+            $.expandTextarea(mainPrompt[0]);
+            mainPrompt.prop('disabled', true);
+        }
     }
 
     function getPromptText() {
