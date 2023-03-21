@@ -197,40 +197,50 @@ $(document).ready(function () {
         textParmeters('stylize', regex);
     }
 
+    function iw() {
+        const regex = /--s(?:tylize)?\s[0-9]{1,4}(?:\.[0-9]+)?/g;
+        textParmeters('stylize', regex);
+    }
+
+    function tile() {
+        const regex = /--tile/g;
+        checkboxParameters('niji', regex);
+    }
+
     function niji() {
         const regex = /--niji/g;
-        checkboxParameters('niji', regex, versionSelect);
+        checkboxParameters('niji', regex);
     }
 
     function hd() {
         const regex = /--hd/g;
-        checkboxParameters('hd', regex, versionSelect);
+        checkboxParameters('hd', regex);
     }
 
     function test() {
         //we check space after test to make sure we don't match testp
         const regex = /--test\s/g;
-        checkboxParameters('test', regex, versionSelect);
+        checkboxParameters('test', regex);
     }
 
     function testp() {
         const regex = /--testp/g;
-        checkboxParameters('testp', regex, versionSelect);
+        checkboxParameters('testp', regex);
     }
 
     function uplight() {
         const regex = /--uplight/g;
-        checkboxParameters('uplight', regex, versionSelect);
+        checkboxParameters('uplight', regex);
     }
 
     function upbeta() {
         const regex = /--upbeta/g;
-        checkboxParameters('upbeta', regex, versionSelect);
+        checkboxParameters('upbeta', regex);
     }
 
     function upanime() {
         const regex = /--upanime/g;
-        checkboxParameters('upanime', regex, versionSelect);
+        checkboxParameters('upanime', regex);
     }
     //section textparams
     /*******************
@@ -419,6 +429,8 @@ $(document).ready(function () {
         stopParam: stop,
         styleParam: style,
         stylizeParam: stylize,
+        tileParam: tile,
+        iwParam: iw,
         versionParam: version,
         nijiParam: niji,
         hdParam: hd,
