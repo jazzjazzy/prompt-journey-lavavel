@@ -23,7 +23,7 @@
                                 <i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i>
                             </div>
                         </a>
-
+                <a href="https://discord.gg/5wNq4yDT" target="_blank" class="inline-flex items-center ml-2 px-1 pt-3"><i class="fab fa-discord  m-3 text text-indigo-700 text-[35px]"></i></a>
 
             </div>
 

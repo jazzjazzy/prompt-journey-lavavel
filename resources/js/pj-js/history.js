@@ -156,6 +156,8 @@ $(document).ready(function () {
         $('#post-prompt-2').text('');
         $('#post-prompt-1').text('');
         window.savedStrings = [];
+        window.currentIndex = 0;
+        updatePromptText();
     });
 
     $(document).on('click', '.copyFromHistroybtn', function () {
