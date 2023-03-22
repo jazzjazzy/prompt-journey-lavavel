@@ -1,24 +1,22 @@
-// import './bootstrap';
-//
-// import Alpine from 'alpinejs';
-//
-// window.Alpine = Alpine;
-//
-// Alpine.start();
-import $ from 'jquery';
-window.jQuery = $;
-window.$ = $;
+//import './bootstrap';
+
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
+
+import jQuery from 'jquery';
+window.jQuery = jQuery;
+window.$ = jQuery;
+
+/**
+ * imported npm packages
+ */
+import Sortable from 'sortablejs';
+window.Sortable = Sortable;
 
 import '@selectize/selectize/dist/js/selectize.min.js';
+import 'magnific-popup';
 
-import 'magnific-popup/dist/jquery.magnific-popup.min.js';
-
-import './pj-js/suffix';
-import './pj-js/suffix';
-import './pj-js/images';
-import './pj-js/parameters';
-import './pj-js/inputPrompting';
-import './pj-js/history';
-import './pj-js/prompts';
-import './pj-js/shortcuts';
 

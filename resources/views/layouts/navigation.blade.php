@@ -17,13 +17,18 @@
                     </x-nav-link>
                 </div>
 
-                        <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out"><div class="pt-3 flex justify-center items-center">watch me<i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i></div></a>
-
+                        <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
+                            <div class="pt-3 flex justify-center items-center">
+                                watch me
+                                <i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i>
+                            </div>
+                        </a>
+                <a href="https://discord.gg/5wNq4yDT" target="_blank" class="inline-flex items-center ml-2 px-1 pt-3"><i class="fab fa-discord  m-3 text text-indigo-700 text-[35px]"></i></a>
 
             </div>
 
             <!-- Settings Dropdown -->
-            {{--
+
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -73,16 +78,6 @@
                               stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
-            </div>
-            --}}
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                        Logout
-                    </button>
-                </form>
             </div>
         </div>
     </div>
