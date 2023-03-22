@@ -65,16 +65,14 @@
                         <div class="card-header">
                             <h2>Actions</h2>
                         </div>
-                        <div class="card-body">
-                            <div>
-
-                                <div class="card p-0 m-0">
-
-                                    <div class="grid grid-cols-12 gap-1 p-1 m-0">
-                                        <div
-                                            class="w-full bg-gray-300 col-span-12 flex items-center justify-center p-0 m-0">
-                                            Add as Suffix
-                                        </div>
+                        <div class="card-body -mt-4">
+                            <div class="card p-0 m-0">
+                                <div class="grid grid-cols-12 gap-1 p-0 m-0">
+                                    <div
+                                        class="text-gray-100 w-full bg-gray-900 rounded-t-md col-span-12 flex items-center justify-center p-0 m-0">
+                                        Add as Suffix
+                                    </div>
+                                    <div class="px-1 pb-1 col-span-12 gap-1 flex items-center justify-center">
                                         <button id="add-to-suffix-list"
                                                 class="btn btn-primary col-span-6 m-0 p-1 w-full">
                                             All
@@ -85,14 +83,14 @@
                                         </button>
                                     </div>
                                 </div>
-
-                                <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
-                                    Clear
-                                </button>
-                                <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
-                                    show History
-                                </button>
                             </div>
+
+                            <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
+                                Clear
+                            </button>
+                            <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
+                                show History
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -379,52 +377,55 @@
     </div>
 </div>
 
-    @endsection
+@endsection
 
-    @section('script')
-    <script type="module">
-        $(document).ready(function () {
-            $('.popup-youtube').magnificPopup({
-                type: 'iframe'
-            });
+@section('script')
+<script type="module">
+    $(document).ready(function () {
+        $('.popup-youtube').magnificPopup({
+            type: 'iframe'
         });
-    </script>
+    });
+</script>
 
-    <script type="module">
+<script type="module">
 
+    $(window).bind('beforeunload', function () {
+        return 'Are you sure you want to leave? all current data will be lost';
+    });
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            $('#prompt-text').on('keyup', function () {
-                aspectParam();
-                chaosParam();
-                qualityParam();
-                noParam();
-                seedParam();
-                stopParam();
-                styleParam();
-                stylizeParam();
-                tileParam();
-                iwParam();
-                versionParam();
-                nijiParam();
-                hdParam();
-                testParam();
-                testpParam();
-                uplightParam();
-                upbetaParam();
-                upanimeParam();
+        $('#prompt-text').on('keyup', function () {
+            aspectParam();
+            chaosParam();
+            qualityParam();
+            noParam();
+            seedParam();
+            stopParam();
+            styleParam();
+            stylizeParam();
+            tileParam();
+            iwParam();
+            versionParam();
+            nijiParam();
+            hdParam();
+            testParam();
+            testpParam();
+            uplightParam();
+            upbetaParam();
+            upanimeParam();
 
-            });
-
-            $(document).on('focus', '#prompt', function () {
-                if ($(this).is(':disabled')) {
-                    $('#prompt-text').focus(); // shift focus to textarea2
-                }
-            });
-
-            $('#prompt').prop('disabled', true); // disable textarea1
         });
-    </script>
-    @endsection
+
+        $(document).on('focus', '#prompt', function () {
+            if ($(this).is(':disabled')) {
+                $('#prompt-text').focus(); // shift focus to prompt-text
+            }
+        });
+
+        $('#prompt').prop('disabled', true); // disable prompt
+    });
+</script>
+@endsection
 

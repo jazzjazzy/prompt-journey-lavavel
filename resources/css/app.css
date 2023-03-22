@@ -64,12 +64,10 @@
     }
 
     .btn-primary {
-        @apply text-xs w-28 px-1 py-2 m-1
+      @apply text-xs w-28 px-1 py-2 m-1
         hover:bg-coquelicot hover:text-white
-        bg-gradient-to-tl from-baby-powder via-khaki to-baby-powder
-        active:bg-gradient-to-tr active:from-baby-powder active:via-khaki active:to-baby-powder
+        text-gray-900 bg-slate-300 hover:bg-slate-500 active:bg-slate-600
         border border-gray-400
-        text-black
         drop-shadow-md hover:drop-shadow-lg rounded-xl;
     }
 
