@@ -124,6 +124,12 @@ $(document).ready(function () {
     $('#stylize').on('change', function () {
         stylize();
     });
+    $('#iw').on('change', function () {
+        iw();
+    });
+    $('#tile').on('change', function () {
+        tile();
+    });
     $('#niji').on('change', function () {
         niji();
     });
