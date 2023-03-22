@@ -65,31 +65,32 @@
                         <div class="card-header">
                             <h2>Actions</h2>
                         </div>
-                        <div class="card-body">
-                            <div>
-
-                                <div class="card p-0 m-0">
-
-                                        <div class="grid grid-cols-12 gap-1 p-1 m-0">
-                                            <div class="w-full bg-gray-300 col-span-12 flex items-center justify-center p-0 m-0">Add as Suffix</div>
-                                            <button id="add-to-suffix-list"
-                                                    class="btn btn-primary col-span-6 m-0 p-1 w-full">
-                                                All
-                                            </button>
-                                            <button id="pramas-to-suffix-list"
-                                                    class="btn btn-primary col-span-6 m-0 p-1 w-full">
-                                                Params
-                                            </button>
-                                        </div>
+                        <div class="card-body -mt-4">
+                            <div class="card p-0 m-0">
+                                <div class="grid grid-cols-12 gap-1 p-0 m-0">
+                                    <div
+                                        class="text-gray-100 w-full bg-gray-900 rounded-t-md col-span-12 flex items-center justify-center p-0 m-0">
+                                        Add as Suffix
                                     </div>
-
-                                <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
-                                    Clear
-                                </button>
-                                <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
-                                    show History
-                                </button>
+                                    <div class="px-1 pb-1 col-span-12 gap-1 flex items-center justify-center">
+                                        <button id="add-to-suffix-list"
+                                                class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                            All
+                                        </button>
+                                        <button id="pramas-to-suffix-list"
+                                                class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                            Params
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
+                            <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
+                                Clear
+                            </button>
+                            <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
+                                show History
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -170,6 +171,22 @@
                                 <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
                                 <div class="col-span-8">
                                     <input type="text" id="stylize" class="parameter-class w-full">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="iw-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="iw">--iw</label>
+                                <div class="col-span-8">
+                                    <input type="text" id="iw" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tile-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="tile">--tile</label>
+                                <div class="col-span-8">
+                                    <input type="checkbox" id="tile" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -339,7 +356,27 @@
 
 <div id="overlayContainer"></div>
 
-<div id="overlayHistory"></div>
+<div id="overlayHistory" class="hidden">
+    <div class="overlay w-full">
+        <div class="card bg-gray-100 p-0 w-3/4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
+                <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
+                    <!-- history content goes here in #overlayContent -->
+                </div>
+                <div class="card-footer flex content-end flex-row-reverse">
+                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                        Close
+                    </button>
+                    <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
+                        Clear History
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -353,6 +390,9 @@
 
 <script type="module">
 
+    $(window).bind('beforeunload', function () {
+        return 'Are you sure you want to leave? all current data will be lost';
+    });
 
     $(document).ready(function () {
 
@@ -365,6 +405,8 @@
             stopParam();
             styleParam();
             stylizeParam();
+            tileParam();
+            iwParam();
             versionParam();
             nijiParam();
             hdParam();
@@ -378,11 +420,11 @@
 
         $(document).on('focus', '#prompt', function () {
             if ($(this).is(':disabled')) {
-                $('#prompt-text').focus(); // shift focus to textarea2
+                $('#prompt-text').focus(); // shift focus to prompt-text
             }
         });
 
-        $('#prompt').prop('disabled', true); // disable textarea1
+        $('#prompt').prop('disabled', true); // disable prompt
     });
 </script>
 @endsection
