@@ -13,7 +13,7 @@
 
 .overlay .card {
     position: fixed;
-    top: 10%; /* adjust the value of 20px to your desired spacing */
+    top: 10%; /* adjust the value of 10% to your desired spacing */
     left: 50%;
     transform: translate(-50%, 0);
     width: 70%;
