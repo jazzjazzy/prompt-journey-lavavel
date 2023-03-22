@@ -198,13 +198,13 @@ $(document).ready(function () {
     }
 
     function iw() {
-        const regex = /--s(?:tylize)?\s[0-9]{1,4}(?:\.[0-9]+)?/g;
-        textParmeters('stylize', regex);
+        const regex = /--iw\s(0\.[5-9]|[1-9]\.[0-9]|1\.[0-9]|2(\.0)?|1)\s/g;
+        textParmeters('iw', regex);
     }
 
     function tile() {
         const regex = /--tile/g;
-        checkboxParameters('niji', regex);
+        checkboxParameters('tile', regex);
     }
 
     function niji() {
