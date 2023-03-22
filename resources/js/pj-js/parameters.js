@@ -1,3 +1,5 @@
+
+//section select arrays
 const aspectOptions = [
     {value: '1:1', text: '1:1'},
     {value: '2:3', text: '2:3'},
@@ -32,6 +34,7 @@ const styleOptions = [
 ];
 
 
+// section select controls
 $(document).ready(function () {
 
 
@@ -90,6 +93,7 @@ $(document).ready(function () {
         dropdownParent: 'body'
     });
 
+    //section param action calls
     /*******************
      * Lister for any changes to the parameters to update the prompt text
      ******************/
@@ -120,6 +124,12 @@ $(document).ready(function () {
     $('#stylize').on('change', function () {
         stylize();
     });
+    $('#iw').on('change', function () {
+        iw();
+    });
+    $('#tile').on('change', function () {
+        tile();
+    });
     $('#niji').on('change', function () {
         niji();
     });
@@ -143,7 +153,7 @@ $(document).ready(function () {
     });
 
 
-
+//section param functions
     /*******************
      * functions to update the prompt text
      */
@@ -193,42 +203,52 @@ $(document).ready(function () {
         textParmeters('stylize', regex);
     }
 
+    function iw() {
+        const regex = /--iw\s(0\.[5-9]|[1-9]\.[0-9]|1\.[0-9]|2(\.0)?|1)\s/g;
+        textParmeters('iw', regex);
+    }
+
+    function tile() {
+        const regex = /--tile/g;
+        checkboxParameters('tile', regex);
+    }
+
     function niji() {
         const regex = /--niji/g;
-        checkboxParameters('niji', regex, versionSelect);
+        checkboxParameters('niji', regex);
     }
 
     function hd() {
         const regex = /--hd/g;
-        checkboxParameters('hd', regex, versionSelect);
+        checkboxParameters('hd', regex);
     }
 
     function test() {
         //we check space after test to make sure we don't match testp
         const regex = /--test\s/g;
-        checkboxParameters('test', regex, versionSelect);
+        checkboxParameters('test', regex);
     }
 
     function testp() {
         const regex = /--testp/g;
-        checkboxParameters('testp', regex, versionSelect);
+        checkboxParameters('testp', regex);
     }
 
     function uplight() {
         const regex = /--uplight/g;
-        checkboxParameters('uplight', regex, versionSelect);
+        checkboxParameters('uplight', regex);
     }
 
     function upbeta() {
         const regex = /--upbeta/g;
-        checkboxParameters('upbeta', regex, versionSelect);
+        checkboxParameters('upbeta', regex);
     }
 
     function upanime() {
         const regex = /--upanime/g;
-        checkboxParameters('upanime', regex, versionSelect);
+        checkboxParameters('upanime', regex);
     }
-
+    //section textparams
     /*******************
      * functions to update the prompt text
      * @param paraName
@@ -256,6 +276,7 @@ $(document).ready(function () {
         updatePromptText();
     }
 
+    //section selectparams
     /*******************
      * functions to update the prompt text
      * @param paraName
@@ -286,6 +307,7 @@ $(document).ready(function () {
         updatePromptText();
     }
 
+    //section checkboxparams
     function checkboxParameters(paraName, regex) {
         let promptText = $('.prompt-text-class').val();
 
@@ -312,52 +334,69 @@ $(document).ready(function () {
     /**
      * update the prompt text by adding the prompt-text field and all the parameters
      */
+    //section update master prompt
     function updatePromptText() {
-        // get the text from prompt text area
-        let promptValue = $.trim($('.prompt-text-class').val());
-        var paramValue = '';
-        var suffix = ''
-        var images = '';
 
-        // add the parameters to the prompt text
-        $("input.parameter-class, select.parameter-class").each(function () {
-            var type = $(this).attr("type");
-            var paraName = $(this).attr("id");
+        if(window.currentIndex === window.savedStrings.length) {
+            // get the text from prompt text area
+            let promptValue = $.trim($('.prompt-text-class').val());
+            var paramValue = '';
+            var suffix = ''
+            var images = '';
 
-            if (type === "checkbox" && $('#' + paraName).is(":checked")) {
-                paramValue += ' --' + paraName;
-            } else if (type === "text" && $('#' + paraName).val() !== '') {
-                paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
-            } else if (type !== "checkbox" && type !== "text") {
-                var selection = $('#' + paraName).selectize();
-                if (selection[0].selectize.getValue() !== '') {
-                    paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
+            // add the parameters to the prompt text
+            $("input.parameter-class, select.parameter-class").each(function () {
+
+
+                var type = $(this).attr("type");
+                var paraName = $(this).attr("id");
+
+                if (type === "checkbox" && $('#' + paraName).is(":checked")) {
+                    paramValue += ' --' + paraName;
+                } else if (type === "text" && $('#' + paraName).val() !== '') {
+                    paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
+                } else if (type !== "checkbox" && type !== "text") {
+                    var selection = $('#' + paraName).selectize();
+                    if (selection[0].selectize.getValue() !== '') {
+                        paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
+                    }
                 }
-            }
-        });
+            });
 
-        // get the list of suffixes and image
-        images = getImagePromptText();
-        suffix = getSuffixPromptText();
+            // get the list of suffixes and image
+            images = getImagePromptText();
+            suffix = getSuffixPromptText();
 
-        // check if we have a suffix or images and add a space if we do
-        suffix = (suffix === '')? '': ' ' + $.trim(suffix);
-        images = (images === '')? '': $.trim(images) + ' ';
-        paramValue = (paramValue === '')? '': ' ' + $.trim(paramValue);
+            // check if we have a suffix or images and add a space if we do
+            suffix = (suffix === '') ? '' : ' ' + $.trim(suffix);
+            images = (images === '') ? '' : $.trim(images) + ' ';
+            paramValue = (paramValue === '') ? '' : ' ' + $.trim(paramValue);
 
-        //build the prompt text
-        $('#prompt').val( images + promptValue + paramValue + suffix);
+
+            //build the Main Prompt text
+            const mainPrompt = $('#prompt');
+            mainPrompt.prop('disabled', false);
+            mainPrompt.val(images + promptValue + paramValue + suffix);
+            $.expandTextarea(mainPrompt[0]);
+            mainPrompt.prop('disabled', true);
+        }
     }
 
     function getPromptText() {
+        let promptsSting =  getPromptTextString(true);
+        $.clearAllPromptText(true);
+        return promptsSting;
+    }
+
+    function getPramaText() {
         let promptsSting =  getPromptTextString();
         $.clearAllPromptText();
         return promptsSting;
     }
 
-    function getPromptTextString() {
+    function getPromptTextString(withPromptText = false) {
 
-        var value = $('.prompt-text-class').val();
+        var value = (withPromptText) ? $('.prompt-text-class').val() : '';
 
         $("input.parameter-class, select.parameter-class").each(function () {
             var type = $(this).attr("type");
@@ -385,6 +424,8 @@ $(document).ready(function () {
         e.preventDefault();
         $.clearAllPromptText();
     });
+
+
     $.extend(window, {
         aspectParam: aspect,
         chaosParam: chaos,
@@ -394,6 +435,8 @@ $(document).ready(function () {
         stopParam: stop,
         styleParam: style,
         stylizeParam: stylize,
+        tileParam: tile,
+        iwParam: iw,
         versionParam: version,
         nijiParam: niji,
         hdParam: hd,
@@ -402,7 +445,9 @@ $(document).ready(function () {
         uplightParam: uplight,
         upbetaParam: upbeta,
         upanimeParam: upanime,
-        getPromptText: getPromptText
+        getPromptText: getPromptText,
+        getPramaText: getPramaText,
+        updatePromptText: updatePromptText,
     });
 });
 

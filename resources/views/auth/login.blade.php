@@ -7,8 +7,8 @@
 
         <div class="flex justify-center items-center pb-10">
             <div>
-                <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" target="_blank"
-                   class="popup-youtube inline-flex items-center px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
+                <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=0"
+                   class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
                     <div class="pt-3 flex justify-center items-center">
                         <div>Watch me</div>
                         <div><i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i></div>
@@ -72,16 +72,16 @@
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
-        <!--        <a href="/auth/google/redirect">
-                <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                    <div class="flex inline-flex bg-green-900 ">
-                        <i class="fab fa-google m-3 text text-white text-[35px]"></i>
-                    </div>
-                    <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                        Login with Google
-                    </div>
+        <a href="/auth/google/redirect">
+            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                <div class="flex inline-flex bg-green-900 ">
+                    <i class="fab fa-google m-3 text text-white text-[35px]"></i>
                 </div>
-                </a>-->
+                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                    Login with Google
+                </div>
+            </div>
+        </a>
         <a href="/auth/github/redirect">
             <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
                 <div class="flex inline-flex bg-gray-900 ">
@@ -101,16 +101,16 @@
                             Login with Twitter
                         </div>
                     </div>
-                </a>
-                <a href="/auth/facebook/redirect">
-                    <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
-                        <div class="flex inline-flex bg-slate-800">
-                            <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
-                        </div>
-                        <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
-                            Login with Facebook
-                        </div>
-                    </div>
                 </a>-->
+        <a href="/auth/facebook/redirect">
+            <div class="border border-black rounded-sm shadow-lg m-3 flex justify-items-center">
+                <div class="flex inline-flex bg-slate-800">
+                    <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
+                </div>
+                <div class="mx-4 text-lg font-extrabold inline-block align-baseline my-auto">
+                    Login with Facebook
+                </div>
+            </div>
+        </a>
     </div>
 </x-guest-layout>

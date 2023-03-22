@@ -3,19 +3,30 @@
 @section('content')
 <div class="grid grid-cols-12 pt-1 m-auto px-12">
     <div class="col-span-10 border-black border-4">
+        {{-- history past --}}
         <div id="pre-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
         <div id="pre-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+
+        {{-- *********************** --}}
+        {{-- This is the main prompt --}}
+        {{-- *********************** --}}
+        <div class="p-0 m-0 grow-wrap">
         <textarea
-            class="disabled: focus:outline-none w-full h-24 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
-            id="prompt"></textarea>
+            class="focus:outline-none w-full h-16 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
+            disabled
+            id="prompt">
+        </textarea>
+        </div>
+        {{-- history future --}}
         <div id="post-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
         <div id="post-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
     </div>
     <div class="col-span-2">
 
-        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary m-4 h-fit w-fit">
+        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
             <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
+        {{-- Main prompt copy button --}}
         <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
             suffix copied to clipboard
         </div>
@@ -35,9 +46,13 @@
                             <div class="input-prompt-fields">
                                 <div class="grid grid-cols-12 gap-2">
                                     <div class="col-span-12 grow-wrap">
+
+                                        {{-- ************************************** --}}
+                                        {{-- This is the input field for the prompt --}}
+                                        {{-- ************************************** --}}
                                         <textarea name="text" id="prompt-text"
-                                                  onInput="this.parentNode.dataset.replicatedValue = this.value"
-                                                  class="prompt-text-class mt-0" type="text"
+                                                  onInput="$.expandTextarea(this)"
+                                                  class="prompt-text-class mt-0 w-full overflow-auto" type="text"
                                                   title="ctrl-space"></textarea>
                                     </div>
                                 </div>
@@ -50,18 +65,32 @@
                         <div class="card-header">
                             <h2>Actions</h2>
                         </div>
-                        <div class="card-body">
-                            <div>
-                                <button id="add-to-suffix-list" class="btn btn-primary m-0 w-full">
-                                    Add as Suffix
-                                </button>
-                                <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
-                                    Clear
-                                </button>
-                                <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
-                                    show History
-                                </button>
+                        <div class="card-body -mt-4">
+                            <div class="card p-0 m-0">
+                                <div class="grid grid-cols-12 gap-1 p-0 m-0">
+                                    <div
+                                        class="text-gray-100 w-full bg-gray-900 rounded-t-md col-span-12 flex items-center justify-center p-0 m-0">
+                                        Add as Suffix
+                                    </div>
+                                    <div class="px-1 pb-1 col-span-12 gap-1 flex items-center justify-center">
+                                        <button id="add-to-suffix-list"
+                                                class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                            All
+                                        </button>
+                                        <button id="pramas-to-suffix-list"
+                                                class="btn btn-primary col-span-6 m-0 p-1 w-full">
+                                            Params
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+
+                            <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
+                                Clear
+                            </button>
+                            <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
+                                show History
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -142,6 +171,22 @@
                                 <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
                                 <div class="col-span-8">
                                     <input type="text" id="stylize" class="parameter-class w-full">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="iw-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="iw">--iw</label>
+                                <div class="col-span-8">
+                                    <input type="text" id="iw" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tile-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="tile">--tile</label>
+                                <div class="col-span-8">
+                                    <input type="checkbox" id="tile" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -232,6 +277,7 @@
                 <div class="card-body">
                     <div id="input-suffix-fields">
                         <div class="flex mt-2">
+                            <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
                                 <input type="checkbox" name="suffixAdd[]" class="suffix-add">
                             </div>
@@ -303,130 +349,50 @@
                 </div>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                Shortcut List
-            </div>
-            <div class="card-body grid grid-cols-2 gap-x-3 gap-y-2">
-                <div class="col-span-full border-b border-gray-400">
-                    Main Shortcut
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Space</span>
-                    <span class="text-gray-900 font-medium text-xs">focus prompt</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + shift + c:</span>
-                    <span class="text-gray-900 font-medium text-xs">copy Mj Prompt</span>
-                </div>
-                <div class="col-span-full border-b border-gray-400">
-                    Action Shortcut
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + Shift + s:</span>
-                    <span class="text-gray-900 font-medium text-xs">add as Suffix</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + Shift + F4:</span>
-                    <span class="text-gray-900 font-medium text-xs">Clear all</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + Shift + h:</span>
-                    <span class="text-gray-900 font-medium text-xs">history</span>
-                </div>
-                <div class="col-span-full border-b border-gray-400">
-                    Basic Param shortcuts
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + a:</span>
-                    <span class="text-gray-900 font-medium text-xs">aspect </span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + c:</span>
-                    <span class="text-gray-900 font-medium text-xs">chaos</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + q:</span>
-                    <span class="text-gray-900 font-medium text-xs">quality</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + n:</span>
-                    <span class="text-gray-900 font-medium text-xs">no</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + e:</span>
-                    <span class="text-gray-900 font-medium text-xs">seed</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + t:</span>
-                    <span class="text-gray-900 font-medium text-xs">stop</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + y:</span>
-                    <span class="text-gray-900 font-medium text-xs">style</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + v:</span>
-                    <span class="text-gray-900 font-medium text-xs">version</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Ctrl + Alt + s:</span>
-                    <span class="text-gray-900 font-medium text-xs">stylize</span>
-                </div>
-                <div class="col-span-full border-b border-gray-400">
-                    Model version Param shortcuts
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + n:</span>
-                    <span class="text-gray-900 font-medium text-xs">niji</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + h:</span>
-                    <span class="text-gray-900 font-medium text-xs">hd</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + t:</span>
-                    <span class="text-gray-900 font-medium text-xs">test</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + p:</span>
-                    <span class="text-gray-900 font-medium text-xs">testp</span>
-                </div>
-                <div class="col-span-full border-b border-gray-400">
-                    Upscaler Param shortcuts
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + l:</span>
-                    <span class="text-gray-900 font-medium text-xs">uplight</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4">Alt + b:</span>
-                    <span class="text-gray-900 font-medium text-xs">upbeta</span>
-                </div>
-                <div class="col-span-1 flex flex-row items-center justify-between">
-                    <span class="text-gray-500 font-medium text-xs mr-4"> Alt + a:</span>
-                    <span class="text-gray-900 font-medium text-xs">upanime</span>
-                </div>
-            </div>
-
-            <div class="card-footer">
-                <div class="text-[10px]">
-                    *NOTE: Depending on the browser or operating system you are using, some of these shortcuts might not function as expected.
-                </div>
-            </div>
-        </div>
+        @include('shortcuts')
     </div>
 </div>
 
 
 <div id="overlayContainer"></div>
 
-<div id="overlayHistory"></div>
+<div id="overlayHistory" class="hidden">
+    <div class="overlay w-full">
+        <div class="card bg-gray-100 p-0 w-3/4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
+                <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
+                    <!-- history content goes here in #overlayContent -->
+                </div>
+                <div class="card-footer flex content-end flex-row-reverse">
+                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                        Close
+                    </button>
+                    <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
+                        Clear History
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
-@section('scripts')
+@section('script')
 <script type="module">
+    $(document).ready(function () {
+        $('.popup-youtube').magnificPopup({
+            type: 'iframe'
+        });
+    });
+</script>
+
+<script type="module">
+
+    $(window).bind('beforeunload', function () {
+        return 'Are you sure you want to leave? all current data will be lost';
+    });
 
     $(document).ready(function () {
 
@@ -439,6 +405,8 @@
             stopParam();
             styleParam();
             stylizeParam();
+            tileParam();
+            iwParam();
             versionParam();
             nijiParam();
             hdParam();
@@ -452,11 +420,11 @@
 
         $(document).on('focus', '#prompt', function () {
             if ($(this).is(':disabled')) {
-                $('#prompt-text').focus(); // shift focus to textarea2
+                $('#prompt-text').focus(); // shift focus to prompt-text
             }
         });
 
-        $('#prompt').prop('disabled', true); // disable textarea1
+        $('#prompt').prop('disabled', true); // disable prompt
     });
 </script>
 @endsection
