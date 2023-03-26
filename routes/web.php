@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\PlansController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,7 @@ Route::get('/privacy-policy', function () {
 
 
 Route::get('/auth/{provider}/redirect', [
-    SocialiteController::class , 'redirect'
+    SocialiteController::class, 'redirect'
 ])->where('provider', 'facebook|google|github|twitter');
 
 Route::get('/auth/{provider}/callback', [
@@ -47,4 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
+    Route::get('/pricing/{plan}', [PlansController::class, 'show'])->name('subscription.pricing.show');
+    Route::get('/subscribe/{plan}', [SubscriberController::class, 'showSubscriptionForm'])->name('subscription.subscribe');
+    Route::post('/subscribe', [SubscriberController::class, 'processSubscription'])->name('subscribe.processSubscription');
+});
+
+
+require __DIR__ . '/auth.php';
