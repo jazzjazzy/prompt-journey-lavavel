@@ -23,6 +23,7 @@ class Plan extends Model
         'price',
         'abbreviation',
         'description',
+        'metaData'
     ];
 
     protected $casts = [
