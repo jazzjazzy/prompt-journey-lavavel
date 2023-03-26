@@ -10,7 +10,9 @@ class PlansController extends Controller
     public function index()
     {
         $plans = Plan::all();
-        $subscribed = auth()->user()->subscribed('default') ? auth()->user()->subscription('default') : null;
+        $user = auth()->user();
+
+        $subscribed = $user->subscribed();
         return view('subscription.pricing', compact('plans', 'subscribed'));
     }
 

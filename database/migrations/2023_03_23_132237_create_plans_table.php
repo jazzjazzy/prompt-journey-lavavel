@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->bigInteger('price');
             $table->string('abbreviation');
             $table->text('description');
+            $table->text('metaData');
             $table->timestamps();
         });
     }

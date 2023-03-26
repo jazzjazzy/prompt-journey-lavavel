@@ -15,7 +15,7 @@
                         @csrf
                         <input type="hidden" name="plan" id="plan" value="{{ $plan->id }}">
                         <div class="row">
-                            <div class="col-xl-4 col-lg-4">
+                            <div class="col-xl-4 col-lg-4 text-">
                                 <div class="form-group">
                                     <label for="">Name</label>
                                     <input type="text" name="name" id="card-holder-name" class="form-control" value="" placeholder="Name on the card">
