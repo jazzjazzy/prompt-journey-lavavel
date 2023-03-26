@@ -1,25 +1,26 @@
+<?php $isDashboardPage = true; ?>
 @extends('layouts.app')
 
 @section('content')
 <div class="grid grid-cols-12 pt-1 m-auto px-12">
-    <div class="col-span-10 border-black border-4">
+    <div class="col-span-10 border-3 border-l-gray-400 border-r-gray-300 border-t-gray-400 border-b-gray-300">
         {{-- history past --}}
-        <div id="pre-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
-        <div id="pre-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="pre-prompt-2" class="w-full text-xs align-middle bg-gradient-to-t from-gray-300 bg-gray-200text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="pre-prompt-1" class="w-full text-sm align-middle bg-gradient-to-t from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
 
         {{-- *********************** --}}
         {{-- This is the main prompt --}}
         {{-- *********************** --}}
-        <div class="p-0 m-0 grow-wrap">
+        <div class="p-0 m-0 grow-wrap bg-gray-400 ">
         <textarea
-            class="focus:outline-none w-full h-16 resize-none border border-gray-300 rounded-md px-4 py-2 bg-white col-span-full"
+            class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
             disabled
             id="prompt">
         </textarea>
         </div>
         {{-- history future --}}
-        <div id="post-prompt-1" class="text-sm align-middle text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
-        <div id="post-prompt-2" class="text-xs align-middle text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="post-prompt-1" class="w-full text-sm align-middle bg-gradient-to-b from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="post-prompt-2" class="w-full text-xs align-middle bg-gradient-to-b from-gray-300 bg-gray-200 text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
     </div>
     <div class="col-span-2">
 
@@ -388,12 +389,18 @@
     });
 </script>
 
+{{-- remove this on local as it is announcing when working on pages --}}
+@if (env('APP_ENV') === 'production')
 <script type="module">
-
-    $(window).bind('beforeunload', function () {
-        return 'Are you sure you want to leave? all current data will be lost';
+    $(document).ready(function () {
+        $(window).bind('beforeunload', function () {
+            return 'Are you sure you want to leave? all current data will be lost';
+        });
     });
+</script>
+@endif
 
+<script type="module">
     $(document).ready(function () {
 
         $('#prompt-text').on('keyup', function () {
