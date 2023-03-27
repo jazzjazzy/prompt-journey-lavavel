@@ -12,7 +12,9 @@ class PlansController extends Controller
         $plans = Plan::all();
         $user = auth()->user();
 
-        $subscribed = $user->subscribed();
+        $plan = $user->subscribedLastActivePlan();
+        $subscribed = $plan ? $plan->name : null;
+
         return view('subscription.pricing', compact('plans', 'subscribed'));
     }
 

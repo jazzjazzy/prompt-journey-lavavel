@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row w-1/2 justify-content-center">
-        <div class="col-md-8">
+
+<div class="row justify-content-center w-1/2 m-auto">
+    <div class="mt-16">
+
+        <form id="payment-form" action="{{ route('subscribe.processSubscription') }}" method="POST">
+            @csrf
+
             <div class="card">
                 <div class="card-header">
                     You will be charged ${{ number_format($plan->price, 2) }} for {{ $plan->name }} Plan
@@ -11,45 +15,69 @@
 
                 <div class="card-body">
 
-                    <form id="payment-form" action="{{ route('subscribe.processSubscription') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="plan" id="plan" value="{{ $plan->id }}">
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-4 text-">
-                                <div class="form-group">
-                                    <label for="">Name</label>
-                                    <input type="text" name="name" id="card-holder-name" class="form-control" value="" placeholder="Name on the card">
-                                </div>
+                    <input type="hidden" name="plan" id="plan" value="{{ $plan->id }}">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" name="name" id="card-holder-name" class="form-control" value=""
+                                       placeholder="Name on the card">
                             </div>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-xl-4 col-lg-4">
-                                <div class="form-group">
-                                    <label for="">Card details</label>
-                                    <div id="card-element"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-lg-12">
-                            <hr>
-                                <button type="submit" class="btn btn-primary" id="card-button" data-secret="{{ $intent->client_secret }}">Purchase</button>
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4">
+                            <div class="form-group">
+                                <label for="">Card details</label>
+                                <div id="card-element"></div>
                             </div>
                         </div>
-
-                    </form>
-
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="card-footer footer-right">
+                    <div class="col-xl-12 col-lg-12">
+                        <a href="{{route('subscription.pricing')}}" class="btn btn-primary text-center w-30 inline-block" id="cancel-button">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary" id="card-button"
+                                data-secret="{{ $intent->client_secret }}">Purchase
+                        </button>
+
+                    </div>
+                </div>
+
+        </form>
+
     </div>
 </div>
+</div>
+</div>
+
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe('{{ env('STRIPE_KEY') }}')
+    const stripe = Stripe('{{ env('STRIPE_KEY') }}');
 
     const elements = stripe.elements()
-    const cardElement = elements.create('card')
+    const cardElement = elements.create('card', {
+        style: {
+            base: {
+                fontFamily: 'Source Code Pro, monospace',
+                fontSize: '16px',
+                color: '#495057',
+                '::placeholder': {
+                    color: '#aab7c4',
+                },
+            },
+            invalid: {
+                color: '#dc3545',
+                ':focus': {
+                    color: '#dc3545',
+                },
+            },
+        }
+    })
 
     cardElement.mount('#card-element')
 
@@ -61,7 +89,7 @@
         e.preventDefault()
 
         cardBtn.disabled = true
-        const { setupIntent, error } = await stripe.confirmCardSetup(
+        const {setupIntent, error} = await stripe.confirmCardSetup(
             cardBtn.dataset.secret, {
                 payment_method: {
                     card: cardElement,
@@ -72,7 +100,7 @@
             }
         )
 
-        if(error) {
+        if (error) {
             cardBtn.disable = false
         } else {
             let token = document.createElement('input')

@@ -49,11 +49,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
     Route::get('/pricing/{plan}', [PlansController::class, 'show'])->name('subscription.pricing.show');
     Route::get('/subscribe/{plan}', [SubscriberController::class, 'showSubscriptionForm'])->name('subscription.subscribe');
+    Route::delete('/subscribe', [SubscriberController::class, 'cancelSubscription'])->name('subscription.subscribe.cancel');
+    Route::patch('/subscribe', [SubscriberController::class, 'resumeSubscription'])->name('subscription.subscribe.resume');
     Route::post('/subscribe', [SubscriberController::class, 'processSubscription'])->name('subscribe.processSubscription');
 });
 

@@ -1,6 +1,7 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'overlay.css';
 @import 'textarea-expander.css';
+@import 'stripe.css';
 @import '@selectize/selectize/dist/css/selectize.css';
 @import 'magnific-popup/dist/magnific-popup.css';
 
@@ -88,6 +89,10 @@
         @apply px-3 border-t border-gray-700 mt-4 pt-2;
     }
 
+    .card .footer-right{
+        @apply  flex content-end flex-row-reverse;
+    }
+
     .icon-button {
         @apply text-xs mx-1 p-1
         ring-indigo-400
@@ -166,6 +171,32 @@
     .alert.warning::before {
         background-color: #FFA000;
     }
+
+    .viewData {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .viewData .viewItem {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .viewData .viewItem .label {
+        margin-right: 10px;
+    }
+
+    .viewData .viewItem .label::after {
+        @apply content-[':'];
+    }
+
+    .viewData .viewItem .data {
+        font-weight: bold;
+    }
+
+
+
 }
 .selectize-control {
     @apply ring-sky-600 rounded-lg bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
