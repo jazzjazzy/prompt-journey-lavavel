@@ -365,7 +365,7 @@
                 <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
                     <!-- history content goes here in #overlayContent -->
                 </div>
-                <div class="card-footer flex content-end flex-row-reverse">
+                <div class="card-footer footer-right">
                     <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
                         Close
                     </button>

@@ -36,7 +36,7 @@ class PlanTableSeeder extends Seeder
             'stripe_id' => 'price_1ModjXCohdRQHIZsr8HTCGCI',
             'price' => 3,
             'abbreviation' => 'Test',
-            'description' => 'Tester plan for testing for 1 month',
+            'description' => 'You will only be changed for one single month, account is deleted unless you upgrade',
             'metaData' =>json_encode([
                 ['checked' => 'true', 'text' => 'Access to Prompt journey'],
                 ['checked' => 'true', 'text' => 'Save prompts'],
@@ -93,7 +93,7 @@ class PlanTableSeeder extends Seeder
             'slug' => 'Yearly-pro',
             'stripe_name' => 'Yearly Pro Plan',
             'stripe_id' => 'price_1ModkCCohdRQHIZsKFSZ4Rxw',
-            'price' => 6,
+            'price' => 66,
             'abbreviation' => '/Year',
             'description' => 'Yearly Pro account, access to Unlimited projects',
             'metaData' =>json_encode([
