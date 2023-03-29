@@ -23,6 +23,15 @@
                     </x-nav-link>
                 </div>
 
+                @if(Auth::user()->isSubscribed())
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('projects.index')"
+                                :active="request()->routeIs('projects.index')">
+                        {{ __('Projects') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
 
                 <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1"
                    class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
