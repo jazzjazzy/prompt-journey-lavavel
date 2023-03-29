@@ -15,7 +15,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @vite(['resources/js/custom.js'])
+        @if (isset($isDashboardPage) && $isDashboardPage)
+            @vite('resources/js/custom.js')
+        @endif
 
         @if (env('APP_ENV') === 'production')
         <!-- Google tag (gtag.js) -->
