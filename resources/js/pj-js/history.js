@@ -31,10 +31,103 @@ $(document).ready(function () {
             //change the currentIndex to the new prompt index
             window.currentIndex = window.savedStrings.length
 
-            //show alert that the prompt was copied
-            promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to clipboard');
+            let projectId = $('#projectId').val();
+
+
+            if (projectId !== null) {
+                storeProjectHistory(projectId);
+            } else {
+                //show alert that the prompt was copied
+                promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to clipboard');
+            }
         }
         //console.log(window.savedStrings);
+    }
+
+    function storeProjectHistory(projectId) {
+
+        let promptText = $('.prompt-text-class').val();
+
+        // Create an array of objects from the params types values
+        let basicsArray = getParamsInputValues('#basic-params');
+        let modelArray = getParamsInputValues('#model-params ');
+        let upscalerArray = getParamsInputValues('#upscaler-params');
+
+        let $suffixArray  = getParamsInputValues('#suffix', true);
+        let $imagesArray  = getParamsInputValues('#images', true);
+
+
+
+        let promptArray = {
+                "promptText": promptText,
+                "promptParams": {
+                    "basicParams": basicsArray,
+                    "modelParams": modelArray,
+                    "upscalerParams": upscalerArray
+                },
+                "suffix": $suffixArray,
+                "images": $imagesArray,
+        };
+
+        $.ajax({
+            url: `/projects/${projectId}/prompt-history`, // Replace with actual project ID
+            type: 'POST',
+            data: promptArray,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to account history');
+                } else {
+                    alert('Error adding prompt history.');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('An error occurred while adding prompt history.');
+                console.log(error + ' ' + status + ' ' + xhr.responseText);
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param fieldId find the input fields in this div
+     * @param allowFalse if true, will allow false values to be added to the object
+     * @returns {{}}
+     */
+    function getParamsInputValues(fieldId, allowFalse = false) {
+        // Get the values of all the input fields in a given div Id
+        const fields = $(fieldId + ' input, ' + fieldId + ' select,  ' + fieldId + ' input[type=checkbox]');
+        const values = {};
+
+        fields.each(function () {
+            let $el = $(this);
+            let name = $el.attr('id');
+            let value;
+
+            if ($el.is(':checkbox')) {
+                value = $el.is(':checked');
+            }else{
+                if(allowFalse) {
+                    value = $el.val();
+                }
+            }
+
+            //only add the value to the object if it is not null, undefined, or an empty string
+            if(allowFalse){
+                if (value !== null && value !== undefined && value !== '') {
+                    values[name] = value;
+                }
+            }else {
+                if (value !== null && value !== undefined && value !== '' && value !== false) {
+                    values[name] = value;
+                }
+            }
+        });
+        return values;
     }
 
     // Attach a 'keydown' event listener to the input field

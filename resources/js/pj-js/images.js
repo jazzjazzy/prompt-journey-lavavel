@@ -2,9 +2,13 @@ $(document).ready(function () {
 
 
     function addCheckboxes() {
+
+        //count the number images input fields to create a id for the new one
+        let id = $('#input-image-fields').find('.images-input').length + 1;
+
         // add the checkboxes to the #input-image-fields div
         $('#input-image-fields').append(
-            createDynamicImagesRow()
+            createDynamicImagesRow(id)
         );
     }
 
@@ -22,9 +26,12 @@ $(document).ready(function () {
             }
         });
 
+        //count the number images input fields to create a id for the new one
+        let id = inputFields.length + 1;
+
         // If no empty input field is found, add a new one
         if (!added) {
-            $('#input-image-fields').append(createDynamicImagesRow());
+            $('#input-image-fields').append(createDynamicImagesRow(id));
         }
 
     });
@@ -62,13 +69,13 @@ $(document).ready(function () {
     });
 
 
-    function createDynamicImagesRow() {
+    function createDynamicImagesRow(id) {
         return '<div class="flex mt-2">\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd[]" class="images-add">\n' +
+            '                            <input type="checkbox" name="imagesAdd-'+ id +'" id="images-add-'+ id +'" class="images-add">\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images[]" class="images-input disabled:text-gray-400">\n' +
+            '                            <input type="text" name="images-'+ id +'" id="images-input-'+ id +'" class="images-input disabled:text-gray-400">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
             '                            <button class="icon-button show-image">\n' +

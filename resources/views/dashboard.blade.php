@@ -3,6 +3,9 @@
 
 @section('content')
 <div class="grid grid-cols-12 pt-1 m-auto px-12">
+    @if (isset($projectId) && $projectId !== null)
+        <input type="hidden" value="{{$projectId}}" name="projectId" id="projectId">
+    @endif
     <div class="col-span-10 border-3 border-l-gray-400 border-r-gray-300 border-t-gray-400 border-b-gray-300">
         {{-- history past --}}
         <div id="pre-prompt-2" class="w-full text-xs align-middle bg-gradient-to-t from-gray-300 bg-gray-200text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
@@ -97,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="card p-0">
+            <div id="basic-params" class="card p-0">
                 <div class="card-header bg-gradient-to-r from-green-100 to-green-700">
                     <h2>Basic Parameters</h2>
                 </div>
@@ -194,7 +197,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card p-0">
+            <div id="model-params" class="card p-0">
                 <div class="card-header bg-gradient-to-r from-blue-100 to-blue-700">
                     <h2>Model Version Parameters</h2>
                 </div>
@@ -236,7 +239,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card p-0">
+            <div id="upscaler-params" class="upscaler-params card p-0">
                 <div class="card-header bg-gradient-to-r from-pink-300 to-pink-600 bg-pink-700">
                     <h2>Upscaler Parameters</h2>
                 </div>
@@ -280,10 +283,10 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <input type="checkbox" name="suffixAdd[]" class="suffix-add">
+                                <input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-600">
+                                <input type="text" name="suffix-1" id="suffix-input-1" class="suffix-input disabled:text-gray-600">
                             </div>
                             <div class="flex-none px-3">
                                 <button class="icon-button suffix-input-copy">
@@ -318,10 +321,10 @@
                 <div id="input-image-fields">
                     <div class="flex">
                         <div class="flex-none px-3">
-                            <input type="checkbox" name="imagesAdd[]" class="images-add">
+                            <input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
                         </div>
                         <div class="grow">
-                            <input type="text" name="images[]" class="images-input disabled:text-gray-600">
+                            <input type="text" name="images-1" id="images-input-1" class="images-input disabled:text-gray-600">
                         </div>
                         <div class="flex-none px-3">
                             <button class="icon-button show-image">
@@ -343,6 +346,7 @@
                         <div class="alert alert-notice hidden" id="images-notice">
                             suffix copied to clipboard
                         </div>
+
                     </div>
                     <div class="flex content-end flex-row-reverse">
                         <button class="add-images btn btn-primary">Add image link</button>
@@ -377,7 +381,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('script')
