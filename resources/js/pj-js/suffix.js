@@ -16,8 +16,12 @@ $(document).ready(function () {
      */
     function addCheckboxes() {
         // add the checkboxes to the #input-suffix-fields div
+        var inputFields = $('#input-suffix-fields').find('.suffix-input');
+
+        let id = inputFields.length + 1;
+
         $('#input-suffix-fields').append(
-            createDynamicSuffixRow()
+            createDynamicSuffixRow('', id)
         );
     }
 
@@ -58,22 +62,22 @@ $(document).ready(function () {
                 return false;
             }
         });
-
+        let id = inputFields.length + 1;
         // If no empty input field is found, add a new one
         if (!added) {
-            let inputField = $(createDynamicSuffixRow(promptText));
+            let inputField = $(createDynamicSuffixRow(promptText, id));
             $('#input-suffix-fields').append(inputField);
         }
     }
 
-    function createDynamicSuffixRow(input = '') {
+    function createDynamicSuffixRow(input = '', id) {
         return ' <div class="flex mt-2">' +
             '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
-            '                                <input type="checkbox" name="suffixAdd[]" class="suffix-add">\n' +
+            '                                <input type="checkbox" name="suffixAdd-'+ id +'" id="suffix-add-'+ id +'" class="suffix-add">\n' +
             '                            </div>\n' +
             '                            <div class="grow">\n' +
-            '                                <input type="text" name="suffix[]" class="suffix-input disabled:text-gray-400" value="' + input + '">\n' +
+            '                                <input type="text" name="suffix-'+ id +'" id="suffix-input-'+ id +'" class="suffix-input disabled:text-gray-400" value="' + input + '">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
             '                                <button class="icon-button suffix-input-copy">\n' +

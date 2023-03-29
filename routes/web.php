@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\PlansController;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,10 @@ Route::get('/auth/{provider}/callback', [
 ])->where('provider', 'facebook|google|github|twitter');;
 
 
+Route::get('/dashboard/{projectId}', function ($projectId = null) {
+    return view('dashboard', ['projectId' => $projectId]);
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -50,13 +55,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/pricing/{plan}', [PlansController::class, 'show'])->name('subscription.pricing.show');
     Route::get('/subscribe/{plan}', [SubscriberController::class, 'showSubscriptionForm'])->name('subscription.subscribe');
     Route::delete('/subscribe', [SubscriberController::class, 'cancelSubscription'])->name('subscription.subscribe.cancel');
     Route::patch('/subscribe', [SubscriberController::class, 'resumeSubscription'])->name('subscription.subscribe.resume');
     Route::post('/subscribe', [SubscriberController::class, 'processSubscription'])->name('subscribe.processSubscription');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 });
+
+//ajax based routes
+Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
+
 
 
 require __DIR__ . '/auth.php';

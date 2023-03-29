@@ -7,6 +7,10 @@
             Main Shortcut
         </div>
         <div class="col-span-1 flex flex-row gap-1 items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Up / Down</span>
+            <span class="text-gray-900 font-medium text-xs">Scroll prompts</span>
+        </div>
+        <div class="col-span-1 flex flex-row gap-1 items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Space</span>
             <span class="text-gray-900 font-medium text-xs">focus prompt</span>
         </div>

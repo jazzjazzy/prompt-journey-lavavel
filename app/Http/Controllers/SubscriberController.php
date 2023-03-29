@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Exceptions\PaymentActionRequiredException;
 use Laravel\Cashier\Exceptions\PaymentFailureException;
 use App\Models\Plan;
+use App\Models\Project;
 
 class SubscriberController
 {
@@ -28,6 +29,9 @@ class SubscriberController
             // Create a new subscription for the user
             $user->newSubscription($request->plan, $plan->stripe_id)
                 ->create($request->token);
+
+            $project = new Project(['name' => 'Default', 'description' => 'My first project']);
+            $user->projects()->save($project);
 
             // Subscription created successfully, redirect to a success page
             return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
