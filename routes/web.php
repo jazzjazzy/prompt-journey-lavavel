@@ -39,7 +39,6 @@ Route::get('/auth/{provider}/callback', [
     SocialiteController::class, 'callback'
 ])->where('provider', 'facebook|google|github|twitter');;
 
-
 Route::get('/dashboard/{projectId}', function ($projectId = null) {
     return view('dashboard', ['projectId' => $projectId]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -68,6 +67,9 @@ Route::middleware(['auth'])->group(function () {
 //ajax based routes
 Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
 
-
+//modal based routes
+Route::get('/suffix', function () {return view('modals.suffix');})->name('modals.suffix');
+Route::get('/images', function () {return view('modals.images');})->name('modals.images');
+Route::get('/history', function () {return view('modals.history');})->name('modals.history');
 
 require __DIR__ . '/auth.php';

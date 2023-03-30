@@ -16,7 +16,6 @@
     top: 10%; /* adjust the value of 10% to your desired spacing */
     left: 50%;
     transform: translate(-50%, 0);
-    width: 70%;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -30,8 +29,8 @@
 }
 .overlay .close {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -35px;
+    right: 20px;
     padding: 10px;
     cursor: pointer;
     color: white;
