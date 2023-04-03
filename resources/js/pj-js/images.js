@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     function addCheckboxes() {
 
         //count the number images input fields to create a id for the new one
@@ -72,10 +71,10 @@ $(document).ready(function () {
     function createDynamicImagesRow(id) {
         return '<div class="flex mt-2">\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-'+ id +'" id="images-add-'+ id +'" class="images-add">\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + id + '" id="images-add-' + id + '" class="images-add">\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-'+ id +'" id="images-input-'+ id +'" class="images-input disabled:text-gray-400">\n' +
+            '                            <input type="text" name="images-' + id + '" id="images-input-' + id + '" class="images-input disabled:text-gray-400">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
             '                            <button class="icon-button show-image">\n' +
@@ -95,24 +94,21 @@ $(document).ready(function () {
     $('#input-image-fields').on('click', '.show-image', function () {
         var parentDiv = $(this).closest('.flex');
         var imgUrl = parentDiv.find('.images-input').val();
+        const modal = $('#myModal');
 
-        if (imgUrl) {
-            var overlayHtml = '<div class="overlay">'
-                + '<span class="close">&times;</span>'
-                + '<img src="' + imgUrl + '">'
-                + '</div>';
-            $("#overlayContainer").html(overlayHtml);
 
-            $(".overlay").click(function (event) {
-                if ($(event.target).hasClass("overlay")) {
-                    $(this).remove();
-                }
-            });
+        let url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
+        $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
-            $(".close").click(function () {
-                $(this).parent().remove();
-            });
-        }
+        console.log(imgUrl);
+        const title = $(this).attr('title');
+        const modalIframe = $('#modal-iframe');
+        $('#modal-title').text(title);
+        modalIframe.attr('src', url);
+        const image = modalIframe.contents().find('#image-preview');
+        image.attr('src', imgUrl);
+        modal.css('display', 'block');
+
     });
 
     /**
@@ -176,12 +172,12 @@ $(document).ready(function () {
 
     function setPromptWithImagesText() {
         let ImagesText = getImagePromptText();
-        $('#prompt').val( $.trim(ImagesText) + ' ' + $('#prompt').val());
+        $('#prompt').val($.trim(ImagesText) + ' ' + $('#prompt').val());
     }
 
     $.extend(window, {
-        setPromptWithImagesText: setPromptWithImagesText,
-        getImagePromptText: getImagePromptText
+        getImagePromptText: getImagePromptText,
+        imageNoticeAlert: imageNoticeAlert,
     });
 
 

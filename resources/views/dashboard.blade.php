@@ -329,8 +329,11 @@
                         <div class="grow">
                             <input type="text" name="images-1" id="images-input-1" class="images-input disabled:text-gray-600">
                         </div>
+                        @php
+                            $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
+                        @endphp
                         <div class="flex-none px-3">
-                            <button class="icon-button show-image">
+                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="{{ $route }}">
                                 <i class="fas fa-image"></i>
                             </button>
                             <button class="icon-button images-input-copy">
@@ -347,13 +350,16 @@
                 <div class="grid grid-cols-2">
                     <div class="flex content-start items-center">
                         <div class="alert alert-notice hidden" id="images-notice">
-                            suffix copied to clipboard
+                            images copied to clipboard
                         </div>
 
                     </div>
+                    @php
+                       $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
+                    @endphp
                     <div class="flex content-end flex-row-reverse">
                         <button class="add-images btn btn-primary">Add image</button>
-                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-url="{{ route('modals.images') }}">
+                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-url="{{ $route }}">
                             Images gallery
                         </button>
                     </div>
@@ -463,67 +469,6 @@
         });
 
         $('#prompt').prop('disabled', true); // disable prompt
-
-
-        // Get the modal and button elements
-        const modal = $('#myModal');
-        // Get the <span> element that closes the modal
-        const span = $('.close').eq(0);
-
-// When the user clicks on the button, open the modal
-        $(document).on('click', '.open-modal' ,function() {
-            const url = $(this).attr('data-url');
-            const size = $(this).attr('data-modal-size');
-
-            if(size=='sm'){
-                $('#myModal .overlay .card').addClass('w-1/4 h-1/4');
-            }else if(size=='lg'){
-                $('#myModal .overlay .card').addClass('w-3/4 h-3/4');
-            }else if(size=='xl'){
-                $('#myModal .overlay .card').addClass('w-4/5 h-4/5');
-            }else if(size=='full'){
-                $('#myModal .overlay .card').addClass('w-full h-full');
-            }else{
-                $('#myModal .overlay .card').addClass('w-1/2 h-1/2');
-            }
-
-            const title = $(this).attr('title');
-            const modalIframe = $('#modal-iframe');
-            $('#modal-title').text(title);
-            modalIframe.attr('src', url);
-            modal.css('display', 'block');
-        });
-
-// When the user clicks on <span> (x), close the modal
-        span.on('click', function() {
-            modal.css('display', 'none');
-            $('#myModal .overlay .card').removeClass('w-1/4 h-1/4');
-            $('#myModal .overlay .card').removeClass('w-3/4 h-3/4');
-            $('#myModal .overlay .card').removeClass('w-4/5 h-4/5');
-            $('#myModal .overlay .card').removeClass('w-full h-full');
-            $('#myModal .overlay .card').removeClass('w-1/2 h-1/2');
-        });
-
-        $('#myModal .close-btn').on('click', function() {
-            modal.css('display', 'none');
-            $('#myModal .overlay .card').removeClass('w-1/4 h-1/4');
-            $('#myModal .overlay .card').removeClass('w-3/4 h-3/4');
-            $('#myModal .overlay .card').removeClass('w-4/5 h-4/5');
-            $('#myModal .overlay .card').removeClass('w-full h-full');
-            $('#myModal .overlay .card').removeClass('w-1/2 h-1/2');
-        });
-// When the user clicks anywhere outside of the modal, close it
-        $(window).on('click', function(event) {
-            if (event.target == modal[0]) {
-                modal.css('display', 'none');
-                $('#myModal .overlay .card').removeClass('w-1/4 h-1/4');
-                $('#myModal .overlay .card').removeClass('w-3/4 h-3/4');
-                $('#myModal .overlay .card').removeClass('w-4/5 h-4/5');
-                $('#myModal .overlay .card').removeClass('w-full h-full');
-                $('#myModal .overlay .card').removeClass('w-1/2 h-1/2');
-            }
-        });
-
     });
 </script>
 @endsection

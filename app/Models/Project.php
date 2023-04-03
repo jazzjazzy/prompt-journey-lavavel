@@ -24,4 +24,14 @@ class Project extends Model
     {
         return $this->hasMany(PromptHistory::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(Images::class);
+    }
+
+    public function suffix()
+    {
+        return $this->hasMany(Suffix::class);
+    }
 }

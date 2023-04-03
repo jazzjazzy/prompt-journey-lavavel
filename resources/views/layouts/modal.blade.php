@@ -14,7 +14,8 @@
 
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @vite('resources/js/pj-js/images.js')
 
     @if (env('APP_ENV') === 'production')
     <!-- Google tag (gtag.js) -->
@@ -37,15 +38,8 @@
 <div class="mt-5">
         @yield('content')
 </div>
-</body>
 
-<script type="module">
-    $(document).ready(function() {
-        $('.popup-youtube').magnificPopup({
-            type: 'iframe'
-        });
-    });
-</script>
+@stack('scripts')
 
 </body>
 </html>
