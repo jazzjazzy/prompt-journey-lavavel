@@ -173,7 +173,7 @@
     }
 
     .viewData {
-        display: grid;
+        display: block;
         grid-template-columns: 1fr;
     }
 

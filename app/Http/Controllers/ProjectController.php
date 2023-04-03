@@ -45,4 +45,24 @@ class ProjectController extends Controller
         // Return a JSON response indicating success or failure
         return response()->json(['success' => true]);
     }
+
+/*    public function updateImages(Request $request, Project $project)
+    {
+        // Get the description from the request
+        $images = json_encode($request->input('images'));
+
+        // Create a new prompt history for the project
+        $promptHistory = new Images();
+        $promptHistory->name = $prompt;
+        $promptHistory->basic_params = $basicparams;
+        $promptHistory->model_params = $modelparams;
+        $promptHistory->upscale_params = $upscalerparams;
+        $promptHistory->suffix = $suffix;
+        $promptHistory->images = $images;
+        $promptHistory->project_id = $project->id;
+        $promptHistory->save();
+
+        // Return a JSON response indicating success or failure
+        return response()->json(['success' => true]);
+    }*/
 }
