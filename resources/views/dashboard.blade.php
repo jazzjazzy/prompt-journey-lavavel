@@ -354,12 +354,9 @@
                         </div>
 
                     </div>
-                    @php
-                       $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
-                    @endphp
                     <div class="flex content-end flex-row-reverse">
                         <button class="add-images btn btn-primary">Add image</button>
-                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-url="{{ $route }}">
+                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-url="{{ route('gallery.view') }}">
                             Images gallery
                         </button>
                     </div>

@@ -7,7 +7,8 @@ use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\PlansController;
 use App\Http\Controllers\ProjectController;
-use \App\Http\Controllers\ImagesController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,10 @@ Route::get('/suffix', function () {return view('modals.suffix');})->name('modals
 //Route::get('/images', function () {return view('modals.images');})->name('modals.images');
 Route::get('/image/{project?}',  [ImagesController::class, 'view'])->name('modals.images');
 Route::post('/images/{project}/save',  [ImagesController::class, 'save'])->name('images.save');
+
+Route::get('/gallery',  [GalleryController::class, 'view'])->name('gallery.view');
+Route::get('/gallery/{group?}',  [GalleryController::class, 'viewImages'])->name('gallery.images');
+Route::get('/gallery/groups',  [GalleryController::class, 'view-groups'])->name('gallery.groups');
 
 Route::get('/history', function () {return view('modals.history');})->name('modals.history');
 
