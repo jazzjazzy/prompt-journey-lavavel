@@ -5,9 +5,15 @@ $(document).ready(function () {
         //count the number images input fields to create a id for the new one
         let id = $('#input-image-fields').find('.images-input').length + 1;
 
+        //check if #project_id is set and create a route
+        let route = '';
+        if ($('#projectId').val() !== undefined) {
+            route = '/image/' + $('#projectId').val();
+        }
+
         // add the checkboxes to the #input-image-fields div
         $('#input-image-fields').append(
-            createDynamicImagesRow(id)
+            createDynamicImagesRow(id, route)
         );
     }
 
@@ -68,7 +74,7 @@ $(document).ready(function () {
     });
 
 
-    function createDynamicImagesRow(id) {
+    function createDynamicImagesRow(id, route) {
         return '<div class="flex mt-2">\n' +
             '                        <div class="flex-none px-3">\n' +
             '                            <input type="checkbox" name="imagesAdd-' + id + '" id="images-add-' + id + '" class="images-add">\n' +
@@ -77,7 +83,7 @@ $(document).ready(function () {
             '                            <input type="text" name="images-' + id + '" id="images-input-' + id + '" class="images-input disabled:text-gray-400">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <button class="icon-button show-image">\n' +
+            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '">\n' +
             '                                <i class="fas fa-image"></i>\n' +
             '                            </button>\n' +
             '                            <button class="icon-button images-input-copy">\n' +
