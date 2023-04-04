@@ -49,9 +49,9 @@ RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY . .
-COPY /vendor/laravel/sail/runtimes/8.0/start-container /usr/local/bin/start-container
-COPY /vendor/laravel/sail/runtimes/8.0/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY /vendor/laravel/sail/runtimes/8.0/php.ini /etc/php/8.0/cli/conf.d/99-sail.ini
+COPY /runtimes/8.0/start-container /usr/local/bin/start-container
+COPY /runtimes/8.0/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY /runtimes/8.0/php.ini /etc/php/8.0/cli/conf.d/99-sail.ini
 
 RUN chmod +x /usr/local/bin/start-container
 
