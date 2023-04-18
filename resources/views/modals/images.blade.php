@@ -8,6 +8,9 @@
     @if (isset($groupOption) && $groupOption !== null)
     <input type="hidden" value="{{$groupOption}}" name="group-options" id="group-options">
     @endif
+    @if (isset($groupsSelected) && $groupsSelected !== null)
+    <input type="hidden" value="{{$groupsSelected}}" name="group-options-selected" id="group-options-selected">
+    @endif
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -36,7 +39,8 @@
                                             <div class="grid grid-cols-12 mb-3 flex items-center">
                                                 <label class="col-span-3 text-gray-600" for="stop">Title</label>
                                                 <div class="col-span-9">
-                                                    <input type="text" id="image-title" class="parameter-class">
+
+                                                    <input type="text" id="image-title" class="parameter-class" value="{{$imagesName}}">
                                                 </div>
                                             </div>
                                             <div class="grid grid-cols-12 flex items-center">
@@ -142,6 +146,7 @@
     $(document).ready(function () {
 
         let options = $('#group-options').val();
+        let selected = $('#group-options-selected').val() ? JSON.parse($('#group-options-selected').val() ) : [];
         $('#add-to-group').selectize({
             options: JSON.parse(options),
             plugins: ['remove_button'],
@@ -158,6 +163,8 @@
                     return '<div class="p-0">' + escape(data.text) + '</div>';
                 }
             },
+            items: selected,
+
         });
 
         $('#save-images').on('click', function (e) {

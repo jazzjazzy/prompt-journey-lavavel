@@ -42,7 +42,6 @@ class GalleryController extends Controller
         $images->map(function ($image) {
             $image->imageUrl = parse_url( $image->link);
             $image->imagePath = pathinfo($image->imageUrl['path']);
-
             return $image;
         });
 

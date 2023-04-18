@@ -12,6 +12,7 @@ $(document).ready(function () {
         console.log('this is the main model');
         const url = $(this).attr('data-url');
         const size = $(this).attr('data-modal-size');
+        const isFixed = $(this).attr('data-modal-fixed');
 
         if (size == 'sm') {
             $('#myModal .overlay .card').addClass('w-1/4 h-1/4');
@@ -29,6 +30,13 @@ $(document).ready(function () {
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
         modalIframe.attr('src', url);
+
+
+        if (isFixed === 'true') {
+            modalIframe.attr('scrolling', 'no');
+        }else{
+            modalIframe.attr('scrolling', 'yes');
+        }
         modal.css('display', 'block');
     });
 
