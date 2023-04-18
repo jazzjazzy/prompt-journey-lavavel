@@ -333,7 +333,7 @@
                             $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
                         @endphp
                         <div class="flex-none px-3">
-                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="{{ $route }}">
+                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="{{ $route }}" data-image-id>
                                 <i class="fas fa-image"></i>
                             </button>
                             <button class="icon-button images-input-copy">
@@ -356,7 +356,7 @@
                     </div>
                     <div class="flex content-end flex-row-reverse">
                         <button class="add-images btn btn-primary">Add image</button>
-                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-url="{{ route('gallery.view') }}">
+                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-modal-fixed=true data-url="{{ route('gallery.view') }}">
                             Images gallery
                         </button>
                     </div>
@@ -395,7 +395,7 @@
 <div id="myModal" class="modal hidden">
     <div class="overlay">
         <div class="card bg-gray-100 p-0 m-0"><div class="close p-0"><div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div></div>
-            <div class="max-w-7xl w-full h-full flex flex-col">
+            <div class="w-full h-full flex flex-col">
                 <div class="card-header">
                     <h1 id="modal-title" class="text-3xl">Active Modal</h1>
                 </div>

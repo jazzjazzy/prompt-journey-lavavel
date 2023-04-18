@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
+
 use Illuminate\Http\Request;
+use App\Models\Project;
 use App\Models\Images;
 use App\Models\Groups;
 use Illuminate\View\View;
@@ -11,24 +12,31 @@ use Illuminate\Support\Facades\DB;
 
 class ImagesController extends Controller
 {
-    public function edit(Project $project, Request $request): View
+    public function edit(Project $project, Images $images, Request $request): View
     {
         $user = auth()->user();
         $plan = $user->getSubscriptionPlan();
+
         $endGracePeriod = null;
         $projectId = $project->id;
+        $imagesId = $images->id;
+        $imagesName = $images->name;
 
-        if ($plan !== null) {
-            if ($user->subscription($plan->id)->onGracePeriod()) {
-                $endGracePeriod['date'] = $user->subscription($plan->id)->ends_at->format('Y-m-d');
-                $endGracePeriod['plan'] = $plan->stripe_name;
-            }
-        }
+        $imageUrl = parse_url($images->link);
+        $imagePath =pathinfo($imageUrl['path']);
 
-        return view('profile.edit', [
-            'user' => $request->user(),
-            'endGracePeriod' => $endGracePeriod,
-            'projectId'=> $projectId
+        $groupsSelected = $this->getOptionsOfGroupsByimageId($imagesId);
+
+        $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
+
+        return view('modals.images', [
+            'imagesName' => $imagesName,
+            'groupsSelected' => $groupsSelected,
+            'image' => $images->link,
+            'imageUrl' => $imageUrl,
+            'imagePath' => $imagePath,
+            'projectId'=> $projectId,
+            'groupOption' => $groupOption,
         ]);
     }
 
@@ -46,6 +54,7 @@ class ImagesController extends Controller
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
         return view('modals.images', [
+            'imagesName' => '',
             'image' => $image,
             'imageUrl' => $imageUrl,
             'imagePath' => $imagePath,
@@ -120,5 +129,21 @@ class ImagesController extends Controller
         }
 
         return  count($options) == 0 ? null : json_encode($options);
+    }
+
+    private function getOptionsOfGroupsByimageId($imagesId) : ?string
+    {
+        $groups = DB::table('image_group')
+            ->join('groups', 'image_group.group_id', '=', 'groups.id')
+            ->where('image_group.image_id', $imagesId)
+            ->get();
+
+        $option = [];
+        //convert $group to json
+        foreach($groups AS  $value) {
+            $option[] = $value->name;
+        }
+
+        return  count($option) == 0 ? null : json_encode($option);
     }
 }

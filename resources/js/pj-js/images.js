@@ -74,16 +74,34 @@ $(document).ready(function () {
     });
 
 
-    function createDynamicImagesRow(id, route) {
+    /**
+     * This will create the dynamic image row for Images Links
+     *
+     * @param rowid - is the row that this image currenly is in the list
+     * @param route - if we need to display a free image modal or paid image model
+     * @param value - the link to the image
+     * @param imageId - the image id if we get the image from gallery
+     * @returns {string} new row image to append to the #input-image-fields div
+     */
+    function createDynamicImagesRow(rowid, route, value = '', imageId = null) {
+
+        var imageIdData = '';
+        if (imageId !== null) {
+            var imageIdData = 'data-image-id='+ imageId;
+        }
+
         return '<div class="flex mt-2">\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-' + id + '" id="images-add-' + id + '" class="images-add">\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add">\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-' + id + '" id="images-input-' + id + '" class="images-input disabled:text-gray-400">\n' +
+            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" '+
+            '                                   value="'+ value +'" ' +
+            '                                       class="images-input disabled:text-gray-400">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '">\n' +
+            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"'+
+            '                             '+ imageIdData +'>\n' +
             '                                <i class="fas fa-image"></i>\n' +
             '                            </button>\n' +
             '                            <button class="icon-button images-input-copy">\n' +
@@ -102,8 +120,17 @@ $(document).ready(function () {
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
 
+        // if the image is from gallery
+        var imageId = $(this).attr('data-image-id');
 
-        let url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
+        let url = '';
+        // if we have a imageId then get info from gallery else get info from url
+       if (imageId !== undefined && imageId !== null && imageId !== '') {
+             url = $(this).attr('data-url');
+        }else{
+             url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
+        }
+
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
         console.log(imgUrl);
@@ -181,10 +208,90 @@ $(document).ready(function () {
         $('#prompt').val($.trim(ImagesText) + ' ' + $('#prompt').val());
     }
 
+    function addToImageList(url, id) {
+        var inputFields = window.parent.$('#input-image-fields').find('.images-input');
+        var added = false;
+        let imageId = id.split('-')[1];
+
+        // Find the first empty input field
+        inputFields.each(function () {
+            if ($(this).val() === '') {
+                $(this).val(url);
+                if(imageId) {
+                    let showimage = $(this).parent().parent().find('.show-image');
+                    //if we have a imageId the add it to data-image-id
+                    showimage.attr('data-image-id', imageId);
+                    //and also add it to the route
+                    let route = showimage.attr('data-url');
+                    showimage.attr('data-url', route + '/' + imageId);
+                }
+                added = true;
+                return false;
+            }
+        });
+        let rowid = inputFields.length + 1;
+
+        //if route is empty with show use the input url to show the image in a modal
+        let route = '/image';
+        //add a route to image modal for paid accounts if they have a projectId
+        if (window.parent.$('#projectId').val() !== undefined) {
+            route += '/' + window.parent.$('#projectId').val();
+            if (imageId !== undefined) {
+                route += '/' + imageId;
+            }
+        }
+
+        if (!added) {
+            console.log(url);
+            let inputField = $(createDynamicImagesRow( rowid, route, url, imageId));
+            window.parent.$('#input-image-fields').append(inputField);
+        }
+
+        setCheckmarkGalleryImages();
+    }
+
+    /**
+     * find all the ids for images used in the dashboard
+     * @returns {*[]}
+     */
+    function getImageIds() {
+        let imageIds = [];
+        //find all the ids for images used in the dashboard
+        window.parent.$('#input-image-fields').find('.show-image').each(function () {
+            let imageId = 'image-'+$(this).attr('data-image-id');
+
+            if (imageId !== undefined) {
+                imageIds.push(imageId);
+            }
+        });
+        return imageIds;
+    }
+
+    /**
+     * Add a checkmark to images that are currently on the dashboard
+     */
+    function setCheckmarkGalleryImages() {
+
+        //these are a list that are currently already select
+        let imageIds = getImageIds();
+
+        //find a list of all visable images in the modal
+       // var visableImage = [];
+        $(window.document).find('.modal a').each(function() {
+            var id = $(this).attr('id');
+
+            if (imageIds.indexOf(id) >= 0) {
+                let checkMark = $(this).children('div').children('i.fa-circle-check');
+                checkMark.show();
+            }
+        });
+    }
+
+
     $.extend(window, {
         getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
+        addToImageList: addToImageList,
+        setCheckmarkGalleryImages:setCheckmarkGalleryImages,
     });
-
-
 });

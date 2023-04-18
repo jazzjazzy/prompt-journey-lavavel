@@ -1,5 +1,6 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'overlay.css';
+@import 'modal.css';
 @import 'textarea-expander.css';
 @import 'stripe.css';
 @import '@selectize/selectize/dist/css/selectize.css';
