@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\PlansController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +24,7 @@ use App\Http\Controllers\ProjectController;
 Route::get('/', function () {
     return redirect('dashboard');
 });
+
 
 Route::get('/terms-of-service', function () {
     return view('terms_of_service');
@@ -39,10 +43,9 @@ Route::get('/auth/{provider}/callback', [
     SocialiteController::class, 'callback'
 ])->where('provider', 'facebook|google|github|twitter');;
 
-
-Route::get('/dashboard/{projectId}', function ($projectId = null) {
+Route::get('/dashboard/{projectId?}', function ($projectId = null) {
     return view('dashboard', ['projectId' => $projectId]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard.project');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -67,7 +70,20 @@ Route::middleware(['auth'])->group(function () {
 
 //ajax based routes
 Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
+Route::post('/projects/{project}/images', [ProjectController::class, 'updateImages']);
+Route::post('/projects/{project}/suffix', [ProjectController::class, 'updateSuffix']);
 
+//modal based routes
+Route::get('/suffix', function () {return view('modals.suffix');})->name('modals.suffix');
 
+Route::get('/image/{project?}',  [ImagesController::class, 'view'])->name('modals.images');
+Route::get('/image/{project}/{images}',  [ImagesController::class, 'edit'])->name('images.edit');
+Route::post('/images/{project}/save',  [ImagesController::class, 'save'])->name('images.save');
+
+Route::get('/gallery',  [GalleryController::class, 'view'])->name('gallery.view');
+Route::get('/gallery/{group?}',  [GalleryController::class, 'viewImages'])->name('gallery.images');
+Route::get('/gallery/groups',  [GalleryController::class, 'view-groups'])->name('gallery.groups');
+
+Route::get('/history', function () {return view('modals.history');})->name('modals.history');
 
 require __DIR__ . '/auth.php';

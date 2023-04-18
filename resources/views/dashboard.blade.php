@@ -308,7 +308,10 @@
                         </div>
                     </div>
                     <div class="flex content-end flex-row-reverse">
-                        <button class="add-suffix btn btn-primary">Add suffix link</button>
+                        <button class="add-suffix btn btn-primary">Add suffix</button>
+                        <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg" data-url="{{ route('modals.suffix') }}">
+                            suffix gallery
+                        </button>
                     </div>
                 </div>
             </div>
@@ -326,8 +329,11 @@
                         <div class="grow">
                             <input type="text" name="images-1" id="images-input-1" class="images-input disabled:text-gray-600">
                         </div>
+                        @php
+                            $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
+                        @endphp
                         <div class="flex-none px-3">
-                            <button class="icon-button show-image">
+                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="{{ $route }}" data-image-id>
                                 <i class="fas fa-image"></i>
                             </button>
                             <button class="icon-button images-input-copy">
@@ -344,12 +350,15 @@
                 <div class="grid grid-cols-2">
                     <div class="flex content-start items-center">
                         <div class="alert alert-notice hidden" id="images-notice">
-                            suffix copied to clipboard
+                            images copied to clipboard
                         </div>
 
                     </div>
                     <div class="flex content-end flex-row-reverse">
-                        <button class="add-images btn btn-primary">Add image link</button>
+                        <button class="add-images btn btn-primary">Add image</button>
+                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-modal-fixed=true data-url="{{ route('gallery.view') }}">
+                            Images gallery
+                        </button>
                     </div>
                 </div>
             </div>
@@ -381,6 +390,28 @@
         </div>
     </div>
 </div>
+
+
+<div id="myModal" class="modal hidden">
+    <div class="overlay">
+        <div class="card bg-gray-100 p-0 m-0"><div class="close p-0"><div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div></div>
+            <div class="w-full h-full flex flex-col">
+                <div class="card-header">
+                    <h1 id="modal-title" class="text-3xl">Active Modal</h1>
+                </div>
+                <div class="card-body flex-1 !mt-10 !p-0">
+                    <iframe class="w-full h-full" id="modal-iframe"></iframe>
+                </div>
+                <div class="card-footer footer-right !mt-0 p-2">
+                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('script')

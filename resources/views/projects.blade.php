@@ -19,7 +19,7 @@
                 <td >{{ $project->name }}</td>
                 <td>{{ $project->description }}</td>
                 <td><i class="fas fa-trash"></i>
-                    <a href="{{route('dashboard', $project->id)}}" <i class="fas fa-edit"></i></td>
+                    <a href="{{route('dashboard.project', [$project->id])}}" <i class="fas fa-edit"></i></td>
             </tr>
         @endforeach
         </tbody>

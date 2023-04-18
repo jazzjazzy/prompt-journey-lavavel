@@ -26,7 +26,17 @@ module.exports = {
         'col-span-11',
         'col-span-12',
         'even:bg-white',
-        'odd:bg-slate-50'
+        'odd:bg-slate-50',
+        'w-1/4',
+        'w-3/4',
+        'w-4/5',
+        'w-1/2',
+        'w-full',
+        'h-1/4',
+        'h-3/4',
+        'h-4/5',
+        'h-1/2',
+        'h-full',
 
     ],
 
