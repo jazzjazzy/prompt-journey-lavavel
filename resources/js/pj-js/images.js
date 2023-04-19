@@ -133,7 +133,6 @@ $(document).ready(function () {
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
-        console.log(imgUrl);
         const title = $(this).attr('title');
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
@@ -242,7 +241,6 @@ $(document).ready(function () {
         }
 
         if (!added) {
-            console.log(url);
             let inputField = $(createDynamicImagesRow( rowid, route, url, imageId));
             window.parent.$('#input-image-fields').append(inputField);
         }

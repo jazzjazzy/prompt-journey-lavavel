@@ -16,8 +16,8 @@ class GalleryController extends Controller
         $groups = Groups::all()->where('user_id', $user->id);
 
         $images->map(function ($image) {
-            $image->imageUrl = parse_url( $image->link);
-            $image->imagePath = pathinfo($image->imageUrl['path'] );
+            $image->imageUrl = parse_url($image->link);
+            $image->imagePath = pathinfo($image->imageUrl['path']);
 
             return $image;
         });
@@ -28,19 +28,23 @@ class GalleryController extends Controller
         ]);
     }
 
-    function viewImages($groupId)
+    function viewImages($groupId = null)
     {
         $user = auth()->user();
 
-        $images = DB::table('images')
+        $imagesQuery = DB::table('images')
             ->join('image_group', 'images.id', '=', 'image_group.image_id')
-            ->where('image_group.group_id', $groupId)
-            ->where('images.user_id', $user->id)
-            ->get();
+            ->where('images.user_id', $user->id);
 
+        if ($groupId !== null && $groupId !== 'all') {
+            $imagesQuery->where('image_group.group_id', $groupId);
+        }
+
+
+        $images = $imagesQuery->get();
 
         $images->map(function ($image) {
-            $image->imageUrl = parse_url( $image->link);
+            $image->imageUrl = parse_url($image->link);
             $image->imagePath = pathinfo($image->imageUrl['path']);
             return $image;
         });

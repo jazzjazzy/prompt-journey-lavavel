@@ -176,7 +176,7 @@
             var select = $('#add-to-group').selectize();
             var selectize = select[0].selectize;
             var projectId = $('#projectId').val();
-            console.log(projectId);
+
             const createEnabled = selectize.getValue();
 
             let promptArray = {
