@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Suffix extends Model
+class Suffixes extends Model
 {
     use HasFactory;
 
-    protected $table = 'prompt_history';
+    protected $table = 'suffixes';
 
     protected $fillable = [
         'name',
@@ -19,5 +19,11 @@ class Suffix extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Groups::class, 'suffix_group', 'suffix_id', 'group_id');
     }
 }

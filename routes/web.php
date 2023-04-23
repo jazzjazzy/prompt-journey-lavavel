@@ -9,7 +9,9 @@ use App\Http\Controllers\PlansController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\GalleryController;
-
+use App\Http\Controllers\SuffixController;
+use App\Http\Controllers\SuffixListController;
+use App\Http\Controllers\DashBoardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,12 +30,15 @@ Route::get('/', function () {
 
 Route::get('/terms-of-service', function () {
     return view('terms_of_service');
-});
+})->name('tos');
 
 Route::get('/privacy-policy', function () {
     return view('privacy_policy');
-});
+})->name('privacy');
 
+Route::get('/history', function () {
+    return view('modals.history');
+})->name('modals.history');
 
 Route::get('/auth/{provider}/redirect', [
     SocialiteController::class, 'redirect'
@@ -43,13 +48,11 @@ Route::get('/auth/{provider}/callback', [
     SocialiteController::class, 'callback'
 ])->where('provider', 'facebook|google|github|twitter');;
 
+Route::get('/dashboard',  [DashBoardController::class, 'view'])->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard/{projectId?}', function ($projectId = null) {
     return view('dashboard', ['projectId' => $projectId]);
-})->middleware(['auth', 'verified'])->name('dashboard.project');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'subscription'])->name('dashboard.project');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -69,21 +72,35 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //ajax based routes
-Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
-Route::post('/projects/{project}/images', [ProjectController::class, 'updateImages']);
-Route::post('/projects/{project}/suffix', [ProjectController::class, 'updateSuffix']);
+
+Route::middleware(['auth', 'subscription'])->group(function () {
+    Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
+    Route::post('/projects/{project}/images', [ProjectController::class, 'updateImages']);
+    Route::post('/projects/{project}/suffix', [ProjectController::class, 'updateSuffix']);
 
 //modal based routes
-Route::get('/suffix', function () {return view('modals.suffix');})->name('modals.suffix');
 
-Route::get('/image/{project?}',  [ImagesController::class, 'view'])->name('modals.images');
-Route::get('/image/{project}/{images}',  [ImagesController::class, 'edit'])->name('images.edit');
-Route::post('/images/{project}/save',  [ImagesController::class, 'save'])->name('images.save');
+    Route::get('/suffix/{project}/{suffix}', [SuffixController::class, 'edit'])->name('suffix.edit');
+    Route::post('/suffix/{project}/save', [SuffixController::class, 'save'])->name('suffix.save');
 
-Route::get('/gallery',  [GalleryController::class, 'view'])->name('gallery.view');
-Route::get('/gallery/{group?}',  [GalleryController::class, 'viewImages'])->name('gallery.images');
-Route::get('/gallery/groups',  [GalleryController::class, 'view-groups'])->name('gallery.groups');
+    Route::get('/suffixes/list', [SuffixListController::class, 'view'])->name('suffixes.view');
+    Route::get('/suffixes/list/{group?}', [SuffixListController::class, 'viewSuffixes'])->name('suffix.list');
 
-Route::get('/history', function () {return view('modals.history');})->name('modals.history');
+
+    Route::get('/image/{project}/{images}', [ImagesController::class, 'edit'])->name('images.edit');
+    Route::post('/images/{project}/save', [ImagesController::class, 'save'])->name('images.save');
+
+    Route::get('/gallery', [GalleryController::class, 'view'])->name('gallery.view');
+    Route::get('/gallery/{group?}', [GalleryController::class, 'viewImages'])->name('gallery.images');
+
+    Route::get('/history', function () {
+        return view('modals.history');
+    })->name('modals.history');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/suffix/{project?}', [SuffixController::class, 'view'])->name('modals.suffix');
+    Route::get('/image/{project?}', [ImagesController::class, 'view'])->name('modals.images');
+});
 
 require __DIR__ . '/auth.php';

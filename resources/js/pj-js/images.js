@@ -95,9 +95,9 @@ $(document).ready(function () {
             '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add">\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" '+
+            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" '+
             '                                   value="'+ value +'" ' +
-            '                                       class="images-input disabled:text-gray-400">\n' +
+            '                                       class="images-input disabled:text-gray-400 disabled:border-green-700">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
             '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"'+

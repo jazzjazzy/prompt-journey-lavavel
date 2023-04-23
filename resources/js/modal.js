@@ -14,7 +14,9 @@ $(document).ready(function () {
         const size = $(this).attr('data-modal-size');
         const isFixed = $(this).attr('data-modal-fixed');
 
-        if (size == 'sm') {
+        if (size == 'xs') {
+            $('#myModal .overlay .card').addClass('w-1/8 h-1/8');
+        } else if (size == 'sm') {
             $('#myModal .overlay .card').addClass('w-1/4 h-1/4');
         } else if (size == 'lg') {
             $('#myModal .overlay .card').addClass('w-3/4 h-3/4');
@@ -30,6 +32,7 @@ $(document).ready(function () {
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
         modalIframe.attr('src', url);
+        modalIframe.show();
 
 
         if (isFixed === 'true') {
@@ -43,29 +46,34 @@ $(document).ready(function () {
 // When the user clicks on <span> (x), close the modal
     span.on('click', function () {
         modal.css('display', 'none');
-        clearAllFrameSizes();
+        reinitiateModal();
     });
 
     $('#myModal .close-btn').on('click', function () {
         modal.css('display', 'none');
-        clearAllFrameSizes();
+        reinitiateModal();
     });
 // When the user clicks anywhere outside of the modal, close it
     $(window).on('click', function (event) {
         if (event.target == modal[0]) {
             modal.css('display', 'none');
-            clearAllFrameSizes();
+            reinitiateModal();
         }
     });
 
     /**
      * clear all possible frames sizes for the next modal
      */
-    function clearAllFrameSizes(){
+    function reinitiateModal(){
+        //remove all the possible sizes, so we don't get multiple sizes in class
+        $('#myModal .overlay .card').removeClass('w-1/8 h-1/8');
         $('#myModal .overlay .card').removeClass('w-1/4 h-1/4');
         $('#myModal .overlay .card').removeClass('w-3/4 h-3/4');
         $('#myModal .overlay .card').removeClass('w-4/5 h-4/5');
         $('#myModal .overlay .card').removeClass('w-full h-full');
         $('#myModal .overlay .card').removeClass('w-1/2 h-1/2');
+
+        //clear the iframe src, so we don't have a previous iframe loaded
+        $('#modal-iframe').attr('src', null);
     }
 });

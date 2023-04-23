@@ -67,8 +67,10 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="m-0 p-0 text-xs text-gray-400"><a href="/terms-of-service">Terms of Service</a> | <a
-                href="/privacy-policy">Privacy Policy</a></div>
+        <div class="m-0 p-0 text-xs text-gray-400">
+            <div data-url="{{route('tos')}}" title="Term of service" class="open-modal inline-block cursor-pointer" data-model-size="xl">Terms of Service</div>
+            | <div data-url="{{route('privacy')}}" title="Privacy Policy" class="open-modal inline-block cursor-pointer" data-model-size="xl">Privacy Policy</div>
+        </div>
     </form>
     <hr class="border border-slate-300 mt-3 mb-6">
     <div class="mt-5 mx-8">
