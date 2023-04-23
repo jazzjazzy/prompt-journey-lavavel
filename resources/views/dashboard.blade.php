@@ -4,12 +4,14 @@
 @section('content')
 <div class="grid grid-cols-12 pt-1 m-auto px-12">
     @if (isset($projectId) && $projectId !== null)
-        <input type="hidden" value="{{$projectId}}" name="projectId" id="projectId">
+    <input type="hidden" value="{{$projectId}}" name="projectId" id="projectId">
     @endif
     <div class="col-span-10 border-3 border-l-gray-400 border-r-gray-300 border-t-gray-400 border-b-gray-300">
         {{-- history past --}}
-        <div id="pre-prompt-2" class="w-full text-xs align-middle bg-gradient-to-t from-gray-300 bg-gray-200text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
-        <div id="pre-prompt-1" class="w-full text-sm align-middle bg-gradient-to-t from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="pre-prompt-2"
+             class="w-full text-xs align-middle bg-gradient-to-t from-gray-300 bg-gray-200text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="pre-prompt-1"
+             class="w-full text-sm align-middle bg-gradient-to-t from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
 
         {{-- *********************** --}}
         {{-- This is the main prompt --}}
@@ -22,15 +24,17 @@
         </textarea>
         </div>
         {{-- history future --}}
-        <div id="post-prompt-1" class="w-full text-sm align-middle bg-gradient-to-b from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
-        <div id="post-prompt-2" class="w-full text-xs align-middle bg-gradient-to-b from-gray-300 bg-gray-200 text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="post-prompt-1"
+             class="w-full text-sm align-middle bg-gradient-to-b from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
+        <div id="post-prompt-2"
+             class="w-full text-xs align-middle bg-gradient-to-b from-gray-300 bg-gray-200 text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
     </div>
     <div class="col-span-2">
-
+        {{-- Main prompt copy button --}}
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
             <i class="text-[130px] p-4 fas fa-copy"></i>
         </button>
-        {{-- Main prompt copy button --}}
+        {{-- copy massage --}}
         <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
             suffix copied to clipboard
         </div>
@@ -286,187 +290,218 @@
                                 <input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="suffix-1" id="suffix-input-1" class="suffix-input disabled:text-gray-600">
+                                <input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
+                                       class="suffix-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
+                            @php
+                            $route = isset($projectId) && $projectId !== null ? route('modals.suffix', ['project' =>
+                            $projectId]) : route('modals.suffix');
+                            @endphp
                             <div class="flex-none px-3">
-                                <button class="icon-button suffix-input-copy">
+                                <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
+                                        data-url="{{ $route }}"
+                                        data-suffix-id>
+                                    <i class="fa-sharp fa-solid fa-align-right"></i>
+                                </button>
+                                <button class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button class="icon-button suffix-input-delete">
+                                <button class="icon-button suffix-input-delete" title="delete suffix">
                                     <i class="fas fa-trash"></i>
-                                </button
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer">
-                <div class="grid grid-cols-2">
-                    <div class="flex content-start items-center">
-                        <div class="alert alert-notice hidden" id="suffix-notice">
-                            suffix copid to clipboard
+                <div class="card-footer">
+                    <div class="grid grid-cols-2">
+                        <div class="flex content-start items-center">
+                            <div class="alert alert-notice hidden" id="suffix-notice">
+                                suffix copid to clipboard
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex content-end flex-row-reverse">
-                        <button class="add-suffix btn btn-primary">Add suffix</button>
-                        <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg" data-url="{{ route('modals.suffix') }}">
-                            suffix gallery
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="images" class="card">
-            <div class="card-header">
-                <h2>Image Links</h2>
-            </div>
-            <div class="card-body">
-                <div id="input-image-fields">
-                    <div class="flex">
-                        <div class="flex-none px-3">
-                            <input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
-                        </div>
-                        <div class="grow">
-                            <input type="text" name="images-1" id="images-input-1" class="images-input disabled:text-gray-600">
-                        </div>
-                        @php
-                            $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' => $projectId]) : route('modals.images');
-                        @endphp
-                        <div class="flex-none px-3">
-                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="{{ $route }}" data-image-id>
-                                <i class="fas fa-image"></i>
+                        <div class="flex content-end flex-row-reverse">
+                            <button class="add-suffix btn btn-primary">Add suffix</button>
+                            @if (isset($projectId) && $projectId !== null)
+                            <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
+                                    data-url="{{ route('suffixes.view') }}">
+                                suffix List
                             </button>
-                            <button class="icon-button images-input-copy">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                            <button class="icon-button images-input-delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            @else
+                            <a id="" class="btn btn-primary text-center" title="Suffix List"
+                               href="{{ route('subscription.pricing') }}">
+                                Suffix List
+                            </a>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="grid grid-cols-2">
-                    <div class="flex content-start items-center">
-                        <div class="alert alert-notice hidden" id="images-notice">
-                            images copied to clipboard
-                        </div>
-
-                    </div>
-                    <div class="flex content-end flex-row-reverse">
-                        <button class="add-images btn btn-primary">Add image</button>
-                        <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl" data-modal-fixed=true data-url="{{ route('gallery.view') }}">
-                            Images gallery
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @include('shortcuts')
-    </div>
-</div>
-
-
-<div id="overlayContainer"></div>
-
-<div id="overlayHistory" class="hidden">
-    <div class="overlay w-full">
-        <div class="card bg-gray-100 p-0 w-3/4">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
-                <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
-                    <!-- history content goes here in #overlayContent -->
-                </div>
-                <div class="card-footer footer-right">
-                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
-                        Close
-                    </button>
-                    <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
-                        Clear History
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="myModal" class="modal hidden">
-    <div class="overlay">
-        <div class="card bg-gray-100 p-0 m-0"><div class="close p-0"><div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div></div>
-            <div class="w-full h-full flex flex-col">
+            <div id="images" class="card">
                 <div class="card-header">
-                    <h1 id="modal-title" class="text-3xl">Active Modal</h1>
+                    <h2>Image Links</h2>
                 </div>
-                <div class="card-body flex-1 !mt-10 !p-0">
-                    <iframe class="w-full h-full" id="modal-iframe"></iframe>
+                <div class="card-body">
+                    <div id="input-image-fields">
+                        <div class="flex">
+                            <div class="flex-none px-3">
+                                <input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
+                            </div>
+                            <div class="grow">
+                                <input type="text" name="images-1" id="images-input-1" autocomplete="off"
+                                       class="images-input disabled:text-gray-400 disabled:border-green-700">
+                            </div>
+                            @php
+                            $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' =>
+                            $projectId]) : route('modals.images');
+                            @endphp
+                            <div class="flex-none px-3">
+                                <button class="icon-button show-image" title="View images" data-modal-size="lg"
+                                        data-url="{{ $route }}" data-image-id>
+                                    <i class="fas fa-image"></i>
+                                </button>
+                                <button class="icon-button images-input-copy">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="icon-button images-input-delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer footer-right !mt-0 p-2">
-                    <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
-                        Close
-                    </button>
+                <div class="card-footer">
+                    <div class="grid grid-cols-2">
+                        <div class="flex content-start items-center">
+                            <div class="alert alert-notice hidden" id="images-notice">
+                                images copied to clipboard
+                            </div>
+
+                        </div>
+                        <div class="flex content-end flex-row-reverse">
+                            <button class="add-images btn btn-primary">Add image</button>
+                            @if (isset($projectId) && $projectId !== null)
+                            <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl"
+                                    data-modal-fixed=true data-url="{{ route('gallery.view') }}">
+                                Images gallery
+                            </button>
+                            @else
+                            <a id="" class="btn btn-primary text-center" title="Suffix List"
+                               href="{{ route('subscription.pricing') }}">
+                                Images gallery
+                            </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @include('shortcuts')
+        </div>
+    </div>
+
+
+    <div id="overlayContainer"></div>
+
+    <div id="overlayHistory" class="hidden">
+        <div class="overlay w-full">
+            <div class="card bg-gray-100 p-0 w-3/4">
+                <div class="max-w-7xl mx-auto">
+                    <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
+                    <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
+                        <!-- history content goes here in #overlayContent -->
+                    </div>
+                    <div class="card-footer footer-right">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                            Close
+                        </button>
+                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
+                            Clear History
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endsection
 
-@section('script')
-<script type="module">
-    $(document).ready(function () {
-        $('.popup-youtube').magnificPopup({
-            type: 'iframe'
+    <div id="myModal" class="modal hidden">
+        <div class="overlay">
+            <div class="card bg-gray-100 p-0 m-0">
+                <div class="close p-0">
+                    <div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div>
+                </div>
+                <div class="w-full h-full flex flex-col">
+                    <div class="card-header">
+                        <h1 id="modal-title" class="text-3xl">Active Modal</h1>
+                    </div>
+                    <div class="card-body flex-1 !mt-10 !p-0">
+                        <iframe class="w-full h-full" id="modal-iframe"></iframe>
+                    </div>
+                    <div class="card-footer footer-right !mt-0 p-2">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @endsection
+
+    @section('script')
+    <script type="module">
+        $(document).ready(function () {
+            $('.popup-youtube').magnificPopup({
+                type: 'iframe'
+            });
         });
-    });
-</script>
+    </script>
 
-{{-- remove this on local as it is announcing when working on pages --}}
-@if (env('APP_ENV') === 'production')
-<script type="module">
-    $(document).ready(function () {
-        $(window).bind('beforeunload', function () {
-            return 'Are you sure you want to leave? all current data will be lost';
+    {{-- remove this on local as it is announcing when working on pages --}}
+    @if (env('APP_ENV') === 'production')
+    <script type="module">
+        $(document).ready(function () {
+            $(window).bind('beforeunload', function () {
+                return 'Are you sure you want to leave? all current data will be lost';
+            });
         });
-    });
-</script>
-@endif
+    </script>
+    @endif
 
-<script type="module">
-    $(document).ready(function () {
+    <script type="module">
+        $(document).ready(function () {
 
-        $('#prompt-text').on('keyup', function () {
-            aspectParam();
-            chaosParam();
-            qualityParam();
-            noParam();
-            seedParam();
-            stopParam();
-            styleParam();
-            stylizeParam();
-            tileParam();
-            iwParam();
-            versionParam();
-            nijiParam();
-            hdParam();
-            testParam();
-            testpParam();
-            uplightParam();
-            upbetaParam();
-            upanimeParam();
+            $('#prompt-text').on('keyup', function () {
+                aspectParam();
+                chaosParam();
+                qualityParam();
+                noParam();
+                seedParam();
+                stopParam();
+                styleParam();
+                stylizeParam();
+                tileParam();
+                iwParam();
+                versionParam();
+                nijiParam();
+                hdParam();
+                testParam();
+                testpParam();
+                uplightParam();
+                upbetaParam();
+                upanimeParam();
 
+            });
+
+            $(document).on('focus', '#prompt', function () {
+                if ($(this).is(':disabled')) {
+                    $('#prompt-text').focus(); // shift focus to prompt-text
+                }
+            });
+
+            $('#prompt').prop('disabled', true); // disable prompt
         });
-
-        $(document).on('focus', '#prompt', function () {
-            if ($(this).is(':disabled')) {
-                $('#prompt-text').focus(); // shift focus to prompt-text
-            }
-        });
-
-        $('#prompt').prop('disabled', true); // disable prompt
-    });
-</script>
-@endsection
+    </script>
+    @endsection
 

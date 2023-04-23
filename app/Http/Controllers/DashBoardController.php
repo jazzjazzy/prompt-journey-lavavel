@@ -7,11 +7,36 @@ use App\Models\Images;
 use App\Models\Groups;
 use Illuminate\Support\Facades\DB;
 
-class GalleryController extends Controller
+class DashBoardController extends Controller
 {
     function view()
     {
         $user = auth()->user();
+
+        $subscription = $user->isSubscribed();
+
+        if ($subscription === false) {
+            return view('dashboard');
+        }else{
+            $plan = $user->getSubscriptionPlan();
+            $projects = $user->projects()->get();
+
+            switch ($plan->slug) {
+                case 'tester':
+                    return view('dashboard', []);
+                    break;
+                case 'monthly-user':
+                case 'Yearly-user':
+                case 'monthly-pro':
+                case 'Yearly-pro':
+                    return view('projects', ['projects' => $projects]);
+                    break;
+                default:
+                    return view('dashboard');
+                    break;
+            }
+        }
+
         $images = Images::all()->where('user_id', $user->id);
         $groups = Groups::where('user_id', $user->id)
             ->where('groups.type', 'Image')

@@ -5,36 +5,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
-use App\Models\Images;
+use App\Models\Suffixes;
 use App\Models\Groups;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
-class ImagesController extends Controller
+class SuffixController extends Controller
 {
-    public function edit(Project $project, Images $images, Request $request): View
+    public function edit(Project $project, Suffixes $suffix, Request $request): View
     {
         $user = auth()->user();
         $plan = $user->getSubscriptionPlan();
 
         $endGracePeriod = null;
         $projectId = $project->id;
-        $imagesId = $images->id;
-        $imagesName = $images->name;
+        $suffixId = $suffix->id;
+        $suffixName = $suffix->name;
 
-        $imageUrl = parse_url($images->link);
-        $imagePath =pathinfo($imageUrl['path']);
-
-        $groupsSelected = $this->getOptionsOfGroupsByimageId($imagesId);
+        $groupsSelected = $this->getOptionsOfGroupsBysuffixId($suffixId);
 
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
-        return view('modals.images', [
-            'imagesName' => $imagesName,
+        return view('modals.suffix', [
+            'suffixName' => $suffixName,
             'groupsSelected' => $groupsSelected,
-            'image' => $images->link,
-            'imageUrl' => $imageUrl,
-            'imagePath' => $imagePath,
+            'suffix' => $suffix->suffix,
             'projectId'=> $projectId,
             'groupOption' => $groupOption,
         ]);
@@ -46,18 +41,12 @@ class ImagesController extends Controller
         $plan = $user->getSubscriptionPlan();
         $projectId = $project->id;
 
-        $image = $request->input('image')?? null;
-
-        $imageUrl = parse_url($image);
-        $imagePath =pathinfo($imageUrl['path']);
-
+        $suffix = $request->input('suffix')?? null;
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
-        return view('modals.images', [
-            'imagesName' => '',
-            'image' => $image,
-            'imageUrl' => $imageUrl,
-            'imagePath' => $imagePath,
+        return view('modals.suffix', [
+            'suffixName' => '',
+            'suffix' => $suffix,
             'projectId' => $projectId,
             'groupOption' => $groupOption,
         ]);
@@ -65,23 +54,24 @@ class ImagesController extends Controller
 
     public function save(Project $project, Request $request)
     {
-        $user = auth()->user();
-       // $plan = $user->getSubscriptionPlan();
 
-        //if get image id by name id not null and group id not null that check if image and group already exist in images and groups table and add if it don't exist
+        $user = auth()->user();
+        // $plan = $user->getSubscriptionPlan();
+
+        //if get suffix id by name id not null and group id not null that check if suffix and group already exist in suffixs and groups table and add if it don't exist
         //else return json response with success true
-        if ($this->getImagesIdByName($request->input('title')) !== null && $this->getGroupIdByName($request->input('group')) !== null) {
-            $images = $this->getImagesIdByName($request->input('title'));
+        if ($this->getSuffixesIdByName($request->input('title')) !== null && $this->getGroupIdByName($request->input('group')) !== null) {
+            $suffixs = $this->getSuffixesIdByName($request->input('title'));
             $groups = $this->getGroupIdByName($request->input('group'));
-            DB::table('image_group')->insertOrIgnore(['image_id' => $images, 'group_id' => $groups]);
+            DB::table('suffix_group')->insertOrIgnore(['suffix_id' => $suffixs, 'group_id' => $groups]);
             return response()->json(['success' => true]);
         }
 
-        $images = new Images();
-        $images->name = $request->input('title')?? null;
-        $images->link = $request->input('link')?? null;
-        $images->user_id = $user->id;
-        $images->save();
+        $suffixs = new Suffixes();
+        $suffixs->name = $request->input('title')?? null;
+        $suffixs->suffix = $request->input('suffix')?? null;
+        $suffixs->user_id = $user->id;
+        $suffixs->save();
 
         $groupList = Groups::where('user_id', $user->id)->get();
 
@@ -91,7 +81,7 @@ class ImagesController extends Controller
             if($groupList->contains('name', $groupStr) === false) {
                 $group = new Groups();
                 $group->name = $groupStr;
-                $group->type = 'Image';
+                $group->type = 'Suffix';
                 $group->user_id = $user->id;
                 $group->save();
             }else{
@@ -99,16 +89,16 @@ class ImagesController extends Controller
             }
 
 
-            $images->groups()->attach($group->id);
+            $suffixs->groups()->attach($group->id);
         }
 
         return response()->json(['success' => true]);
     }
 
-    private function getImagesIdByName($imageName) : ?Images
+    private function getSuffixesIdByName($suffixName) : ?Suffixes
     {
-        $images = Images::where('name', $imageName)->get()->first();
-        return $images;
+        $suffix = Suffixes::where('name', $suffixName)->get()->first();
+        return $suffix;
     }
 
     private function getGroupIdByName($groupName) : ?Groups
@@ -119,7 +109,7 @@ class ImagesController extends Controller
 
     private function getOptionsOfGroupsByUserId($userId) : ?string
     {
-        $group = Groups::where(['user_id'=> $userId , 'type'=> 'Image'])->get();
+        $group = Groups::where(['user_id'=> $userId , 'type'=> 'Suffix'])->get();
 
         $options = [];
         //convert $group to json
@@ -132,12 +122,12 @@ class ImagesController extends Controller
         return  count($options) == 0 ? null : json_encode($options);
     }
 
-    private function getOptionsOfGroupsByimageId($imagesId) : ?string
+    private function getOptionsOfGroupsBysuffixId($suffixId) : ?string
     {
-        $groups = DB::table('image_group')
-            ->join('groups', 'image_group.group_id', '=', 'groups.id')
-            ->where('image_group.image_id', $imagesId)
-            ->where('groups.type', 'Image')
+        $groups = DB::table('suffix_group')
+            ->join('groups', 'suffix_group.group_id', '=', 'groups.id')
+            ->where('suffix_group.suffix_id', $suffixId)
+            ->where('groups.type', 'Suffix')
             ->get();
 
         $option = [];

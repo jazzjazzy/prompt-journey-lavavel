@@ -14,6 +14,8 @@ class Groups extends Model
 
     protected $fillable = [
         'name',
+        'type',
+        'user_id',
     ];
 
     public function images()

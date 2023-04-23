@@ -24,7 +24,6 @@ class SubscriptionsTableSeeder extends Seeder
                 'quantity' => 1,
                 'trial_ends_at' => null,
                 'ends_at' => null,
-
             ]
         );
     }

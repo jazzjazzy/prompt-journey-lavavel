@@ -163,6 +163,11 @@
                     return '<div class="p-0">' + escape(data.text) + '</div>';
                 }
             },
+            onChange: function(value) {
+                if (value !== '') {
+                    this.close();
+                }
+            },
             items: selected,
 
         });
@@ -176,7 +181,7 @@
             var select = $('#add-to-group').selectize();
             var selectize = select[0].selectize;
             var projectId = $('#projectId').val();
-            console.log(projectId);
+
             const createEnabled = selectize.getValue();
 
             let promptArray = {
@@ -197,11 +202,11 @@
                     if (response.success) {
                         imageNoticeAlert('#image-save-notice', 'Image link Image has been saved to your gallery.');
                     } else {
-                        alert('Error adding prompt history.');
+                        alert('Error adding image to gallery.');
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert('An error occurred while adding prompt history.');
+                    alert('An error occurred while adding Images Details.');
                     console.log(error + ' ' + status + ' ' + xhr.responseText);
                 }
             });

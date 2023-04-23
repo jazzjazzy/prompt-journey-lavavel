@@ -15,10 +15,24 @@
                             <div class="col-span-2 overflow-y-auto flex-1 mb-5">
                                 @if (isset($groups) && $groups !== null)
                                 <div class="h-full p-2">
-                                    @foreach ($groups as $group)
-                                        <button class="btn btn-primary w-full group-details" data-group="{{$group->id}}">{{$group->name}}
-                                        </button>
-                                    @endforeach
+                                    <nav>
+                                        <ul>
+                                            @foreach ($groups as $group)
+                                            <li class="group-item w-full cursor-pointer group-details"
+                                                data-group="{{$group->id}}">
+                                                <a class="w-full group-details" data-group="{{$group->id}}">
+                                                    {{$group->name}}
+                                                </a>
+                                            </li>
+                                            @endforeach
+                                            <li class="group-item w-full cursor-pointer group-details"
+                                                data-group="all">
+                                                <a class="w-full group-details" data-group="all">
+                                                    All
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                                 @endif
                             </div>
@@ -27,15 +41,18 @@
                                 <div id="gallery-images" class="flex flex-wrap">
                                     @foreach ($images as $image)
 
-                                    <a href="#" class="image-populate" data-image-url="{{$image->link}}" id="image-{{$image->id}}">
+                                    <a href="#" class="image-populate" data-image-url="{{$image->link}}"
+                                       id="image-{{$image->id}}">
                                         <div class="w-[290px] m-2 relative overflow-hidden">
-                                            <i class="fa-sharp fa-solid fa-circle-check text-green-700 absolute top-3 right-3" hidden></i>
+                                            <i class="fa-sharp fa-solid fa-circle-check text-green-700 absolute top-3 right-3"
+                                               hidden></i>
                                             <div class="absolute bottom-0 left-0">
-                                                <div class="viewData  text-gray-500">a
+                                                <div class="viewData  text-gray-500">
                                                     <div class="text-xs p-1 viewItem">
                                                         <div class="label">Host</div>
                                                         <div class="data">
-                                                            {{ $image->imageUrl['scheme'] }}://{{$image->imageUrl['host'] }}
+                                                            {{ $image->imageUrl['scheme']
+                                                            }}://{{$image->imageUrl['host'] }}
                                                         </div>
                                                     </div>
                                                     <div class="text-xs px-1 pb-3 viewItem">
@@ -47,7 +64,8 @@
                                                     <div class="text-xs px-1 viewItem">
                                                         <div class="label">Name</div>
                                                         <div class="data">
-                                                            {{ $image->imagePath['filename']}}.{{$image->imagePath['extension']}}
+                                                            {{
+                                                            $image->imagePath['filename']}}.{{$image->imagePath['extension']}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -83,11 +101,11 @@
 
 
         $('.group-details').on('click', function () {
-
+            $("nav li").removeClass("bg-blue-500 text-white");
 
             let groupId = $(this).data('group');
             let projectId = $('#projectId').val();
-            console.log(groupId);
+
             $.ajax({
                 url: `/gallery/${groupId}`,
                 type: 'GET',
@@ -125,6 +143,8 @@
                                     </a>
                         `);
                     });
+                    if(groupId)
+                    $("nav li[data-group='" + groupId + "']").addClass("bg-blue-500 text-white");
                     setCheckmarkGalleryImages();
                 }
             });

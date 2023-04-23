@@ -16,6 +16,7 @@
     <!-- Scripts -->
     @vite(['resources/js/app.js', 'resources/css/app.css'])
     @vite('resources/js/pj-js/images.js')
+    @vite('resources/js/pj-js/suffix.js')
 
     @if (env('APP_ENV') === 'production')
     <!-- Google tag (gtag.js) -->

@@ -32,6 +32,6 @@ class Project extends Model
 
     public function suffix()
     {
-        return $this->hasMany(Suffix::class);
+        return $this->hasMany(Suffixes::class);
     }
 }
