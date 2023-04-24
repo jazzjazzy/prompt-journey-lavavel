@@ -16,11 +16,11 @@
         {{-- *********************** --}}
         {{-- This is the main prompt --}}
         {{-- *********************** --}}
-        <div class="p-0 m-0 grow-wrap bg-gray-400 ">
-        <textarea
+        <div class="p-0 m-0 grow-wrap bg-gray-400">
+            <label for="prompt"></label><textarea
             class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
             disabled
-            id="prompt">
+            id="prompt" >
         </textarea>
         </div>
         {{-- history future --}}
@@ -130,7 +130,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
-                                    <select id="quality" class="parameter-class w-full"></select>
+                                    <label for="quality"></label><select id="quality" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -287,11 +287,11 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
+                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
-                                       class="suffix-input disabled:text-gray-400 disabled:border-green-700">
+                                <label for="suffix-input-1"></label><input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
+                                                                           class="suffix-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
                             $route = isset($projectId) && $projectId !== null ? route('modals.suffix', ['project' =>
@@ -316,7 +316,7 @@
                 <div class="card-footer">
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
-                            <div class="alert alert-success" id="suffix-notice">suffix copid to clipboard
+                            <div class="alert alert-success" id="suffix-notice">suffix copied to clipboard
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
@@ -344,11 +344,11 @@
                     <div id="input-image-fields">
                         <div class="flex">
                             <div class="flex-none px-3">
-                                <input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
+                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="images-1" id="images-input-1" autocomplete="off"
-                                       class="images-input disabled:text-gray-400 disabled:border-green-700">
+                                <label for="images-input-1"></label><input type="text" name="images-1" id="images-input-1" autocomplete="off"
+                                                                           class="images-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
                             $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' =>
@@ -404,12 +404,12 @@
     <div id="overlayHistory" class="hidden">
         <div class="overlay w-full">
             <div class="card bg-gray-100 p-0 w-3/4">
-                <div class="max-w-7xl mx-auto">
+                <div class="mx-auto">
                     <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
                     <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
                         <!-- history content goes here in #overlayContent -->
                     </div>
-                    <div class="card-footer footer-right">
+                    <div class="card-footer footer-right !mt-0 p-2">
                         <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
                             Close
                         </button>
