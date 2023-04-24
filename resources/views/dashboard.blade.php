@@ -342,7 +342,8 @@
                 </div>
                 <div class="card-body">
                     <div id="input-image-fields">
-                        <div class="flex">
+                        <div class="flex mt-2">
+                            <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
                                 <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
                             </div>

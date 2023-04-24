@@ -297,7 +297,6 @@ $(document).ready(function () {
     }
 
     $.extend(window, {
-        setPromptWithSuffixText: setPromptWithSuffixText,
         allToSuffixList: allToSuffixList,
         paramsToSuffixList: paramsToSuffixList,
         suffixNoticeAlert: suffixNoticeAlert,
