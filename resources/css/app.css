@@ -106,14 +106,10 @@
         cursor-pointer;
     }
 
-    .alert{
-        float:left;
-        @apply text-[12px]
-        bg-green-200 rounded-xl h-5 pr-1 pt-1
-        relative
-    }
 
     .alert {
+        @apply my-auto pl-[70px] pr-3 text-[12px]
+        bg-green-200 rounded-xl h-5;
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -121,11 +117,13 @@
     }
 
     .alert-notice {
-        @apply pl-[80px] pr-2 bg-orange-200 border-fuchsia-900;
+        @apply bg-orange-200;
+        display: none;
+        overflow: hidden;
     }
 
     .alert-notice::before {
-        @apply text-gray-200 text-[12px] bg-coquelicot rounded-xl px-4 py-2 mr-2
+        @apply text-gray-200 text-[12px] bg-orange-600 rounded-xl px-4 py-2 mr-2
         left-0 top-0;
         content: 'Notice';
         position: absolute;
@@ -139,15 +137,14 @@
         z-index: 2; /* set z-index to display below alert message box */
     }
 
-
-
     .alert-success {
-        @apply py-2 pl-[80px] pr-2 bg-green-600;
+        @apply bg-green-300;
+        display: none;
+        overflow: hidden;
     }
 
     .alert-success::before {
-        @apply text-gray-300 text-[12px] bg-green-900 rounded-xl px-4 py-2 mr-2
-        left-0 top-0;
+        @apply text-gray-200 text-[12px] bg-green-600 rounded-xl px-4 py-2 mr-2;
         content: 'Success';
         position: absolute;
         top: 0;
@@ -160,18 +157,39 @@
         z-index: 2; /* set z-index to display below alert message box */
     }
 
-    .alert.success::before {
+    .alert-error {
+        @apply bg-red-300;
+        display: none;
+        overflow: hidden;
+    }
+    .alert-error::before {
+        @apply text-gray-300 text-[12px] bg-red-600 rounded-xl px-4 py-2 mr-2;
+        content: 'Error';
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 64px;
+        height: 100%;
+        z-index: 2; /* set z-index to display below alert message box */
+    }
+
+/*    .alert.success::before {
         background-color: #388E3C;
-        z-index: 2; /* set lower z-index to display below alert message box */
+        z-index: 2; !* set lower z-index to display below alert message box *!
     }
 
     .alert.error::before {
         background-color: #D32F2F;
+        z-index: 2; !* set lower z-index to display below alert message box *!
     }
 
     .alert.warning::before {
         background-color: #FFA000;
-    }
+        z-index: 2; !* set lower z-index to display below alert message box *!
+    }*/
 
     .viewData {
         display: block;

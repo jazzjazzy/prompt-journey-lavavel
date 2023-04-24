@@ -32,10 +32,10 @@
     <div class="col-span-2">
         {{-- Main prompt copy button --}}
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
-            <i class="text-[130px] p-4 fas fa-copy"></i>
+            <i class="text-[90px] p-4 fas fa-copy"></i>
         </button>
         {{-- copy massage --}}
-        <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
+        <div class="alert alert-success mx-3" id="copy-mj-prompt">
             suffix copied to clipboard
         </div>
     </div>
@@ -316,8 +316,7 @@
                 <div class="card-footer">
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
-                            <div class="alert alert-notice hidden" id="suffix-notice">
-                                suffix copid to clipboard
+                            <div class="alert alert-success" id="suffix-notice">suffix copid to clipboard
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
@@ -373,7 +372,7 @@
                 <div class="card-footer">
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
-                            <div class="alert alert-notice hidden" id="images-notice">
+                            <div class="alert alert-success" id="images-notice">
                                 images copied to clipboard
                             </div>
 
