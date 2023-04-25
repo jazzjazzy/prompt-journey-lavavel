@@ -199,17 +199,26 @@ $(document).ready(function () {
 
     function showHistory() {
 
+        let historyList = [];
+        let projectId = $('#projectId').val();
+
+        if(projectId == null || projectId == undefined || projectId == ''){
+            historyList = window.savedStrings;
+        }else{
+            historyList = getHistoryList(projectId);
+        }
+
         let history = '<ul class="list-none mt-4 pl-8 divide-y divide-slate-400 overflow-auto">';
 
-        if (window.savedStrings.length === 0) {
+        if (historyList.length === 0) {
             history = history + '<li class="py-4 px-6 {{ $loop->last ? \'\' : \'border-b\' }}">\n' +
                 '   <p class="text-gray-500 leading-tight">\n' + 'No history yet!' + '</p>\n' +
                 '</li>'
         } else {
-            for (let i = 0; i < window.savedStrings.length; i++) {
+            for (let i = 0; i < historyList.length; i++) {
                 history = history + '<li class="m-auto py-2 odd:bg-slate-50 even:bg-white">\n' +
                     '<div class="grid grid-cols-12 pt-1 m-auto px-12">\n' +
-                    '    <div class="historyPrompt col-span-11 ">' + window.savedStrings[i] + '</div>\n' +
+                    '    <div class="historyPrompt col-span-11 ">' + historyList[i] + '</div>\n' +
                     '    <button class="copyFromHistroybtn col-span-1"> <i className="fas fa-copy"></i> </button>\n' +
                     '</div>\n' +
                     '</li>'
@@ -240,18 +249,77 @@ $(document).ready(function () {
         });
     };
 
+    function getHistoryList(projectId){
+        let historyList = [];
+        $.ajax({
+            type: "GET",
+            url: "/projects/" + projectId + "/history",
+            async: false,
+            success: function (data) {
+                historyList = data.promptHistory;
+            },
+            error: function (response) {
+                //if the is an error log it but send back window.savedStrings
+                console.log(response);
+                historyList = window.savedStrings;
+            }
+        });
+        return historyList;
+    }
+
     $("#clear-history").click(function () {
-        $('#overlayHistory .card-body').attr('style', '');
-        $("#overlayContent").html('');
-        $("#overlayHistory").addClass('hidden');
-        $('#pre-prompt-2').text('');
-        $('#pre-prompt-1').text('');
-        $('#post-prompt-2').text('');
-        $('#post-prompt-1').text('');
-        window.savedStrings = [];
-        window.currentIndex = 0;
-        updatePromptText();
+
+        let projectId = $('#projectId').val();
+
+        if(projectId == null || projectId == undefined || projectId == '') {
+            $('#overlayHistory .card-body').attr('style', '');
+            $("#overlayContent").html('');
+            $("#overlayHistory").addClass('hidden');
+            $('#pre-prompt-2').text('');
+            $('#pre-prompt-1').text('');
+            $('#post-prompt-2').text('');
+            $('#post-prompt-1').text('');
+            window.savedStrings = [];
+            window.currentIndex = 0;
+            updatePromptText();
+        }else{
+            clearHistory(projectId);
+        }
     });
+
+    function clearHistory(projectId){
+        $.ajax({
+            type: "GET",
+            url: "/projects/" + projectId + "/clearHistory",
+            async: false,
+            success: function (data) {
+                $('#overlayHistory .card-body').attr('style', '');
+                $("#overlayContent").html('');
+                $("#overlayHistory").addClass('hidden');
+                $('#pre-prompt-2').text('');
+                $('#pre-prompt-1').text('');
+                $('#post-prompt-2').text('');
+                $('#post-prompt-1').text('');
+                window.savedStrings = [];
+                window.currentIndex = 0;
+                updatePromptText();
+            },
+            error: function (response) {
+                //if the is an error log it but send back window.savedStrings
+                console.log(response);
+                $('#overlayHistory .card-body').attr('style', '');
+                $("#overlayContent").html('');
+                $("#overlayHistory").addClass('hidden');
+                $('#pre-prompt-2').text('');
+                $('#pre-prompt-1').text('');
+                $('#post-prompt-2').text('');
+                $('#post-prompt-1').text('');
+                window.savedStrings = [];
+                window.currentIndex = 0;
+                updatePromptText();
+            }
+        });
+    }
 
     $(document).on('click', '.copyFromHistroybtn', function () {
         let prompt = $(this).parent().find('.historyPrompt').text();

@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
 //ajax based routes
 Route::middleware(['auth', 'subscription', 'verified'])->group(function () {
     Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
+    Route::get('/projects/{project}/history', [ProjectController::class, 'getPromptHistory']);
+    Route::get('/projects/{project}/clearHistory', [ProjectController::class, 'clearPromptHistory']);
     Route::post('/projects/{project}/images', [ProjectController::class, 'updateImages']);
     Route::post('/projects/{project}/suffix', [ProjectController::class, 'updateSuffix']);
 

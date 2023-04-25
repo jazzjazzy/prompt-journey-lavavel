@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\PromptHistory;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ProjectController extends Controller
 {
@@ -109,6 +110,25 @@ class ProjectController extends Controller
         $promptHistory->save();
 
         // Return a JSON response indicating success or failure
+        return response()->json(['success' => true]);
+    }
+
+    public function getPromptHistory(Project $project){
+
+        $promptHistory = DB::table('prompt_history')
+            ->where('project_id', $project->id)
+            ->pluck('prompt')
+            ->toArray();
+
+        return response()->json(['success' => true, 'promptHistory' => $promptHistory]);
+    }
+
+    public function clearPromptHistory(Project $project){
+
+        $promptHistory = DB::table('prompt_history')
+            ->where('project_id', $project->id)
+            ->delete();
+
         return response()->json(['success' => true]);
     }
 }
