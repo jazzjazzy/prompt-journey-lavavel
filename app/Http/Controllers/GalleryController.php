@@ -36,6 +36,7 @@ class GalleryController extends Controller
 
         $imagesQuery = DB::table('images')
             ->join('image_group', 'images.id', '=', 'image_group.image_id')
+            ->join('groups', 'groups.id', '=', 'image_group.group_id')
             ->where('groups.type', 'Image')
             ->where('images.user_id', $user->id);
 

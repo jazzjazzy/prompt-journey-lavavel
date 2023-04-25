@@ -63,23 +63,28 @@ Route::middleware('auth')->group(function () {
 Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
 
 Route::middleware(['auth'])->group(function () {
+    //pricing subscribers
     Route::get('/pricing/{plan}', [PlansController::class, 'show'])->name('subscription.pricing.show');
+    //subscription
     Route::get('/subscribe/{plan}', [SubscriberController::class, 'showSubscriptionForm'])->name('subscription.subscribe');
     Route::delete('/subscribe', [SubscriberController::class, 'cancelSubscription'])->name('subscription.subscribe.cancel');
     Route::patch('/subscribe', [SubscriberController::class, 'resumeSubscription'])->name('subscription.subscribe.resume');
     Route::post('/subscribe', [SubscriberController::class, 'processSubscription'])->name('subscribe.processSubscription');
+    // projects
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project_Id}/edit', [ProjectController::class, 'edit'])->name('project.edit');
+    Route::get('/projects/add', [ProjectController::class, 'add'])->name('project.add');
+    Route::post('/projects/save/{project_id?}', [ProjectController::class, 'save'])->name('project.save');
+    Route::delete('/projects/{id}/delete', [ProjectController::class, 'delete'])->name('project.delete');
 });
 
 //ajax based routes
-
-Route::middleware(['auth', 'subscription'])->group(function () {
+Route::middleware(['auth', 'subscription', 'verified'])->group(function () {
     Route::post('/projects/{project}/prompt-history', [ProjectController::class, 'updatePromptHistory']);
     Route::post('/projects/{project}/images', [ProjectController::class, 'updateImages']);
     Route::post('/projects/{project}/suffix', [ProjectController::class, 'updateSuffix']);
 
-//modal based routes
-
+    //modal based routes
     Route::get('/suffix/{project}/{suffix}', [SuffixController::class, 'edit'])->name('suffix.edit');
     Route::post('/suffix/{project}/save', [SuffixController::class, 'save'])->name('suffix.save');
 
@@ -96,9 +101,7 @@ Route::middleware(['auth', 'subscription'])->group(function () {
     Route::get('/history', function () {
         return view('modals.history');
     })->name('modals.history');
-});
 
-Route::middleware(['auth'])->group(function () {
     Route::get('/suffix/{project?}', [SuffixController::class, 'view'])->name('modals.suffix');
     Route::get('/image/{project?}', [ImagesController::class, 'view'])->name('modals.images');
 });

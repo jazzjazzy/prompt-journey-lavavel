@@ -22,8 +22,13 @@ $(document).ready(function () {
 
         let id = inputFields.length + 1;
 
+        let route = '';
+        if ($('#projectId').val() !== undefined) {
+            route = '/suffix/' + $('#projectId').val();
+        }
+
         $('#input-suffix-fields').append(
-            createDynamicSuffixRow( id)
+            createDynamicSuffixRow( id, route)
         );
     }
 
@@ -106,8 +111,12 @@ $(document).ready(function () {
 
     $('#input-suffix-fields').on('click', '.show-suffix', function () {
         var parentDiv = $(this).closest('.flex');
-        var suffixUrl = parentDiv.find('.suffix-input').val();
+        var suffixText = parentDiv.find('.suffix-input').val();
         const modal = $('#myModal');
+
+        if(suffixText=="" || suffixText==null || suffixText==undefined){
+            return
+        }
 
         // if the suffix is from gallery
         var suffixId = $(this).attr('data-suffix-id');
@@ -117,7 +126,7 @@ $(document).ready(function () {
         if (suffixId !== undefined && suffixId !== null && suffixId !== '') {
             url = $(this).attr('data-url');
         }else{
-            url = $(this).attr('data-url') + '?suffix=' + encodeURIComponent(suffixUrl);
+            url = $(this).attr('data-url') + '?suffix=' + encodeURIComponent(suffixText);
         }
 
         $('#myModal .overlay .card').addClass('w-1/2 h-1/2');
@@ -127,7 +136,7 @@ $(document).ready(function () {
         $('#modal-title').text(title);
         modalIframe.attr('src', url);
         const suffix = modalIframe.contents().find('#suffix-preview');
-        suffix.attr('src', suffixUrl);
+        suffix.attr('src', suffixText);
         modal.css('display', 'block');
     });
 

@@ -411,10 +411,10 @@
                         <!-- history content goes here in #overlayContent -->
                     </div>
                     <div class="card-footer footer-right !mt-0 p-2">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star">
                             Close
                         </button>
-                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
+                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 self-start">
                             Clear History
                         </button>
                     </div>
@@ -422,31 +422,6 @@
             </div>
         </div>
     </div>
-
-
-    <div id="myModal" class="modal hidden">
-        <div class="overlay">
-            <div class="card bg-gray-100 p-0 m-0">
-                <div class="close p-0">
-                    <div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div>
-                </div>
-                <div class="w-full h-full flex flex-col">
-                    <div class="card-header">
-                        <h1 id="modal-title" class="text-3xl">Active Modal</h1>
-                    </div>
-                    <div class="card-body flex-1 !mt-10 !p-0">
-                        <iframe class="w-full h-full" id="modal-iframe"></iframe>
-                    </div>
-                    <div class="card-footer footer-right !mt-0 p-2">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @endsection
 
     @section('script')

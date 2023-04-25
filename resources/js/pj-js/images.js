@@ -120,6 +120,10 @@ $(document).ready(function () {
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
 
+        if(imgUrl=="" || imgUrl==null || imgUrl==undefined){
+            return
+        }
+
         // if the image is from gallery
         var imageId = $(this).attr('data-image-id');
 

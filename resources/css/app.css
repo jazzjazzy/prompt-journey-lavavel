@@ -176,20 +176,6 @@
         z-index: 2; /* set z-index to display below alert message box */
     }
 
-/*    .alert.success::before {
-        background-color: #388E3C;
-        z-index: 2; !* set lower z-index to display below alert message box *!
-    }
-
-    .alert.error::before {
-        background-color: #D32F2F;
-        z-index: 2; !* set lower z-index to display below alert message box *!
-    }
-
-    .alert.warning::before {
-        background-color: #FFA000;
-        z-index: 2; !* set lower z-index to display below alert message box *!
-    }*/
 
     .viewData {
         display: block;
@@ -230,4 +216,27 @@
 .selectize-dropdown .active:not(.selected) {
     background: #bdced9;
     color: #495c68;
+}
+
+/* Dark mode styles */
+.selectize-dropdown-content .create.active{
+    color: white;
+}
+.selectize-dropdown-content .create.active strong{
+   @apply text-gray-700;
+}
+.selectize-input .remove {
+    color: black;
+    background-color: transparent;
+    color: indianred;
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.selectize-control.multi .selectize-input>div {
+    @apply rounded-full shadow-lg text-gray-700;
+    cursor: pointer;
+    padding-left: 12px;
+    background: #b4b4b4;
+    border: 0;
 }
