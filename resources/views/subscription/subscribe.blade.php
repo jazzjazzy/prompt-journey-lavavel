@@ -10,7 +10,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    You will be charged ${{ number_format($plan->price, 2) }} for {{ $plan->name }} Plan
+                    The{{ $plan->name }} Plan
                     <input type="hidden" name="plan-id" value="{{$plan->id}}">
                     @if($plan->id == 2)
                     <input type="hidden" name="payment-type" id="payment-type" value="one-time" >
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-center h-5">
+                            <div class="flex items-center justify-center mt-1 h-5">
                                 <div id="error-message" class="alert alert-notice text-danger"></div>
                             </div>
                             <div class="row">
@@ -202,7 +202,19 @@
     form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            let paymentTypeInput = document.getElementById('payment-type').value;
+            if(document.getElementById('card-holder-name').value == ''){
+                displayError('Please enter card holder name');
+                document.getElementById('card-holder-name').classList.add('payment-error');
+                return false;
+            }else if(document.getElementById('postal-code').value == ''){
+                displayError('Please enter postal code');
+                document.getElementById('card-holder-name').classList.remove('payment-error');
+                document.getElementById('postal-code').classList.add('payment-error');
+                return false;
+            }else{
+                document.getElementById('card-holder-name').classList.remove('payment-error');
+                document.getElementById('postal-code').classList.remove('payment-error');
+            }
 
                 // Disable the submit button to prevent multiple submissions
                 submitButton.disabled = true;

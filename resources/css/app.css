@@ -46,8 +46,10 @@
     [type='select-one'],
     textarea,
     select {
-        @apply my-3 border border-gray-300 ring-sky-600 rounded-md px-4 py-2 bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
+        @apply border border-gray-300 ring-sky-600 rounded-md bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     }
+
+    [type='text'],
     [type='number'],
     select {
         @apply w-full m-0 p-0 px-2 py-1 text-xs
@@ -55,6 +57,24 @@
 }
 
 @layer components {
+
+    #payment-form [type='text'],
+    #payment-form [type='number'],
+    #payment-form select {
+        appearance: none;
+        padding-top: 0.5rem;
+        padding-right: 0.75rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        --tw-shadow: 0 0 #0000;
+    }
+
+    #payment-form .payment-error {
+        @apply text-red-500 border border-red-500 rounded-md p-2;
+    }
+
 
     input::placeholder {
         color: #CFD7E0; /* Replace with your desired color */
@@ -65,11 +85,11 @@
     }
 
     .btn {
-        @apply  m-1 text-gray-500 drop-shadow-md text-shadow active:drop-shadow hover:drop-shadow-lg rounded-xl
+        @apply m-1 text-gray-500 drop-shadow-md text-shadow active:drop-shadow hover:drop-shadow-lg rounded-xl
     }
 
     .btn-primary {
-      @apply text-xs w-28 px-1 py-2 m-1
+        @apply text-xs w-28 px-1 py-2 m-1
         hover:bg-coquelicot hover:text-white
         text-gray-900 bg-slate-300 hover:bg-slate-500 active:bg-slate-600
         border border-gray-400
@@ -93,8 +113,8 @@
         @apply px-3 border-t border-gray-700 mt-4 pt-2;
     }
 
-    .card .footer-right{
-        @apply  flex content-end flex-row-reverse;
+    .card .footer-right {
+        @apply flex content-end flex-row-reverse;
     }
 
     .icon-button {
@@ -165,6 +185,7 @@
         display: none;
         overflow: hidden;
     }
+
     .alert-error::before {
         @apply text-gray-300 text-[12px] bg-red-600 rounded-xl px-4 py-2 mr-2;
         content: 'Error';
@@ -202,7 +223,9 @@
     .viewData .viewItem .data {
         font-weight: bold;
     }
+
 }
+
 .selectize-control {
     @apply ring-sky-600 rounded-lg bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     overflow: hidden;
@@ -211,6 +234,7 @@
 .selectize-input {
     @apply bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     border: 0;
+    padding: 4px 8px;
 }
 
 .selectize-dropdown .active:not(.selected) {
@@ -219,12 +243,14 @@
 }
 
 /* Dark mode styles */
-.selectize-dropdown-content .create.active{
+.selectize-dropdown-content .create.active {
     color: white;
 }
-.selectize-dropdown-content .create.active strong{
-   @apply text-gray-700;
+
+.selectize-dropdown-content .create.active strong {
+    @apply text-gray-700;
 }
+
 .selectize-input .remove {
     color: black;
     background-color: transparent;
@@ -233,7 +259,7 @@
     padding-left: 5px;
 }
 
-.selectize-control.multi .selectize-input>div {
+.selectize-control.multi .selectize-input > div {
     @apply rounded-full shadow-lg text-gray-700;
     cursor: pointer;
     padding-left: 12px;
