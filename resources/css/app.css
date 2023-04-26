@@ -56,6 +56,10 @@
 
 @layer components {
 
+    input::placeholder {
+        color: #CFD7E0; /* Replace with your desired color */
+    }
+
     .parameter-container {
         @apply text-xs rounded p-2 border-sky-300;
     }
@@ -198,9 +202,6 @@
     .viewData .viewItem .data {
         font-weight: bold;
     }
-
-
-
 }
 .selectize-control {
     @apply ring-sky-600 rounded-lg bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;

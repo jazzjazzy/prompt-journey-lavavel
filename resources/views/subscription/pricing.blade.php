@@ -63,7 +63,7 @@
                     @elseif ($subscribed !== null)
                         <a href="{{ route('subscription.subscribe', $plan->slug ) }}" class="btn btn-primary text-center">upgrade</a>
                     @else
-                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" class="btn btn-primary text-center">Pay Now</a>
+                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" class="btn btn-primary text-center">Subscribe</a>
                     @endif
                 @endif
             </div>

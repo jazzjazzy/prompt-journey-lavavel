@@ -9,8 +9,6 @@ use Laravel\Cashier\Exceptions\PaymentFailureException;
 use App\Models\Plan;
 use App\Models\Project;
 use Stripe\Stripe;
-use Stripe\Price;
-use Stripe\Charge;
 use Stripe\PaymentIntent;
 use \Stripe\Exception\CardException;
 
@@ -22,32 +20,6 @@ class SubscriberController
         $user = Auth::user();
         return view('subscription.subscribe', compact("user", "plan", "intent"));
     }
-
-    /*public function processSubscription(Request $request)
-    {
-        // Get the selected subscription plan from the form
-        $plan = Plan::find($request->plan);
-
-        // Get the authenticated user
-        $user = Auth::user();
-        try {
-            // Create a new subscription for the user
-            $user->newSubscription($request->plan, $plan->stripe_id)
-                ->create($request->token);
-
-            $project = new Project(['name' => 'Default', 'description' => 'My first project']);
-            $user->projects()->save($project);
-
-            // Subscription created successfully, redirect to a success page
-            return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
-        } catch (PaymentActionRequiredException $e) {
-            // Payment action required, redirect to a payment page
-            return redirect($e->payment->getHostedUrl())->withInput();
-        } catch (PaymentFailureException $e) {
-            // Payment failed, redirect back to the subscription page with an error message
-            return back()->with('error', $e->getMessage())->withInput();
-        }
-    }*/
 
     public function processSubscription(Request $request)
     {
