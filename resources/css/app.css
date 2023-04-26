@@ -48,7 +48,6 @@
     select {
         @apply my-3 border border-gray-300 ring-sky-600 rounded-md px-4 py-2 bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     }
-    [type='text'],
     [type='number'],
     select {
         @apply w-full m-0 p-0 px-2 py-1 text-xs

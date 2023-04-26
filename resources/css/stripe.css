@@ -1,15 +1,5 @@
 .StripeElement {
-    background-color: transparent;
-    border: 1px solid #b4b4b4;
-    border-radius: 4px;
-    padding: 12px;
-    font-size: 16px;
-    line-height: 24px;
-    color: #495057;
-    font-family: 'Source Code Pro', monospace;
-    box-shadow: none;
-    transition: border-color 0.2s ease-in-out;
-    -webkit-transition: border-color 0.2s ease-in-out;
+    @apply my-3 border border-gray-300 ring-sky-600 rounded-md px-4 py-2 bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
 }
 
 .StripeElement--focus {
