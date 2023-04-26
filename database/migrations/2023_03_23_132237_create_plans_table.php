@@ -35,7 +35,7 @@ return new class extends Migration {
         $plan->metaData = json_encode([
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'false', 'text' => 'Save prompts'],
-            ['checked' => 'false', 'text' => 'Access to project'],
+            ['checked' => 'false', 'text' => 'Access to projects'],
             ['checked' => 'false', 'text' => 'Access to gallery']
         ]);
         $plan->save();
@@ -79,7 +79,7 @@ return new class extends Migration {
         $plan->stripe_id = 'price_1ModfXCohdRQHIZsOj5KgE0s';
         $plan->price = 6;
         $plan->abbreviation = '/Month';
-        $plan->description = 'Monthly Pro account, access to Unlimited pro;ects';
+        $plan->description = 'Monthly Pro account, access to Unlimited projects';
         $plan->metaData = json_encode([
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
@@ -111,7 +111,7 @@ return new class extends Migration {
         $plan->stripe_id = 'price_1ModkCCohdRQHIZsKFSZ4Rxw';
         $plan->price = 66;
         $plan->abbreviation = '/Year';
-        $plan->description = 'Yearly Pro account, access to Unlimited pro;ects';
+        $plan->description = 'Yearly Pro account, access to Unlimited projects';
         $plan->metaData = json_encode([
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],

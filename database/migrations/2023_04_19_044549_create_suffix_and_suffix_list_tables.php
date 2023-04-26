@@ -32,6 +32,10 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::table('suffix_group', function (Blueprint $table) {
+            $table->dropForeign('suffix_group_suffix_id_foreign');
+        });
+
         Schema::dropIfExists('suffixes');
         Schema::dropIfExists('suffix_group');
 

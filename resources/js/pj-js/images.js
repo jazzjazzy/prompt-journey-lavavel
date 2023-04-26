@@ -1,5 +1,18 @@
 $(document).ready(function () {
 
+    // Your SortableJS initialization code goes here.
+    let inputImageFields = document.getElementById('input-image-fields');
+    if(inputImageFields) {
+        new Sortable(inputImageFields, {
+            handle: '.handle',
+            direction: 'vertical',
+            animation: 150,
+            onEnd: function (/**Event*/evt) {
+                updatePromptText();
+            }
+        });
+    }
+
     function addCheckboxes() {
 
         //count the number images input fields to create a id for the new one
@@ -41,33 +54,19 @@ $(document).ready(function () {
 
     });
 
-
-    // attach a click event handler to the .images-add checkboxes
     $('#input-image-fields').on('click', '.images-add', function () {
-        // get the parent div of the clicked checkbox
+        updatePromptText();
         var parentDiv = $(this).closest('.flex');
-
-        // check if the checkbox is checked
-        if ($(this).is(':checked')) {
-            // get the value of the corresponding .images-input field
-            var inputVal = parentDiv.find('.images-input').val();
-            parentDiv.find('.images-input').prop('disabled', true);
-            // append the value to the #prompt text
-            if ($('#prompt').val() !== '') {
-                $('#prompt').val(inputVal + ' ' + $.trim($('#prompt').val()));
-            } else {
-                $('#prompt').val(inputVal);
-            }
-            ;
+        var input = parentDiv.find('.images-input');
+        input.prop('disabled', !input.prop('disabled')); // toggle the disabled attribute
+        if (input.prop('disabled')) {
+            input.removeClass('text-gray-900');
+            input.addClass('text-gray-300');
         } else {
-            // get the value of the corresponding .images-input field
-            var inputVal = parentDiv.find('.images-input').val();
-            parentDiv.find('.images-input').prop('disabled', false);
-            // remove the value from the #prompt text
-            $('#prompt').val($('#prompt').val().replace(inputVal, ''));
+            input.removeClass('text-gray-300');
+            input.addClass('text-gray-900');
         }
     });
-
 
     $('.add-images').click(function () {
         addCheckboxes();
@@ -91,6 +90,7 @@ $(document).ready(function () {
         }
 
         return '<div class="flex mt-2">\n' +
+            '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
             '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add">\n' +
             '                        </div>\n' +
@@ -119,6 +119,10 @@ $(document).ready(function () {
         var parentDiv = $(this).closest('.flex');
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
+
+        if(imgUrl=="" || imgUrl==null || imgUrl==undefined){
+            return
+        }
 
         // if the image is from gallery
         var imageId = $(this).attr('data-image-id');
@@ -287,7 +291,7 @@ $(document).ready(function () {
 
 
     $.extend(window, {
-        getImagePromptText: getImagePromptText,
+         getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
         setCheckmarkGalleryImages:setCheckmarkGalleryImages,

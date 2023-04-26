@@ -15,7 +15,7 @@
 
 
     <!-- Scripts -->
-    @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/js/modal.js'])
+    @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/js/main.js'])
 
 
     @if (env('APP_ENV') === 'production')
@@ -61,7 +61,7 @@
                         <iframe class="w-full h-full" id="modal-iframe"></iframe>
                     </div>
                     <div class="card-footer footer-right !mt-0 p-2">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star">
                             Close
                         </button>
                     </div>

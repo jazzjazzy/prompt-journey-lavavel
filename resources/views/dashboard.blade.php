@@ -16,11 +16,11 @@
         {{-- *********************** --}}
         {{-- This is the main prompt --}}
         {{-- *********************** --}}
-        <div class="p-0 m-0 grow-wrap bg-gray-400 ">
-        <textarea
+        <div class="p-0 m-0 grow-wrap bg-gray-400">
+            <label for="prompt"></label><textarea
             class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
             disabled
-            id="prompt">
+            id="prompt" >
         </textarea>
         </div>
         {{-- history future --}}
@@ -32,10 +32,10 @@
     <div class="col-span-2">
         {{-- Main prompt copy button --}}
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
-            <i class="text-[130px] p-4 fas fa-copy"></i>
+            <i class="text-[90px] p-4 fas fa-copy"></i>
         </button>
         {{-- copy massage --}}
-        <div class="alert alert-notice mx-3 hidden" id="copy-mj-prompt">
+        <div class="alert alert-success mx-3" id="copy-mj-prompt">
             suffix copied to clipboard
         </div>
     </div>
@@ -130,7 +130,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
-                                    <select id="quality" class="parameter-class w-full"></select>
+                                    <label for="quality"></label><select id="quality" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -287,11 +287,11 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
+                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
-                                       class="suffix-input disabled:text-gray-400 disabled:border-green-700">
+                                <label for="suffix-input-1"></label><input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
+                                                                           class="suffix-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
                             $route = isset($projectId) && $projectId !== null ? route('modals.suffix', ['project' =>
@@ -316,8 +316,7 @@
                 <div class="card-footer">
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
-                            <div class="alert alert-notice hidden" id="suffix-notice">
-                                suffix copid to clipboard
+                            <div class="alert alert-success" id="suffix-notice">suffix copied to clipboard
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
@@ -343,13 +342,14 @@
                 </div>
                 <div class="card-body">
                     <div id="input-image-fields">
-                        <div class="flex">
+                        <div class="flex mt-2">
+                            <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
+                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
                             </div>
                             <div class="grow">
-                                <input type="text" name="images-1" id="images-input-1" autocomplete="off"
-                                       class="images-input disabled:text-gray-400 disabled:border-green-700">
+                                <label for="images-input-1"></label><input type="text" name="images-1" id="images-input-1" autocomplete="off"
+                                                                           class="images-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
                             $route = isset($projectId) && $projectId !== null ? route('modals.images', ['project' =>
@@ -373,7 +373,7 @@
                 <div class="card-footer">
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
-                            <div class="alert alert-notice hidden" id="images-notice">
+                            <div class="alert alert-success" id="images-notice">
                                 images copied to clipboard
                             </div>
 
@@ -405,16 +405,16 @@
     <div id="overlayHistory" class="hidden">
         <div class="overlay w-full">
             <div class="card bg-gray-100 p-0 w-3/4">
-                <div class="max-w-7xl mx-auto">
+                <div class="mx-auto">
                     <h2 class="card-header text-2xl font-bold mb-4">Prompt History</h2>
                     <div id="overlayContent" class="card-body -m-3 flex flex-col h-full">
                         <!-- history content goes here in #overlayContent -->
                     </div>
-                    <div class="card-footer footer-right">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
+                    <div class="card-footer footer-right !mt-0 p-2">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star">
                             Close
                         </button>
-                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 rounded-md self-start">
+                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 self-start">
                             Clear History
                         </button>
                     </div>
@@ -422,31 +422,6 @@
             </div>
         </div>
     </div>
-
-
-    <div id="myModal" class="modal hidden">
-        <div class="overlay">
-            <div class="card bg-gray-100 p-0 m-0">
-                <div class="close p-0">
-                    <div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div>
-                </div>
-                <div class="w-full h-full flex flex-col">
-                    <div class="card-header">
-                        <h1 id="modal-title" class="text-3xl">Active Modal</h1>
-                    </div>
-                    <div class="card-body flex-1 !mt-10 !p-0">
-                        <iframe class="w-full h-full" id="modal-iframe"></iframe>
-                    </div>
-                    <div class="card-footer footer-right !mt-0 p-2">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 rounded-md self-star">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @endsection
 
     @section('script')

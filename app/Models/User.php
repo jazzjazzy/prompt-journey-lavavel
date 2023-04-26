@@ -13,6 +13,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Billable;
 
+
+    const PLAN_FREE = 1;
+    const PLAN_TESTER = 2;
+    const PLAN_USER_MONTHLY = 3;
+    const PLAN_USER_YEARLY = 5;
+    const PLAN_PRO_MONTHLY = 4;
+    const PLAN_PRO_YEARLY = 6;
     /**
      * The attributes that are mass assignable.
      *
@@ -53,7 +60,7 @@ class User extends Authenticatable
     /**
      * @return bool
      */
-    public function isSubscribed() : bool
+    public function isSubscribed(): bool
     {
         return (bool)$this->subscribedLastActivePlan();
     }
@@ -72,7 +79,7 @@ class User extends Authenticatable
             ->last();
 
         $currentPlan = null;
-        if($subscriptions) {
+        if ($subscriptions) {
             foreach ($plans as $plan) {
                 if ($plan->stripe_id == $subscriptions->stripe_price) {
                     $currentPlan = $plan;
@@ -91,7 +98,7 @@ class User extends Authenticatable
             ->last();
 
         $currentPlan = null;
-        if($subscriptions) {
+        if ($subscriptions) {
             foreach ($plans as $plan) {
                 if ($plan->stripe_id == $subscriptions->stripe_price) {
                     $currentPlan = $plan;
@@ -101,6 +108,20 @@ class User extends Authenticatable
         return $currentPlan;
     }
 
-
-
+    public function getUsersPlan()
+    {
+        $plan = $this->getSubscriptionPlan();
+        switch ($plan->id) {
+            case self::PLAN_TESTER:
+                return 'Tester';
+            case self::PLAN_USER_MONTHLY:
+            case self::PLAN_USER_YEARLY:
+                return 'User';
+            case self::PLAN_PRO_MONTHLY:
+            case self::PLAN_PRO_YEARLY:
+                return 'Professional';
+            default:
+                return 'Free';
+        }
+    }
 }

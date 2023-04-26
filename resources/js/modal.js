@@ -15,9 +15,9 @@ $(document).ready(function () {
         const isFixed = $(this).attr('data-modal-fixed');
 
         if (size == 'xs') {
-            $('#myModal .overlay .card').addClass('w-1/8 h-1/8');
+            $('#myModal .overlay .card').addClass('w-1/8 h-1/2');
         } else if (size == 'sm') {
-            $('#myModal .overlay .card').addClass('w-1/4 h-1/4');
+            $('#myModal .overlay .card').addClass('w-1/4 h-1/2');
         } else if (size == 'lg') {
             $('#myModal .overlay .card').addClass('w-3/4 h-3/4');
         } else if (size == 'xl') {
@@ -66,8 +66,8 @@ $(document).ready(function () {
      */
     function reinitiateModal(){
         //remove all the possible sizes, so we don't get multiple sizes in class
-        $('#myModal .overlay .card').removeClass('w-1/8 h-1/8');
-        $('#myModal .overlay .card').removeClass('w-1/4 h-1/4');
+        $('#myModal .overlay .card').removeClass('w-1/8 h-1/2');
+        $('#myModal .overlay .card').removeClass('w-1/4 h-1/2');
         $('#myModal .overlay .card').removeClass('w-3/4 h-3/4');
         $('#myModal .overlay .card').removeClass('w-4/5 h-4/5');
         $('#myModal .overlay .card').removeClass('w-full h-full');

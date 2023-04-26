@@ -85,7 +85,7 @@ class ImagesController extends Controller
 
         $groupList = Groups::where('user_id', $user->id)->get();
 
-        $groups = explode('|', $request->input('group'));
+        $groups = explode('-::-', $request->input('group'));
         foreach($groups AS $groupStr) {
             //check if the $groupStr is already in $groupList and if it is, skip it
             if($groupList->contains('name', $groupStr) === false) {

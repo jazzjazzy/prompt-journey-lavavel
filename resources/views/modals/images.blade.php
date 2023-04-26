@@ -145,16 +145,17 @@
 
     $(document).ready(function () {
 
-        let options = $('#group-options').val();
+        let options = $('#group-options').val() ? JSON.parse($('#group-options').val() ) : [];
         let selected = $('#group-options-selected').val() ? JSON.parse($('#group-options-selected').val() ) : [];
         $('#add-to-group').selectize({
-            options: JSON.parse(options),
+            options: options,
             plugins: ['remove_button'],
             valueField: 'value',
             labelField: 'text',
             searchField: 'text',
             create: true,
             dropdownParent: 'body',
+            delimiter: '-::-',
             render: {
                 option: function (data, escape) {
                     return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';

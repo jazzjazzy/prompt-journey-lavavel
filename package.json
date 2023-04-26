@@ -10,7 +10,8 @@
         "docker-optimize_clear": "docker exec -it prompt-journey-app php artisan optimize:clear",
         "docker-cache_clear": "docker exec -it prompt-journey-app php artisan cache:clear",
         "docker-config_clear": "docker exec -it prompt-journey-app php artisan config:clear",
-        "docker-reset-permission": "docker exec -it prompt-journey-app chown -R sail:sail /var/www/html/"
+        "docker-reset-permission": "docker exec -it prompt-journey-app chown -R sail:sail /var/www/html/",
+        "docker npm i": "docker exec -it prompt-journey-app npm i"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

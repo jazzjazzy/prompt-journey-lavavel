@@ -99,6 +99,7 @@
             searchField: 'text',
             create: true,
             dropdownParent: 'body',
+            delimiter: '-::-',
             render: {
                 option: function (data, escape) {
                     return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';
@@ -134,6 +135,7 @@
                 "group": createEnabled,
             };
 
+            //todo: look into getting the url from route() maybe the data-url attribute
             $.ajax({
                 url: `/suffix/` + projectId + `/save`,
                 type: 'POST',

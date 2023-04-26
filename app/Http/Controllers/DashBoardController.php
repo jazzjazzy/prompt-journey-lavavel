@@ -29,7 +29,7 @@ class DashBoardController extends Controller
                 case 'Yearly-user':
                 case 'monthly-pro':
                 case 'Yearly-pro':
-                    return view('projects', ['projects' => $projects]);
+                    return redirect()->route('projects.index');
                     break;
                 default:
                     return view('dashboard');
