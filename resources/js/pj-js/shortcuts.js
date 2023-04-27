@@ -166,11 +166,11 @@ $(document).ready(function () {
             if (param.is(':checked')) {
                 param.prop('checked', false);
                 wrapper.removeClass('bg-' + color + '-700').addClass('bg-' + color + '-300');
-                labels.removeClass('text-gray-400').addClass('text-gray-200');
+                labels.removeClass('text-gray-600').addClass('text-gray-200');
             } else {
                 param.prop('checked', true);
                 wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
-                labels.removeClass('text-gray-200').addClass('text-gray-400');
+                labels.removeClass('text-gray-200').addClass('text-gray-600');
             }
 
             var functionName = id +"Param";

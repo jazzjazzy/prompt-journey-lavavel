@@ -447,7 +447,10 @@
     <script type="module">
         $(document).ready(function () {
 
+            retrieveProjectHistory();
+
             $('#prompt-text').on('keyup', function () {
+
                 aspectParam();
                 chaosParam();
                 qualityParam();
@@ -466,6 +469,7 @@
                 uplightParam();
                 upbetaParam();
                 upanimeParam();
+
 
             });
 

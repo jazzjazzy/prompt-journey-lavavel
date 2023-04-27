@@ -87,24 +87,19 @@ class ProjectController extends Controller
         // Get the description from the request
         $prompt = $request->input('promptText');
         $promptParams = $request->input('promptParams');
-        $basicParams = $promptParams['promptParams.basicParams'];
-        $modelParams = $promptParams['promptParams.modelParams'];
-        $upscalerParams = $promptParams['promptParams.upscalerParams'];
+
 
         $suffix = json_encode($request->input('suffix'));
         $images = json_encode($request->input('images'));
 
         // If all are null don't try putting in the database just return a success
-        if($prompt == null && $basicParams == null && $modelParams == null && $upscalerParams == null && $suffix == null || $images == null) {
+        if($prompt == null && $suffix == null || $images == null) {
             return response()->json(['success' => true]);
         }
 
         // Create a new prompt history for the project
         $promptHistory = new PromptHistory();
         $promptHistory->prompt = $prompt;
-        $promptHistory->basic_params = $basicParams;
-        $promptHistory->model_params = $modelParams;
-        $promptHistory->upscale_params = $upscalerParams;
         $promptHistory->suffix = $suffix;
         $promptHistory->images = $images;
         $promptHistory->project_id = $project->id;
@@ -118,8 +113,7 @@ class ProjectController extends Controller
 
         $promptHistory = DB::table('prompt_history')
             ->where('project_id', $project->id)
-            ->pluck('prompt')
-            ->toArray();
+            ->get();
 
         return response()->json(['success' => true, 'promptHistory' => $promptHistory]);
     }
