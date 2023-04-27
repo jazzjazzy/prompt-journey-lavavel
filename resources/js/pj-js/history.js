@@ -21,8 +21,8 @@ $(document).ready(function () {
 
             var nextIndex = window.savedStrings.length;
 
-            let suffixArray  = getExtendedValues('#input-suffix-fields', true);
-            let imagesArray  = getExtendedValues('#input-image-fields', true);
+            let suffixArray = getExtendedValues('#input-suffix-fields', true);
+            let imagesArray = getExtendedValues('#input-image-fields', true);
 
             promptText = stripStringFromPrompt(promptText, suffixArray);
             promptText = stripStringFromPrompt(promptText, imagesArray);
@@ -61,16 +61,16 @@ $(document).ready(function () {
 
         let promptText = $('#prompt').val();
 
-        let suffixArray  = getExtendedValues('#input-suffix-fields', true);
-        let imagesArray  = getExtendedValues('#input-image-fields', true);
+        let suffixArray = getExtendedValues('#input-suffix-fields', true);
+        let imagesArray = getExtendedValues('#input-image-fields', true);
 
         promptText = stripStringFromPrompt(promptText, suffixArray);
         promptText = stripStringFromPrompt(promptText, imagesArray);
 
         let promptArray = {
-                "promptText": promptText,
-                "suffix": suffixArray,
-                "images": imagesArray,
+            "promptText": promptText,
+            "suffix": suffixArray,
+            "images": imagesArray,
         };
 
         $.ajax({
@@ -137,7 +137,7 @@ $(document).ready(function () {
 
         const result = [];
 
-        $(fieldId  + ' > .flex').each(function() {
+        $(fieldId + ' > .flex').each(function () {
             const addChecked = $(this).find('.images-add, .suffix-add').is(':checked');
             const inputText = $(this).find('.images-input, .suffix-input').val();
 
@@ -191,14 +191,14 @@ $(document).ready(function () {
                 $('#post-prompt-2').text('');
                 $('#post-prompt-1').text('');
                 // Set the value of the input field to the next or previous value
-                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2]?window.savedStrings[nextIndex - 2].prompt: '');
-                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1]?window.savedStrings[nextIndex - 1].prompt: '');
+                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
 
                 $('#prompt').val(window.savedStrings[nextIndex].prompt);
                 console.log(window.savedStrings)
 
-                $('#post-prompt-1').text(window.savedStrings[nextIndex + 1]?window.savedStrings[nextIndex + 1].prompt: '');
-                $('#post-prompt-2').text(window.savedStrings[nextIndex + 2]?window.savedStrings[nextIndex + 2].prompt: '');
+                $('#post-prompt-1').text(window.savedStrings[nextIndex + 1] ? window.savedStrings[nextIndex + 1].prompt : '');
+                $('#post-prompt-2').text(window.savedStrings[nextIndex + 2] ? window.savedStrings[nextIndex + 2].prompt : '');
 
                 popluatePromptHistory(window.savedStrings[nextIndex].prompt, window.savedStrings[nextIndex].suffix, window.savedStrings[nextIndex].images);
 
@@ -213,10 +213,8 @@ $(document).ready(function () {
         }
     });
 
-    function popluatePromptHistory(prompt, suffix, images){
-
-        $.clearAllPromptText();
-        $('.prompt-text-class')[0].value = prompt + ' ';
+    //need function to search and update params fields with values from prompt
+    function updatePromptText() {
 
         aspectParam();
         chaosParam();
@@ -236,6 +234,14 @@ $(document).ready(function () {
         uplightParam();
         upbetaParam();
         upanimeParam();
+    }
+
+    function popluatePromptHistory(prompt, suffix, images) {
+
+        $.clearAllPromptText();
+        $('.prompt-text-class')[0].value = prompt + ' ';
+
+        updatePromptText();
 
         addSuffixFromPromptHistory(JSON.parse(suffix));
         addImagesFromPromptHistory(JSON.parse(images));
@@ -275,9 +281,9 @@ $(document).ready(function () {
         let historyList = [];
         let projectId = $('#projectId').val();
 
-        if(projectId == null || projectId == undefined || projectId == ''){
+        if (projectId == null || projectId == undefined || projectId == '') {
             historyList = window.savedStrings;
-        }else{
+        } else {
             historyList = getHistoryList(projectId);
         }
 
@@ -322,7 +328,7 @@ $(document).ready(function () {
         });
     };
 
-    function getHistoryList(projectId){
+    function getHistoryList(projectId) {
         let historyList = [];
         $.ajax({
             type: "GET",
@@ -344,7 +350,7 @@ $(document).ready(function () {
 
         let projectId = $('#projectId').val();
 
-        if(projectId == null || projectId == undefined || projectId == '') {
+        if (projectId == null || projectId == undefined || projectId == '') {
             $('#overlayHistory .card-body').attr('style', '');
             $("#overlayContent").html('');
             $("#overlayHistory").addClass('hidden');
@@ -355,12 +361,12 @@ $(document).ready(function () {
             window.savedStrings = [];
             window.currentIndex = 0;
             updatePromptText();
-        }else{
+        } else {
             clearHistory(projectId);
         }
     });
 
-    function clearHistory(projectId){
+    function clearHistory(projectId) {
         $.ajax({
             type: "GET",
             url: "/projects/" + projectId + "/clearHistory",
@@ -400,6 +406,7 @@ $(document).ready(function () {
     });
 
     $.extend(window, {
+        updatePromptText: updatePromptText,
         showHistory: showHistory,
         copyMjPrompt: copyMjPrompt,
         retrieveProjectHistory: retrieveProjectHistory,
