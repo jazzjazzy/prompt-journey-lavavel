@@ -10,7 +10,8 @@ use App\Models\Plan;
 use App\Models\Project;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
-use \Stripe\Exception\CardException;
+use Stripe\Exception\CardException;
+use Laravel\Cashier\Subscription;
 
 class SubscriberController
 {
@@ -28,6 +29,8 @@ class SubscriberController
         // Get the authenticated user
         $user = Auth::user();
 
+        $userPlan = $user->getPlanFromUserSubscription();
+
         $paymentMethod = $request->get('payment_method');
         $paymentType = $request->get('payment-type');
 
@@ -39,7 +42,7 @@ class SubscriberController
                     'amount' => $plan->price * 100,
                     'currency' => 'usd',
                     'description' => 'One-Time Payment',
-                    'payment_method' => $request->payment_method,
+                    'payment_method' => $paymentMethod,
                     'confirm' => true,
                 ]);
 
@@ -53,17 +56,38 @@ class SubscriberController
                 return back()->with('error', $e->getError()->message)->withInput();
             }
         } else {
+
+            // Check if the user already has a Stripe customer ID
+            if (!$user->stripe_id) {
+                // Create the Stripe customer
+                $user->createAsStripeCustomer();
+            }
+
+
+            // Check if the user has a subscription plan already
+            if ($userPlan instanceof Plan) {
+                $subscription = $user->subscription($userPlan->stripe_name);
+
+                if ($subscription instanceof Subscription) {
+                    $subscription->swap($plan->stripe_id);
+                }
+            }
             // Handle recurring subscription
             try {
+                // Create a new customer
+                $user->updateStripeCustomer([
+                    'address' => [
+                        'postal_code' => $request->get('postal_code'),
+                        'country' => 'AU',
+                    ],
+                ]);
+
                 // Create a new subscription for the user
-                $user->newSubscription($request->plan, $plan->stripe_id)
+                $user->newSubscription($plan->stripe_name, $plan->stripe_id)
                     ->create($paymentMethod, [
-                        'name' => $request->name,
+                        'name' => $request->get('name'),
                         'email' => $user->email,
-                        'payment_method' => $request->payment_method,
-                        'address' => [
-                            'postal_code' => $request->postal_code,
-                        ],
+                        'payment_method' => $paymentMethod,
                     ]);
 
                 $project = new Project(['name' => 'Default', 'description' => 'My first project']);
@@ -112,7 +136,7 @@ class SubscriberController
         ]);
 
         $user = Auth::user(); // Get the currently authenticated user
-        $plan = $user->getSubscriptionPlan(); // Check if the user is subscribed to a plan
+        $plan = $user->getPlanFromUserSubscription(); // Check if the user is subscribed to a plan
 
         // check the plan is the same as the one the user is subscribed to and if the user is on grace period
         if ($user->subscription($plan->id)->onGracePeriod()) {

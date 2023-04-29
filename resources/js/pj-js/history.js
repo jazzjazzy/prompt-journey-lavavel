@@ -21,6 +21,19 @@ $(document).ready(function () {
 
             var nextIndex = window.savedStrings.length;
 
+            let suffixArray = getExtendedValues('#input-suffix-fields', true);
+            let imagesArray = getExtendedValues('#input-image-fields', true);
+
+            promptText = stripStringFromPrompt(promptText, suffixArray);
+            promptText = stripStringFromPrompt(promptText, imagesArray);
+
+            let promptArray = {
+                "prompt": promptText,
+                "suffix": suffixArray,
+                "images": imagesArray,
+            };
+
+
             // Add the value to the array of saved strings
             window.savedStrings.push(inputVal);
 
@@ -34,7 +47,7 @@ $(document).ready(function () {
             let projectId = $('#projectId').val();
 
 
-            if (projectId !== null) {
+            if (projectId !== null && projectId !== undefined && projectId !== '') {
                 storeProjectHistory(projectId);
             } else {
                 //show alert that the prompt was copied
@@ -168,6 +181,17 @@ $(document).ready(function () {
         }
     });
 
+    function popluatePromptHistory(prompt, suffix, images) {
+
+        $.clearAllPromptText();
+        $('.prompt-text-class')[0].value = prompt + ' ';
+
+        updatePromptAllFields();
+
+        addSuffixFromPromptHistory(JSON.parse(suffix));
+        addImagesFromPromptHistory(JSON.parse(images));
+    }
+
     function promptCopyNoticeAlert(paramId, massage) {
         $(paramId).text(massage);
         // Slide the div from left to right
@@ -209,6 +233,7 @@ $(document).ready(function () {
         }
 
         let history = '<ul class="list-none mt-4 pl-8 divide-y divide-slate-400 overflow-auto">';
+        console.log(historyList);
 
         if (historyList.length === 0) {
             history = history + '<li class="py-4 px-6 {{ $loop->last ? \'\' : \'border-b\' }}">\n' +
@@ -218,7 +243,7 @@ $(document).ready(function () {
             for (let i = 0; i < historyList.length; i++) {
                 history = history + '<li class="m-auto py-2 odd:bg-slate-50 even:bg-white">\n' +
                     '<div class="grid grid-cols-12 pt-1 m-auto px-12">\n' +
-                    '    <div class="historyPrompt col-span-11 ">' + historyList[i] + '</div>\n' +
+                    '    <div class="historyPrompt col-span-11 ">' + historyList[i].prompt + '</div>\n' +
                     '    <button class="copyFromHistroybtn col-span-1"> <i className="fas fa-copy"></i> </button>\n' +
                     '</div>\n' +
                     '</li>'

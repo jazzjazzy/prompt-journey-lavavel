@@ -18,9 +18,9 @@
         {{-- *********************** --}}
         <div class="p-0 m-0 grow-wrap bg-gray-400">
             <label for="prompt"></label><textarea
-            class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
-            disabled
-            id="prompt" >
+                class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
+                disabled
+                id="prompt">
         </textarea>
         </div>
         {{-- history future --}}
@@ -130,7 +130,8 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
-                                    <label for="quality"></label><select id="quality" class="parameter-class w-full"></select>
+                                    <label for="quality"></label><select id="quality"
+                                                                         class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -287,10 +288,12 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
+                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1"
+                                                                         id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <label for="suffix-input-1"></label><input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
+                                <label for="suffix-input-1"></label><input type="text" name="suffix-1"
+                                                                           id="suffix-input-1" autocomplete="off"
                                                                            class="suffix-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
@@ -298,11 +301,18 @@
                             $projectId]) : route('modals.suffix');
                             @endphp
                             <div class="flex-none px-3">
+                                @if($user->accessLevels->suffix)
                                 <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
                                         data-url="{{ $route }}"
                                         data-suffix-id>
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
+                                @else
+                                <button id="" class="open-modal icon-button show-suffix" title="Suffix List"
+                                        data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
+                                    <i class="fa-sharp fa-solid fa-align-right"></i>
+                                </button>
+                                @endif
                                 <button class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
                                 </button>
@@ -320,18 +330,21 @@
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
+
+
                             <button class="add-suffix btn btn-primary">Add suffix</button>
-                            @if (isset($projectId) && $projectId !== null)
-                            <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
-                                    data-url="{{ route('suffixes.view') }}">
-                                suffix List
-                            </button>
-                            @else
-                            <a id="" class="btn btn-primary text-center" title="Suffix List"
-                               href="{{ route('subscription.pricing') }}">
-                                Suffix List
-                            </a>
-                            @endif
+                                @if (isset($projectId) && $projectId !== null)
+                                <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
+                                        data-url="{{ route('suffixes.view') }}">
+                                    suffix List
+                                </button>
+                                @else
+                                <button id="" class="open-modal btn btn-primary text-center" title="Suffix List"
+                                   data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
+                                    Suffix List
+                                </button>
+                                @endif
+
                         </div>
                     </div>
                 </div>
@@ -345,10 +358,12 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
+                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1"
+                                                                         id="images-add-1" class="images-add">
                             </div>
                             <div class="grow">
-                                <label for="images-input-1"></label><input type="text" name="images-1" id="images-input-1" autocomplete="off"
+                                <label for="images-input-1"></label><input type="text" name="images-1"
+                                                                           id="images-input-1" autocomplete="off"
                                                                            class="images-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
@@ -386,10 +401,10 @@
                                 Images gallery
                             </button>
                             @else
-                            <a id="" class="btn btn-primary text-center" title="Suffix List"
-                               href="{{ route('subscription.pricing') }}">
+                            <button id="" class="open-modal btn btn-primary text-center" title="Images Gallery"
+                               data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
                                 Images gallery
-                            </a>
+                            </button>
                             @endif
                         </div>
                     </div>
@@ -447,26 +462,10 @@
     <script type="module">
         $(document).ready(function () {
 
-            $('#prompt-text').on('keyup', function () {
-                aspectParam();
-                chaosParam();
-                qualityParam();
-                noParam();
-                seedParam();
-                stopParam();
-                styleParam();
-                stylizeParam();
-                tileParam();
-                iwParam();
-                versionParam();
-                nijiParam();
-                hdParam();
-                testParam();
-                testpParam();
-                uplightParam();
-                upbetaParam();
-                upanimeParam();
+            //retrieveProjectHistory();
 
+            $('#prompt-text').on('keyup', function () {
+                updatePromptAllFields();
             });
 
             $(document).on('focus', '#prompt', function () {

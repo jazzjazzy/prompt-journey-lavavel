@@ -15,7 +15,6 @@ class ImagesController extends Controller
     public function edit(Project $project, Images $images, Request $request): View
     {
         $user = auth()->user();
-        $plan = $user->getSubscriptionPlan();
 
         $endGracePeriod = null;
         $projectId = $project->id;
@@ -43,13 +42,12 @@ class ImagesController extends Controller
     public function view(Project $project, Request $request): view
     {
         $user = auth()->user();
-        $plan = $user->getSubscriptionPlan();
         $projectId = $project->id;
 
         $image = $request->input('image')?? null;
 
         $imageUrl = parse_url($image);
-        $imagePath =pathinfo($imageUrl['path']);
+        $imagePath = pathinfo($imageUrl['path']);
 
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 

@@ -37,6 +37,27 @@ const styleOptions = [
 // section select controls
 $(document).ready(function () {
 
+    function updatePromptAllFields() {
+        aspect();
+        chaos();
+        quality();
+        no();
+        seed();
+        stop();
+        style();
+        stylize();
+        tile();
+        iw();
+        version();
+        niji();
+        hd();
+        test();
+        testp();
+        uplight();
+        upbeta();
+        upanime();
+    }
+
 
     /*******************
      * set up the selectize controls for parameters
@@ -427,24 +448,7 @@ $(document).ready(function () {
 
 
     $.extend(window, {
-        aspectParam: aspect,
-        chaosParam: chaos,
-        qualityParam: quality,
-        noParam: no,
-        seedParam: seed,
-        stopParam: stop,
-        styleParam: style,
-        stylizeParam: stylize,
-        tileParam: tile,
-        iwParam: iw,
-        versionParam: version,
-        nijiParam: niji,
-        hdParam: hd,
-        testParam: test,
-        testpParam: testp,
-        uplightParam: uplight,
-        upbetaParam: upbeta,
-        upanimeParam: upanime,
+        updatePromptAllFields: updatePromptAllFields,
         getPromptText: getPromptText,
         getPramaText: getPramaText,
         updatePromptText: updatePromptText,

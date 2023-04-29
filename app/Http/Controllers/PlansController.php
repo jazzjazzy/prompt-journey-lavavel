@@ -18,6 +18,17 @@ class PlansController extends Controller
         return view('subscription.pricing', compact('plans', 'subscribed'));
     }
 
+    public function modal()
+    {
+        $plans = Plan::all();
+        $user = auth()->user();
+
+        $plan = $user->subscribedLastActivePlan();
+        $subscribed = $plan ? $plan->name : null;
+
+        return view('subscription.pricingmodal', compact('plans', 'subscribed'));
+    }
+
     public function create()
     {
     }

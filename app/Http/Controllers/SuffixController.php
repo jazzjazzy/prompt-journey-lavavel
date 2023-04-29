@@ -15,7 +15,6 @@ class SuffixController extends Controller
     public function edit(Project $project, Suffixes $suffix, Request $request): View
     {
         $user = auth()->user();
-        $plan = $user->getSubscriptionPlan();
 
         $endGracePeriod = null;
         $projectId = $project->id;
@@ -38,7 +37,7 @@ class SuffixController extends Controller
     public function view(Project $project, Request $request): view
     {
         $user = auth()->user();
-        $plan = $user->getSubscriptionPlan();
+        $plan = $user->getPlanFromUserSubscription();
         $projectId = $project->id;
 
         $suffix = $request->input('suffix')?? null;
