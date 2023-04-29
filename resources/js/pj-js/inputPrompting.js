@@ -67,7 +67,7 @@ $(document).ready(function () {
             var color = wrapper.attr("data-color");
 
             wrapper.removeClass('bg-' + color + '-700').removeClass('bg-' + color + '-300').addClass('bg-' + color + '-300');
-            labels.removeClass('text-gray-200').addClass('text-gray-400').addClass('text-gray-400');
+            labels.removeClass('text-gray-200').addClass('text-gray-600');
         });
 
         if(withPromptText){

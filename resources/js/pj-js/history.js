@@ -13,20 +13,33 @@ $(document).ready(function () {
      */
     function copyMjPrompt() {
         // Get the value of the input field
-        var inputVal = $.trim($('#prompt').val());
+        var promptText = $.trim($('#prompt').val());
 
-        if (inputVal !== '' && inputVal !== null && inputVal !== undefined) {
+        if (promptText !== '' && promptText !== null && promptText !== undefined) {
             // Copy the value to the clipboard
-            navigator.clipboard.writeText("/imagine prompt: " + inputVal);
+            navigator.clipboard.writeText("/imagine prompt: " + promptText);
 
             var nextIndex = window.savedStrings.length;
 
+            let suffixArray = getExtendedValues('#input-suffix-fields', true);
+            let imagesArray = getExtendedValues('#input-image-fields', true);
+
+            promptText = stripStringFromPrompt(promptText, suffixArray);
+            promptText = stripStringFromPrompt(promptText, imagesArray);
+
+            let promptArray = {
+                "promptText": promptText,
+                "suffix": suffixArray,
+                "images": imagesArray,
+            };
+
+
             // Add the value to the array of saved strings
-            window.savedStrings.push(inputVal);
+            window.savedStrings.push(promptArray);
 
             // add last 2 prompts to the pre prompt
-            $('#pre-prompt-1').text(window.savedStrings[nextIndex]);
-            $('#pre-prompt-2').text(window.savedStrings[nextIndex - 1]);
+            $('#pre-prompt-1').text(window.savedStrings[nextIndex] ? window.savedStrings[nextIndex].prompt : '');
+            $('#pre-prompt-2').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
 
             //change the currentIndex to the new prompt index
             window.currentIndex = window.savedStrings.length
@@ -46,27 +59,18 @@ $(document).ready(function () {
 
     function storeProjectHistory(projectId) {
 
-        let promptText = $('.prompt-text-class').val();
+        let promptText = $('#prompt').val();
 
-        // Create an array of objects from the params types values
-        let basicsArray = getParamsInputValues('#basic-params');
-        let modelArray = getParamsInputValues('#model-params ');
-        let upscalerArray = getParamsInputValues('#upscaler-params');
+        let suffixArray = getExtendedValues('#input-suffix-fields', true);
+        let imagesArray = getExtendedValues('#input-image-fields', true);
 
-        let $suffixArray  = getParamsInputValues('#suffix', true);
-        let $imagesArray  = getParamsInputValues('#images', true);
-
-
+        promptText = stripStringFromPrompt(promptText, suffixArray);
+        promptText = stripStringFromPrompt(promptText, imagesArray);
 
         let promptArray = {
-                "promptText": promptText,
-                "promptParams": {
-                    "basicParams": basicsArray,
-                    "modelParams": modelArray,
-                    "upscalerParams": upscalerArray
-                },
-                "suffix": $suffixArray,
-                "images": $imagesArray,
+            "promptText": promptText,
+            "suffix": suffixArray,
+            "images": imagesArray,
         };
 
         $.ajax({
@@ -89,7 +93,38 @@ $(document).ready(function () {
                 console.log(error + ' ' + status + ' ' + xhr.responseText);
             }
         });
+    }
 
+    function retrieveProjectHistory() {
+        let projectId = $('#projectId').val();
+
+        $.ajax({
+            url: `/projects/${projectId}/history`, // Replace with actual project ID
+            type: 'get',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    window.savedStrings = response.promptHistory;
+                    window.currentIndex = window.savedStrings.length;
+                    console.log(response.promptHistory);
+                    // add last 2 prompts to the pre prompt
+                    let nextIndex = window.currentIndex
+                    $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
+                    $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+
+
+                } else {
+                    alert('Error adding prompt history.');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('An error occurred while adding prompt history.');
+                console.log(error + ' ' + status + ' ' + xhr.responseText);
+            }
+        });
     }
 
     /**
@@ -98,37 +133,44 @@ $(document).ready(function () {
      * @param allowFalse if true, will allow false values to be added to the object
      * @returns {{}}
      */
-    function getParamsInputValues(fieldId, allowFalse = false) {
-        // Get the values of all the input fields in a given div Id
-        const fields = $(fieldId + ' input, ' + fieldId + ' select,  ' + fieldId + ' input[type=checkbox]');
-        const values = {};
+    function getExtendedValues(fieldId, allowFalse = false) {
 
-        fields.each(function () {
-            let $el = $(this);
-            let name = $el.attr('id');
-            let value;
+        const result = [];
 
-            if ($el.is(':checkbox')) {
-                value = $el.is(':checked');
-            }else{
-                if(allowFalse) {
-                    value = $el.val();
-                }
-            }
+        $(fieldId + ' > .flex').each(function () {
+            const addChecked = $(this).find('.images-add, .suffix-add').is(':checked');
+            const inputText = $(this).find('.images-input, .suffix-input').val();
 
-            //only add the value to the object if it is not null, undefined, or an empty string
-            if(allowFalse){
-                if (value !== null && value !== undefined && value !== '') {
-                    values[name] = value;
-                }
-            }else {
-                if (value !== null && value !== undefined && value !== '' && value !== false) {
-                    values[name] = value;
-                }
+            if (inputText !== '') {
+                result.push({
+                    add: addChecked,
+                    input: inputText
+                });
             }
         });
-        return values;
+        return result;
     }
+
+    /**
+     * this function will remove the suffix and images from the prompt text
+     * @param promptText
+     * @param obj
+     * @returns {*}
+     */
+    function stripStringFromPrompt(promptText = '', arr = []) {
+        if (typeof promptText !== 'string' || !Array.isArray(arr)) {
+            return promptText;
+        }
+
+        arr.forEach((item) => {
+            if (item.add === true) {
+                promptText = promptText.replace(new RegExp(item.input, 'g'), '');
+            }
+        });
+
+        return promptText.trim();
+    }
+
 
     // Attach a 'keydown' event listener to the input field
     $(document).on('keydown', function (e) {
@@ -148,15 +190,18 @@ $(document).ready(function () {
                 $('#pre-prompt-1').text('');
                 $('#post-prompt-2').text('');
                 $('#post-prompt-1').text('');
-
                 // Set the value of the input field to the next or previous value
-                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2]);
-                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1]);
-                // Set the value of the input field to the next or previous value
-                $('#prompt').val(window.savedStrings[nextIndex]);
+                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
 
-                $('#post-prompt-1').text(window.savedStrings[nextIndex + 1]);
-                $('#post-prompt-2').text(window.savedStrings[nextIndex + 2]);
+                $('#prompt').val(window.savedStrings[nextIndex].prompt);
+                console.log(window.savedStrings)
+
+                $('#post-prompt-1').text(window.savedStrings[nextIndex + 1] ? window.savedStrings[nextIndex + 1].prompt : '');
+                $('#post-prompt-2').text(window.savedStrings[nextIndex + 2] ? window.savedStrings[nextIndex + 2].prompt : '');
+
+                popluatePromptHistory(window.savedStrings[nextIndex].prompt, window.savedStrings[nextIndex].suffix, window.savedStrings[nextIndex].images);
+
             } else if (nextIndex == window.savedStrings.length) {
                 // reset the current index
                 window.currentIndex = window.savedStrings.length;
@@ -167,6 +212,40 @@ $(document).ready(function () {
             //console.log(window.currentIndex);
         }
     });
+
+    //need function to search and update params fields with values from prompt
+    function updatePromptText() {
+
+        aspectParam();
+        chaosParam();
+        qualityParam();
+        noParam();
+        seedParam();
+        stopParam();
+        styleParam();
+        stylizeParam();
+        tileParam();
+        iwParam();
+        versionParam();
+        nijiParam();
+        hdParam();
+        testParam();
+        testpParam();
+        uplightParam();
+        upbetaParam();
+        upanimeParam();
+    }
+
+    function popluatePromptHistory(prompt, suffix, images) {
+
+        $.clearAllPromptText();
+        $('.prompt-text-class')[0].value = prompt + ' ';
+
+        updatePromptText();
+
+        addSuffixFromPromptHistory(JSON.parse(suffix));
+        addImagesFromPromptHistory(JSON.parse(images));
+    }
 
     function promptCopyNoticeAlert(paramId, massage) {
         $(paramId).text(massage);
@@ -202,9 +281,9 @@ $(document).ready(function () {
         let historyList = [];
         let projectId = $('#projectId').val();
 
-        if(projectId == null || projectId == undefined || projectId == ''){
+        if (projectId == null || projectId == undefined || projectId == '') {
             historyList = window.savedStrings;
-        }else{
+        } else {
             historyList = getHistoryList(projectId);
         }
 
@@ -249,7 +328,7 @@ $(document).ready(function () {
         });
     };
 
-    function getHistoryList(projectId){
+    function getHistoryList(projectId) {
         let historyList = [];
         $.ajax({
             type: "GET",
@@ -271,7 +350,7 @@ $(document).ready(function () {
 
         let projectId = $('#projectId').val();
 
-        if(projectId == null || projectId == undefined || projectId == '') {
+        if (projectId == null || projectId == undefined || projectId == '') {
             $('#overlayHistory .card-body').attr('style', '');
             $("#overlayContent").html('');
             $("#overlayHistory").addClass('hidden');
@@ -282,12 +361,12 @@ $(document).ready(function () {
             window.savedStrings = [];
             window.currentIndex = 0;
             updatePromptText();
-        }else{
+        } else {
             clearHistory(projectId);
         }
     });
 
-    function clearHistory(projectId){
+    function clearHistory(projectId) {
         $.ajax({
             type: "GET",
             url: "/projects/" + projectId + "/clearHistory",
@@ -327,8 +406,10 @@ $(document).ready(function () {
     });
 
     $.extend(window, {
+        updatePromptText: updatePromptText,
         showHistory: showHistory,
-        copyMjPrompt: copyMjPrompt
+        copyMjPrompt: copyMjPrompt,
+        retrieveProjectHistory: retrieveProjectHistory,
     })
 
 });

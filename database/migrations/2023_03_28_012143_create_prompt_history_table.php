@@ -17,9 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->text('prompt')->nullable();
-            $table->json('basic_params')->nullable();
-            $table->json('model_params')->nullable();
-            $table->json('upscale_params')->nullable();
             $table->json('suffix')->nullable();
             $table->json('images')->nullable();
             $table->timestamps();

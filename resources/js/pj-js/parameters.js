@@ -271,7 +271,7 @@ $(document).ready(function () {
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }
@@ -302,7 +302,7 @@ $(document).ready(function () {
             }
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }
@@ -326,7 +326,7 @@ $(document).ready(function () {
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }

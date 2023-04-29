@@ -82,17 +82,21 @@ $(document).ready(function () {
      * @param imageId - the image id if we get the image from gallery
      * @returns {string} new row image to append to the #input-image-fields div
      */
-    function createDynamicImagesRow(rowid, route, value = '', imageId = null) {
+    function createDynamicImagesRow(rowid, route, value = '', imageId = null, checked = null) {
 
         var imageIdData = '';
         if (imageId !== null) {
             var imageIdData = 'data-image-id='+ imageId;
         }
+        checkedData = '';
+        if(checked !== true){
+            var checkedData = 'checked';
+        }
 
         return '<div class="flex mt-2">\n' +
             '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add">\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add" '+ checkedData +'>\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
             '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" '+
@@ -289,11 +293,29 @@ $(document).ready(function () {
         });
     }
 
+    function addImagesFromPromptHistory(imagesHistory) {
+
+        //todo: add a route to suffix modal for paid accounts if they have a projectId
+        let route = '/images';
+        //add a route to images modal for paid accounts if they have a projectId
+        if (window.parent.$('#projectId').val() !== undefined) {
+            route += '/' + window.parent.$('#projectId').val();
+        }
+        console.log(imagesHistory);
+        if(imagesHistory != null) {
+            $('#input-image-fields').empty();
+            $.each(imagesHistory, function(index, images) {
+                let inputField = $(createDynamicImagesRow(index, route, images['input'], null, images['add']));
+                window.parent.$('#input-image-fields').append(inputField);
+            });
+        }
+    }
 
     $.extend(window, {
          getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
         setCheckmarkGalleryImages:setCheckmarkGalleryImages,
+        addImagesFromPromptHistory:addImagesFromPromptHistory,
     });
 });

@@ -77,17 +77,22 @@ $(document).ready(function () {
         }
     }
 
-    function createDynamicSuffixRow(rowId, route, value = '', suffixId = null) {
+    function createDynamicSuffixRow(rowId, route, value = '', suffixId = null, checked = null) {
 
         var suffixIdData = '';
         if (suffixId !== null) {
             var suffixIdData = 'data-suffix-id='+ suffixId;
         }
 
+        checkedData = '';
+        if(checked === "true"){
+            var checkedData = 'checked';
+        }
+
         return ' <div class="flex mt-2">' +
             '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
-            '                                <input type="checkbox" name="suffixAdd-'+ rowId +'" id="suffix-add-'+ rowId +'" class="suffix-add">\n' +
+            '                                <input type="checkbox" name="suffixAdd-'+ rowId +'" id="suffix-add-'+ rowId +'" class="suffix-add" '+ checkedData +'>\n' +
             '                            </div>\n' +
             '                            <div class="grow">\n' +
             '                                <input type="text" name="suffix-'+ rowId +'" id="suffix-input-'+ rowId +'" autocomplete="off" ' +
@@ -250,6 +255,7 @@ $(document).ready(function () {
         });
         let rowid = inputFields.length + 1;
 
+        //todo: add a route to suffix modal for paid accounts if they have a projectId
         //if route is empty with show use the input url to show the suffix in a modal
         let route = '/suffix';
         //add a route to suffix modal for paid accounts if they have a projectId
@@ -305,6 +311,24 @@ $(document).ready(function () {
         });
     }
 
+    function addSuffixFromPromptHistory(suffixHistory) {
+
+        //todo: add a route to suffix modal for paid accounts if they have a projectId
+        let route = '/suffix';
+        //add a route to suffix modal for paid accounts if they have a projectId
+        if (window.parent.$('#projectId').val() !== undefined) {
+            route += '/' + window.parent.$('#projectId').val();
+        }
+        console.log(suffixHistory);
+        if(suffixHistory != null) {
+            $('#input-suffix-fields').empty();
+            $.each(suffixHistory, function(index, suffix) {
+                let inputField = $(createDynamicSuffixRow(index, route, suffix['input'], null, suffix['add']));
+                window.parent.$('#input-suffix-fields').append(inputField);
+            });
+        }
+    }
+
     $.extend(window, {
         allToSuffixList: allToSuffixList,
         paramsToSuffixList: paramsToSuffixList,
@@ -312,6 +336,7 @@ $(document).ready(function () {
         addToSuffixModalList: addToSuffixModalList,
         getSuffixPromptText: getSuffixPromptText,
         setCheckmarkListSuffix: setCheckmarkListSuffix,
+        addSuffixFromPromptHistory:addSuffixFromPromptHistory
     });
 
 });
