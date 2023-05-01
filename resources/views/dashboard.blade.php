@@ -6,7 +6,11 @@
     @if (isset($projectId) && $projectId !== null)
     <input type="hidden" value="{{$projectId}}" name="projectId" id="projectId">
     @endif
-    <div class="col-span-10 border-3 border-l-gray-400 border-r-gray-300 border-t-gray-400 border-b-gray-300">
+    <div class="col-span-10 border-3 border-l-gray-400 border-r-gray-300 border-t-gray-400 border-b-gray-300 relative">
+        {{-- copy massage --}}
+        <div class="alert alert-success mx-3 absolute bottom-0 right-0 w-fit " id="copy-mj-prompt">
+            suffix copied to clipboard
+        </div>
         {{-- history past --}}
         <div id="pre-prompt-2"
              class="w-full text-xs align-middle bg-gradient-to-t from-gray-300 bg-gray-200text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
@@ -18,9 +22,9 @@
         {{-- *********************** --}}
         <div class="p-0 m-0 grow-wrap bg-gray-400">
             <label for="prompt"></label><textarea
-                class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
-                disabled
-                id="prompt">
+            class="focus:outline-none w-full h-16 resize-none border border-gray-300 bg-gray-400 rounded-md px-4 py-2 bg-white col-span-full"
+            disabled
+            id="prompt" >
         </textarea>
         </div>
         {{-- history future --}}
@@ -28,16 +32,13 @@
              class="w-full text-sm align-middle bg-gradient-to-b from-gray-400 bg-gray-300 text-gray-600 h-6 pl-4 w-3/4 truncate"></div>
         <div id="post-prompt-2"
              class="w-full text-xs align-middle bg-gradient-to-b from-gray-300 bg-gray-200 text-gray-300 h-6 pl-4 w-3/4 truncate"></div>
+
     </div>
     <div class="col-span-2">
         {{-- Main prompt copy button --}}
         <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
             <i class="text-[90px] p-4 fas fa-copy"></i>
         </button>
-        {{-- copy massage --}}
-        <div class="alert alert-success mx-3" id="copy-mj-prompt">
-            suffix copied to clipboard
-        </div>
     </div>
 </div>
 <div class="mx-12 mt-1">
