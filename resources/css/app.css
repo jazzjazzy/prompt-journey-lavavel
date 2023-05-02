@@ -96,6 +96,14 @@
         drop-shadow-md hover:drop-shadow-lg rounded-xl;
     }
 
+    .btn-primary-disabled {
+        @apply text-xs w-28 px-1 py-2 m-1
+        hover:bg-coquelicot hover:text-white
+        text-gray-400 bg-slate-200 hover:bg-slate-200 active:bg-slate-600
+        border border-gray-200
+        drop-shadow-md hover:drop-shadow-lg rounded-xl;
+    }
+
     /* cards */
     .card {
         @apply relative border border-gray-700 rounded-md drop-shadow-sm pt-4 pb-3 bg-white mt-5 drop-shadow-lg;
@@ -125,6 +133,19 @@
         rounded-sm
         bg-gradient-to-tl from-indigo-50 to-indigo-100
         text-center
+        flex-auto items-center justify-center
+        cursor-pointer;
+    }
+
+    .icon-button-disabled {
+        @apply text-xs mx-1 p-1
+        ring-indigo-200
+        border-gray-300
+        hover:bg-indigo-50 hover:text-indigo-200
+        rounded-sm
+        bg-gradient-to-tl from-indigo-50 to-indigo-100
+        text-center
+        text-gray-400
         flex-auto items-center justify-center
         cursor-pointer;
     }

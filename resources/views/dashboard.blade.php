@@ -309,7 +309,7 @@
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
                                 @else
-                                <button id="" class="open-modal icon-button show-suffix" title="Suffix List"
+                                <button id="" class="open-modal icon-button-disabled " title="Suffix List"
                                         data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
@@ -334,13 +334,13 @@
 
 
                             <button class="add-suffix btn btn-primary">Add suffix</button>
-                                @if (isset($projectId) && $projectId !== null)
+                                @if ($user->accessLevels->suffix === true)
                                 <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
                                         data-url="{{ route('suffixes.view') }}">
                                     suffix List
                                 </button>
                                 @else
-                                <button id="" class="open-modal btn btn-primary text-center" title="Suffix List"
+                                <button id="" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
                                    data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
                                     Suffix List
                                 </button>
@@ -396,13 +396,13 @@
                         </div>
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-images btn btn-primary">Add image</button>
-                            @if (isset($projectId) && $projectId !== null)
+                            @if ($user->accessLevels->images === true)
                             <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl"
                                     data-modal-fixed=true data-url="{{ route('gallery.view') }}">
                                 Images gallery
                             </button>
                             @else
-                            <button id="" class="open-modal btn btn-primary text-center" title="Images Gallery"
+                            <button id="" class="open-modal btn btn-primary-disabled text-center" title="Images Gallery"
                                data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
                                 Images gallery
                             </button>
@@ -463,7 +463,7 @@
     <script type="module">
         $(document).ready(function () {
 
-            //retrieveProjectHistory();
+            retrieveProjectHistory();
 
             $('#prompt-text').on('keyup', function () {
                 updatePromptAllFields();

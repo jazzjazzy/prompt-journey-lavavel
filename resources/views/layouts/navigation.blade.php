@@ -43,6 +43,15 @@
                 <a href="https://discord.gg/5wNq4yDT" target="_blank" class="inline-flex items-center ml-2 px-1 pt-3"><i
                         class="fab fa-discord  m-3 text text-indigo-700 text-[35px]"></i></a>
 
+
+                <div class="pl-6 my-auto text-xl text-gray-500">
+                    @if (isset($plan))
+                    Current Plan : {{ $plan->name }} <span class="pl-2 text-bold text-red-300 text-xs">@if ($daysTillExpire !== null)[ expires in {{ $daysTillExpire }} days ]@endif</span>
+                    @endif
+                </div>
+
+
+
             </div>
             <!-- Settings Dropdown -->
 

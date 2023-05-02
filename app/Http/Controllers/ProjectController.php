@@ -105,8 +105,11 @@ class ProjectController extends Controller
         $promptHistory->project_id = $project->id;
         $promptHistory->save();
 
+        $promptHistory = DB::table('prompt_history')
+            ->where('project_id', $project->id)
+            ->get();
         // Return a JSON response indicating success or failure
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'promptHistory' => $promptHistory]);
     }
 
     public function getPromptHistory(Project $project){

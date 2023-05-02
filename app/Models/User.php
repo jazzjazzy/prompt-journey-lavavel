@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class User extends Authenticatable
 {
@@ -73,11 +75,27 @@ class User extends Authenticatable
     {
         $plans = Plan::all();
         $user = auth()->user();
-        $subscriptions = $this->subscriptions
+
+        // Enable the query log
+        DB::connection()->enableQueryLog();
+
+        $queryBuilder = Subscription::query()
             ->where('stripe_status', 'active')
             ->where('user_id', $user->id)
-            ->where('ends_at', null)
-            ->last();
+            ->where(function ($query) {
+                $query->where('ends_at', '>', now())
+                    ->orWhereNull('ends_at');
+            });
+/*
+        $query = $queryBuilder->toSql();
+        $bindings = $queryBuilder->getBindings();
+
+        dd([
+            'query' => $query,
+            'bindings' => $bindings
+        ]);
+        */
+        $subscriptions = $queryBuilder->first();
 
         $currentPlan = null;
         if ($subscriptions) {
@@ -164,5 +182,19 @@ class User extends Authenticatable
                 break;
         }
         return $accesslevel;
+    }
+
+    public function getUserCountry(Request $request)
+    {
+        $ip = $request->ip(); // Get the user's IP address
+        dump($ip);
+        $response = Http::get("http://ip-api.com/json/{$ip}?fields=country");
+
+        if ($response->successful() && $response->json('status') === 'success') {
+            $data = $response->json();
+            return $data['countryCode'];
+        }
+
+        return null;
     }
 }

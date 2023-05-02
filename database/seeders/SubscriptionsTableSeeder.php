@@ -17,10 +17,10 @@ class SubscriptionsTableSeeder extends Seeder
     {
         Subscription::create(
             ['user_id' => 1,
-                'name' => '4',
+                'name' => 'Monthly Pro Plan',
                 'stripe_id' => 'sub_1Mpk73CohdRQHIZsFm4MWSe5',
                 'stripe_status' => 'active',
-                'stripe_price' => 'price_1ModfXCohdRQHIZsOj5KgE0s',
+                'stripe_price' => 'price_1N27E8CohdRQHIZsKlikB3AK',
                 'quantity' => 1,
                 'trial_ends_at' => null,
                 'ends_at' => null,

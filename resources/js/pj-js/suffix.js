@@ -329,6 +329,11 @@ $(document).ready(function () {
         }
     }
 
+    function removeAllSuffix() {
+        $('#input-suffix-fields').empty();
+        createDynamicSuffixRow(1, '/suffix', '', null, true);
+    }
+
     $.extend(window, {
         allToSuffixList: allToSuffixList,
         paramsToSuffixList: paramsToSuffixList,
@@ -336,7 +341,8 @@ $(document).ready(function () {
         addToSuffixModalList: addToSuffixModalList,
         getSuffixPromptText: getSuffixPromptText,
         setCheckmarkListSuffix: setCheckmarkListSuffix,
-        addSuffixFromPromptHistory:addSuffixFromPromptHistory
+        addSuffixFromPromptHistory:addSuffixFromPromptHistory,
+        removeAllSuffix: removeAllSuffix
     });
 
 });

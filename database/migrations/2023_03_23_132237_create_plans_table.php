@@ -44,7 +44,7 @@ return new class extends Migration {
         $plan->name = 'Tester';
         $plan->slug = 'tester';
         $plan->stripe_name = 'Tester Plan';
-        $plan->stripe_id = 'price_1ModjXCohdRQHIZsr8HTCGCI';
+        $plan->stripe_id = 'price_1N2mzdCohdRQHIZssbEROkcA';
         $plan->price = 3;
         $plan->abbreviation = 'Test';
         $plan->description = 'You will only be changed for one single month, account is deleted unless you upgrade';
@@ -60,7 +60,7 @@ return new class extends Migration {
         $plan->name = 'Monthly User';
         $plan->slug = 'monthly-user';
         $plan->stripe_name = 'Monthly User Plan';
-        $plan->stripe_id = 'price_1Modj3CohdRQHIZsMWUIHpEp';
+        $plan->stripe_id = 'price_1N27COCohdRQHIZsul01VrGM';
         $plan->price = 3;
         $plan->abbreviation = '/Month';
         $plan->description = 'Monthly user account, access to 10 projects';
@@ -76,7 +76,7 @@ return new class extends Migration {
         $plan->name = 'Monthly Pro';
         $plan->slug = 'monthly-pro';
         $plan->stripe_name = 'Monthly Pro Plan';
-        $plan->stripe_id = 'price_1ModfXCohdRQHIZsOj5KgE0s';
+        $plan->stripe_id = 'price_1N27E8CohdRQHIZsKlikB3AK';
         $plan->price = 6;
         $plan->abbreviation = '/Month';
         $plan->description = 'Monthly Pro account, access to Unlimited projects';
@@ -92,7 +92,7 @@ return new class extends Migration {
         $plan->name = 'Yearly User';
         $plan->slug = 'Yearly-user';
         $plan->stripe_name = 'Yearly User Plan';
-        $plan->stripe_id = 'price_1Modl4CohdRQHIZsRGT5jajU';
+        $plan->stripe_id = 'price_1N27DHCohdRQHIZscuc0DgJB';
         $plan->price = 33;
         $plan->abbreviation = '/Year';
         $plan->description = 'Yearly user account, access to 10 projects';
@@ -108,7 +108,7 @@ return new class extends Migration {
         $plan->name = 'Yearly Pro';
         $plan->slug = 'Yearly-pro';
         $plan->stripe_name = 'Yearly Pro Plan';
-        $plan->stripe_id = 'price_1ModkCCohdRQHIZsKFSZ4Rxw';
+        $plan->stripe_id = 'price_1N27FDCohdRQHIZsaMgONDPB';
         $plan->price = 66;
         $plan->abbreviation = '/Year';
         $plan->description = 'Yearly Pro account, access to Unlimited projects';

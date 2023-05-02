@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DebugBar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Cashier\Exceptions\PaymentActionRequiredException;
-use Laravel\Cashier\Exceptions\PaymentFailureException;
+use Laravel\Cashier\Exceptions\IncompletePayment;
+use Laravel\Cashier\Exceptions\SubscriptionUpdateFailure;
 use App\Models\Plan;
 use App\Models\Project;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
-use Stripe\Exception\CardException;
 use Laravel\Cashier\Subscription;
 
 class SubscriberController
@@ -29,31 +27,62 @@ class SubscriberController
         // Get the authenticated user
         $user = Auth::user();
 
+        //get the country of the user for tax purposes or set to AU for testing
+        if(env('APP_ENV') == 'production'){
+            $country = $user->getUserCountry($request);
+        }else{
+            $country = 'AU';
+        };
+
         $userPlan = $user->getPlanFromUserSubscription();
 
         $paymentMethod = $request->get('payment_method');
         $paymentType = $request->get('payment-type');
 
+        //todo : refactor this to use functions to make it easier to read and understand
         if ($paymentType === 'one-time') {
+            /**
+             * We are doing a one-time payment here, so we need to create a PaymentIntent
+             *
+             * This is for the Tester account type
+             *
+             * This is a one time payment that will not be prorated or refunded
+             */
             try {
-                Stripe::setApiKey(env('STRIPE_SECRET'));
-
-                $stripeCharge = PaymentIntent::create([
-                    'amount' => $plan->price * 100,
-                    'currency' => 'usd',
-                    'description' => 'One-Time Payment',
+                // Create a new customer or update the existing customer
+                $user->createOrGetStripeCustomer([
+                    'email' => $user->email,
                     'payment_method' => $paymentMethod,
-                    'confirm' => true,
                 ]);
 
-                $project = new Project(['name' => 'Default', 'description' => 'My first project']);
+                // Charge the customer using the provided payment method
+                $user->charge($plan->price * 100, $paymentMethod, [
+                    'currency' => 'usd',
+                    'description' => 'One-Time Payment',
+                ]);
+
+                // Save the project
+                $project = new Project(['name' => 'Tester', 'description' => 'Your tester project']);
                 $user->projects()->save($project);
 
-                // Payment created successfully, redirect to a success page
+                // Create a new subscription record in the subscriptions table with a custom end date (1 month from now)
+                $subscription = $user->subscriptions()->create([
+                    'name' => $plan->stripe_name,
+                    'stripe_id' => 'one-time-payment-' . $user->id, // No Stripe subscription for a one-time payment
+                    'stripe_status' => 'active',
+                    'stripe_price' => $plan->stripe_id,
+                    'quantity' => 1,
+                    'trial_ends_at' => null,
+                    'ends_at' => now()->addMonth(),
+                ]);
+
                 return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
-            } catch (CardException $e) {
-                // Card error, redirect back to the subscription page with an error message
-                return back()->with('error', $e->getError()->message)->withInput();
+            } catch (SubscriptionUpdateFailure $e) {
+                // Payment action required, redirect to a payment page
+                return redirect($e->payment->getHostedUrl())->withInput();
+            } catch (IncompletePayment $e) {
+                // Payment failed, redirect back to the subscription page with an error message
+                return back()->with('error', $e->getMessage())->withInput();
             }
         } else {
 
@@ -62,43 +91,86 @@ class SubscriberController
                 // Create the Stripe customer
                 $user->createAsStripeCustomer();
             }
+                // Check if the user has a subscription plan already
 
 
-            // Check if the user has a subscription plan already
-            if ($userPlan instanceof Plan) {
-                $subscription = $user->subscription($userPlan->stripe_name);
-
-                if ($subscription instanceof Subscription) {
-                    $subscription->swap($plan->stripe_id);
-                }
-            }
             // Handle recurring subscription
             try {
-                // Create a new customer
-                $user->updateStripeCustomer([
-                    'address' => [
-                        'postal_code' => $request->get('postal_code'),
-                        'country' => 'AU',
-                    ],
-                ]);
 
-                // Create a new subscription for the user
-                $user->newSubscription($plan->stripe_name, $plan->stripe_id)
-                    ->create($paymentMethod, [
-                        'name' => $request->get('name'),
-                        'email' => $user->email,
-                        'payment_method' => $paymentMethod,
+
+
+                if ($userPlan instanceof Plan && $userPlan->stripe_name !== 'Tester Plan') {
+                    /**
+                     * we are checking if the user has a subscription plan already
+                     *
+                     * and if the user has a subscription plan already, we are swapping the plan
+                     * to the new plan selected
+                     *
+                     * ignore the tester plan as this is paid for with a one time payment
+                     *
+                     * swap will update Stripe with the new plan and prorate the difference
+                     */
+
+                    $subscription = $user->subscription($userPlan->stripe_name);
+
+                    if ($subscription instanceof Subscription) {
+                        $subscription->swap($plan->stripe_id);
+                    }
+
+                    $subscription->update([
+                        'name' => $plan->stripe_name,
                     ]);
 
-                $project = new Project(['name' => 'Default', 'description' => 'My first project']);
-                $user->projects()->save($project);
+                    //todo: add web hooks to handle subscription changes rl:3
 
-                // Subscription created successfully, redirect to a success page
-                return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
-            } catch (PaymentActionRequiredException $e) {
+                    // Subscription created successfully, redirect to a success page
+                    return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
+                }else {
+                    /**
+                     * Else if the user does not have a subscription plan already
+                     *
+                     * then we create a new customer and a new subscription for the user
+                     * and we also create a Default project for the user
+                     */
+
+                    // Create a new customer
+                    $user->updateStripeCustomer([
+                        'address' => [
+                            'postal_code' => $request->get('postal_code'),
+                            'country' => $country,
+                        ],
+                    ]);
+
+                    // Create a new subscription for the user
+                    $user->newSubscription($plan->stripe_name, $plan->stripe_id)
+                        ->create($paymentMethod, [
+                            'name' => $request->get('name'),
+                            'email' => $user->email,
+                            'payment_method' => $paymentMethod,
+                        ]);
+
+                    $project = new Project(['name' => 'Default', 'description' => 'My first project']);
+                    $user->projects()->save($project);
+
+                    //todo: add web hooks to handle subscription changes rl:3
+
+                    /***
+                     * if the user had a tester Plan plan already we to make the plan inactive
+                     */
+                    if ($userPlan instanceof Plan && $userPlan->stripe_name === 'Tester Plan') {
+                        $subscription = $user->subscription($userPlan->stripe_name);
+                        $subscription->update([
+                            'stripe_status' => 'inactive',
+                        ]);
+                    }
+
+                    // Subscription created successfully, redirect to a success page
+                    return view("subscription.subscribe_success", compact('user', 'plan', 'request'));
+                }
+            } catch (SubscriptionUpdateFailure $e) {
                 // Payment action required, redirect to a payment page
                 return redirect($e->payment->getHostedUrl())->withInput();
-            } catch (PaymentFailureException $e) {
+            } catch (IncompletePayment $e) {
                 // Payment failed, redirect back to the subscription page with an error message
                 return back()->with('error', $e->getMessage())->withInput();
             }

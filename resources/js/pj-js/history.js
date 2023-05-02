@@ -83,7 +83,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to account history');
+                    promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt saved to account history');
+                    window.savedStrings = response.promptHistory;
+                    window.currentIndex = window.savedStrings.length;
+                    // add last 2 prompts to the pre prompt
+                    let nextIndex = window.currentIndex
+                    $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
+                    $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+
                 } else {
                     alert('Error adding prompt history.');
                 }
@@ -97,6 +104,10 @@ $(document).ready(function () {
 
     function retrieveProjectHistory() {
         let projectId = $('#projectId').val();
+
+        if (projectId === null || projectId === undefined || projectId === '') {
+            return;
+        }
 
         $.ajax({
             url: `/projects/${projectId}/history`, // Replace with actual project ID
@@ -216,6 +227,9 @@ $(document).ready(function () {
     function popluatePromptHistory(prompt, suffix, images) {
 
         $.clearAllPromptText();
+        removeAllSuffix();
+        removeAllImages();
+
         $('.prompt-text-class')[0].value = prompt + ' ';
 
         updatePromptAllFields();

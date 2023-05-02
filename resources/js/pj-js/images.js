@@ -311,11 +311,17 @@ $(document).ready(function () {
         }
     }
 
+    function removeAllImages() {
+        $('#input-images-fields').empty();
+        createDynamicImagesRow(1, '/image', '', null, false);
+    }
+
     $.extend(window, {
          getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
         setCheckmarkGalleryImages:setCheckmarkGalleryImages,
         addImagesFromPromptHistory:addImagesFromPromptHistory,
+        removeAllImages:removeAllImages
     });
 });
