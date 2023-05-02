@@ -6,7 +6,8 @@ use App\Models\Project;
 use App\Models\PromptHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\QueryException;
+use PDOException;
 
 class ProjectController extends Controller
 {
@@ -84,29 +85,37 @@ class ProjectController extends Controller
 
     public function updatePromptHistory(Request $request, Project $project)
     {
-        // Get the description from the request
-        $prompt = $request->input('promptText');
-        $promptParams = $request->input('promptParams');
+        try {
+            // Get the description from the request
+            $prompt = $request->input('promptText') ?? null;
+            $suffix = $request->input('suffix') ?? null;
+            $images = $request->input('images') ?? null;
 
+            // If all are null don't try putting in the database just return a success
+            if (empty($prompt) && empty($suffix) && empty($images)) {
+                return response()->json(['success' => true]);
+            }
 
-        $suffix = json_encode($request->input('suffix'));
-        $images = json_encode($request->input('images'));
+            // Create a new prompt history for the project
+            $promptHistory = new PromptHistory();
+            $promptHistory->prompt = $prompt;
+            $promptHistory->suffix = $suffix;
+            $promptHistory->images = $images;
+            $promptHistory->project_id = $project->id;
+            $promptHistory->save();
 
-        // If all are null don't try putting in the database just return a success
-        if($prompt == null && $suffix == null || $images == null) {
-            return response()->json(['success' => true]);
+            $promptHistoryResult = PromptHistory::where('project_id', $project->id)->get();
+
+        } catch (PDOException $e) {
+            // If there is a database error return a JSON response indicating failure
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        } catch (QueryException $e) {
+            // If there is a database error return a JSON response indicating failure
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
 
-        // Create a new prompt history for the project
-        $promptHistory = new PromptHistory();
-        $promptHistory->prompt = $prompt;
-        $promptHistory->suffix = $suffix;
-        $promptHistory->images = $images;
-        $promptHistory->project_id = $project->id;
-        $promptHistory->save();
-
         // Return a JSON response indicating success or failure
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'promptHistory' => $promptHistoryResult]);
     }
 
     public function getPromptHistory(Project $project){

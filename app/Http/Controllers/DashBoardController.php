@@ -2,81 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
-use App\Models\Images;
-use App\Models\Groups;
-use Illuminate\Support\Facades\DB;
 
 class DashBoardController extends Controller
 {
-    function view()
+    function view(Request $request)
     {
+
         $user = auth()->user();
+        $user->accessLevels = $user->getAccessLevels();
+        $projectId = $request->input('project_id');
 
         $subscription = $user->isSubscribed();
 
-        if ($subscription === false) {
-            return view('dashboard');
-        }else{
-            $plan = $user->getSubscriptionPlan();
-            $projects = $user->projects()->get();
+        $plan = $user->getPlanFromUserSubscription();
 
-            switch ($plan->slug) {
-                case 'tester':
-                    return view('dashboard', []);
-                    break;
-                case 'monthly-user':
-                case 'Yearly-user':
-                case 'monthly-pro':
-                case 'Yearly-pro':
-                    return redirect()->route('projects.index');
-                    break;
-                default:
-                    return view('dashboard');
-                    break;
+        if ($subscription === true && $projectId !== null){
+            return view('dashboard', [
+                'user' => $user,
+                'projectId' => $projectId,
+                'plan' => $plan,
+            ]);
+        }else if($subscription === true ) {
+            if($plan->name === 'Tester') {
+                $project = Project::where('user_id', $user->id)->first();
+                return view('dashboard', [
+                    'user' => $user,
+                    'projectId' => $project->id,
+                    'plan' => $plan,
+                ]);
             }
+            return redirect()->route('projects.index');
+        } else {
+            return view('dashboard', ['user' => $user]);
         }
-
-        $images = Images::all()->where('user_id', $user->id);
-        $groups = Groups::where('user_id', $user->id)
-            ->where('groups.type', 'Image')
-            ->get();
-
-        $images->map(function ($image) {
-            $image->imageUrl = parse_url($image->link);
-            $image->imagePath = pathinfo($image->imageUrl['path']);
-
-            return $image;
-        });
-
-        return view('modals.gallery', [
-            'images' => $images,
-            'groups' => $groups,
-        ]);
     }
 
-    function viewImages($groupId = null)
-    {
+    function viewUser($project_Id, Request $request){
         $user = auth()->user();
+        $user->accessLevels = $user->getAccessLevels();
 
-        $imagesQuery = DB::table('images')
-            ->join('image_group', 'images.id', '=', 'image_group.image_id')
-            ->where('groups.type', 'Image')
-            ->where('images.user_id', $user->id);
-
-        if ($groupId !== null && $groupId !== 'all') {
-            $imagesQuery->where('image_group.group_id', $groupId);
-        }
-
-
-        $images = $imagesQuery->get();
-
-        $images->map(function ($image) {
-            $image->imageUrl = parse_url($image->link);
-            $image->imagePath = pathinfo($image->imageUrl['path']);
-            return $image;
-        });
-
-        return response()->json(['success' => true, 'images' => $images]);
+        return view('dashboard', ['user' => $user, 'projectId' => $project_Id]);
     }
 }

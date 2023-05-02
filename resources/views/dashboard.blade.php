@@ -131,7 +131,8 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
-                                    <label for="quality"></label><select id="quality" class="parameter-class w-full"></select>
+                                    <label for="quality"></label><select id="quality"
+                                                                         class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -288,10 +289,12 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1" id="suffix-add-1" class="suffix-add">
+                                <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1"
+                                                                         id="suffix-add-1" class="suffix-add">
                             </div>
                             <div class="grow">
-                                <label for="suffix-input-1"></label><input type="text" name="suffix-1" id="suffix-input-1" autocomplete="off"
+                                <label for="suffix-input-1"></label><input type="text" name="suffix-1"
+                                                                           id="suffix-input-1" autocomplete="off"
                                                                            class="suffix-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
@@ -299,11 +302,21 @@
                             $projectId]) : route('modals.suffix');
                             @endphp
                             <div class="flex-none px-3">
+                                @if($user->accessLevels->suffix)
                                 <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
                                         data-url="{{ $route }}"
                                         data-suffix-id>
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
+                                @else
+                                @php
+                                $subSuffixMessage = 'Subscribe to Pro account to access Suffix List package.';
+                                @endphp
+                                <button id="" class="open-modal icon-button-disabled " title="Suffix List"
+                                        data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
+                                    <i class="fa-sharp fa-solid fa-align-right"></i>
+                                </button>
+                                @endif
                                 <button class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
                                 </button>
@@ -321,18 +334,24 @@
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
+
+
                             <button class="add-suffix btn btn-primary">Add suffix</button>
-                            @if (isset($projectId) && $projectId !== null)
-                            <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
-                                    data-url="{{ route('suffixes.view') }}">
-                                suffix List
-                            </button>
-                            @else
-                            <a id="" class="btn btn-primary text-center" title="Suffix List"
-                               href="{{ route('subscription.pricing') }}">
-                                Suffix List
-                            </a>
-                            @endif
+                                @if ($user->accessLevels->suffix === true)
+                                <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
+                                        data-url="{{ route('suffixes.view') }}">
+                                    suffix List
+                                </button>
+                                @else
+                                    @php
+                                        $subSuffixMessage = 'Subscribe to Pro account to access Images List package.';
+                                    @endphp
+                                <button id="" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
+                                   data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
+                                    Suffix List
+                                </button>
+                                @endif
+
                         </div>
                     </div>
                 </div>
@@ -346,10 +365,12 @@
                         <div class="flex mt-2">
                             <span class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
-                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1" id="images-add-1" class="images-add">
+                                <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1"
+                                                                         id="images-add-1" class="images-add">
                             </div>
                             <div class="grow">
-                                <label for="images-input-1"></label><input type="text" name="images-1" id="images-input-1" autocomplete="off"
+                                <label for="images-input-1"></label><input type="text" name="images-1"
+                                                                           id="images-input-1" autocomplete="off"
                                                                            class="images-input disabled:text-gray-400 disabled:border-green-700">
                             </div>
                             @php
@@ -381,16 +402,19 @@
                         </div>
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-images btn btn-primary">Add image</button>
-                            @if (isset($projectId) && $projectId !== null)
+                            @if ($user->accessLevels->images === true)
                             <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl"
                                     data-modal-fixed=true data-url="{{ route('gallery.view') }}">
                                 Images gallery
                             </button>
                             @else
-                            <a id="" class="btn btn-primary text-center" title="Suffix List"
-                               href="{{ route('subscription.pricing') }}">
+                                @php
+                                    $subImageMessage = 'Subscribe to Pro account to access Images Gallery package.';
+                                @endphp
+                            <button id="" class="open-modal btn btn-primary-disabled text-center" title="Images Gallery"
+                               data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', $subImageMessage) }}">
                                 Images gallery
-                            </a>
+                            </button>
                             @endif
                         </div>
                     </div>
@@ -451,7 +475,7 @@
             retrieveProjectHistory();
 
             $('#prompt-text').on('keyup', function () {
-                updatePromptText();
+                updatePromptAllFields();
             });
 
             $(document).on('focus', '#prompt', function () {

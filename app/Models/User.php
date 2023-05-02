@@ -6,14 +6,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Billable;
-
-
+    public $accessLevels= [];
     const PLAN_FREE = 1;
     const PLAN_TESTER = 2;
     const PLAN_USER_MONTHLY = 3;
@@ -31,6 +33,7 @@ class User extends Authenticatable
         'password',
         'provider',
         'provider_id',
+        'accessLevels'
     ];
 
     /**
@@ -72,11 +75,27 @@ class User extends Authenticatable
     {
         $plans = Plan::all();
         $user = auth()->user();
-        $subscriptions = $this->subscriptions
+
+        // Enable the query log
+        DB::connection()->enableQueryLog();
+
+        $queryBuilder = Subscription::query()
             ->where('stripe_status', 'active')
             ->where('user_id', $user->id)
-            ->where('ends_at', null)
-            ->last();
+            ->where(function ($query) {
+                $query->where('ends_at', '>', now())
+                    ->orWhereNull('ends_at');
+            });
+/*
+        $query = $queryBuilder->toSql();
+        $bindings = $queryBuilder->getBindings();
+
+        dd([
+            'query' => $query,
+            'bindings' => $bindings
+        ]);
+        */
+        $subscriptions = $queryBuilder->first();
 
         $currentPlan = null;
         if ($subscriptions) {
@@ -89,28 +108,28 @@ class User extends Authenticatable
         return $currentPlan;
     }
 
-    public function getSubscriptionPlan(): ?Plan
+    public function getPlanFromUserSubscription(): ?Plan
     {
-        $plans = Plan::all();
         $user = auth()->user();
-        $subscriptions = $this->subscriptions
-            ->where('user_id', $user->id)
-            ->last();
 
-        $currentPlan = null;
-        if ($subscriptions) {
-            foreach ($plans as $plan) {
-                if ($plan->stripe_id == $subscriptions->stripe_price) {
-                    $currentPlan = $plan;
-                }
-            }
-        }
-        return $currentPlan;
+        $plan = DB::table('subscriptions')
+            ->select('plans.*')
+            ->join('plans', 'subscriptions.stripe_price', '=', 'plans.stripe_id')
+            ->where('stripe_status', 'active')
+            ->where('user_id', $user->id)
+            ->latest('subscriptions.created_at')
+            ->first();
+        return $plan ? Plan::hydrate([(array) $plan])->first()  : null;
     }
 
-    public function getUsersPlan()
+    public function getUsersPlan(): string
     {
-        $plan = $this->getSubscriptionPlan();
+        $plan = $this->getPlanFromUserSubscription();
+
+        if (!$plan) {
+            return 'Free';
+        }
+
         switch ($plan->id) {
             case self::PLAN_TESTER:
                 return 'Tester';
@@ -123,5 +142,59 @@ class User extends Authenticatable
             default:
                 return 'Free';
         }
+    }
+
+    /**
+     * @return $this
+     */
+    public function getAccessLevels()
+    {
+
+        $this->getUsersPlan();
+
+        $accesslevel = new \stdClass();
+        $accesslevel->plan = $this->getUsersPlan();
+        switch ($this->getUsersPlan()) {
+            case 'Tester':
+                $accesslevel->suffix = false;
+                $accesslevel->images = false;
+                $accesslevel->history = true;
+                $accesslevel->projectLimit = 1;
+                break;
+            case 'User':
+                $accesslevel->suffix = false;
+                $accesslevel->images = false;
+                $accesslevel->history = true;
+                $accesslevel->projectLimit = 10;
+                break;
+            case 'Professional':
+                $accesslevel->suffix = true;
+                $accesslevel->images = true;
+                $accesslevel->history = true;
+                $accesslevel->projectLimit = 0; //<-- unlimited
+                break;
+            default:
+                $accesslevel->plan = 'Free';
+                $accesslevel->suffix = false;
+                $accesslevel->images = false;
+                $accesslevel->history = false;
+                $accesslevel->projectLimit = null;//<-- none
+                break;
+        }
+        return $accesslevel;
+    }
+
+    public function getUserCountry(Request $request)
+    {
+        $ip = $request->ip(); // Get the user's IP address
+        dump($ip);
+        $response = Http::get("http://ip-api.com/json/{$ip}?fields=country");
+
+        if ($response->successful() && $response->json('status') === 'success') {
+            $data = $response->json();
+            return $data['countryCode'];
+        }
+
+        return null;
     }
 }

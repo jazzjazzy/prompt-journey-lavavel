@@ -9,6 +9,11 @@ class PromptHistory extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'suffix' => 'json',
+        'images' => 'json',
+    ];
+
     protected $table = 'prompt_history';
 
     protected $fillable = [
@@ -24,4 +29,5 @@ class PromptHistory extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
 }

@@ -9,7 +9,6 @@ $(document).ready(function () {
 // When the user clicks on the button, open the modal
     $(document).on('click', '.open-modal', function () {
 
-        console.log('this is the main model');
         const url = $(this).attr('data-url');
         const size = $(this).attr('data-modal-size');
         const isFixed = $(this).attr('data-modal-fixed');

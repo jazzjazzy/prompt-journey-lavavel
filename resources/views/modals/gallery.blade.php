@@ -107,13 +107,13 @@
             let projectId = $('#projectId').val();
 
             $.ajax({
-                url: `/gallery/${groupId}`,
+                url: '/gallery/${groupId}',
                 type: 'GET',
                 success: function (data) {
                     $('#gallery-images').html('');
                     data.images.forEach(function (image) {
-                        $('#gallery-images').append(`
-                                <a href="#" class="image-populate" data-image-url="{{$image->link}}" id="image-${image.id}">
+                        $("#gallery-images").append(`
+                                <a href="#" class="image-populate" data-image-url="${image.link}" id="image-${image.id}">
                                         <div class="w-[290px] m-2 relative overflow-hidden">
                                             <i class="fa-sharp fa-solid fa-circle-check text-green-700 absolute top-3 right-3" hidden></i>
                                             <div class="absolute bottom-0 left-0">
@@ -121,19 +121,19 @@
                                                     <div class="text-xs p-1 viewItem">
                                                         <div class="label">Host</div>
                                                         <div class="data">
-                                                            {{ $image->imageUrl['scheme'] }}://{{$image->imageUrl['host'] }}
+                                                            ${image.imageUrl['scheme']}://${image.imageUrl['host'] }
                                                         </div>
                                                     </div>
                                                     <div class="text-xs px-1 pb-3 viewItem">
                                                         <div class="label">Path</div>
                                                         <div class="data">
-                                                            {{ $image->imagePath['dirname'] }}/
+                                                            ${image.imagePath['dirname'] }/
                                                         </div>
                                                     </div>
                                                     <div class="text-xs px-1 viewItem">
                                                         <div class="label">Name</div>
                                                         <div class="data">
-                                                            {{ $image->imagePath['filename']}}.{{$image->imagePath['extension']}}
+                                                            ${image.imagePath['filename']}.${image.imagePath['extension']}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -41,5 +41,61 @@ class UserTableSeeder extends Seeder
             'provider_id' => null,
             'provider' => null,
         ]);
+
+        User::create([
+            'name' => 'Free Account',
+            'email' => 'free@pj.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => null,
+            'stripe_id' => null,
+            'pm_type' => null,
+            'pm_last_four' => null,
+            'trial_ends_at' => null,
+            'provider_id' => null,
+            'provider' => null,
+        ]);
+
+        User::create([
+            'name' => 'Tester Account',
+            'email' => 'tester@pj.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => null,
+            'stripe_id' => null,
+            'pm_type' => null,
+            'pm_last_four' => null,
+            'trial_ends_at' => null,
+            'provider_id' => null,
+            'provider' => null,
+        ]);
+
+        User::create([
+            'name' => 'User Account',
+            'email' => 'user@pj.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => null,
+            'stripe_id' => null,
+            'pm_type' => null,
+            'pm_last_four' => null,
+            'trial_ends_at' => null,
+            'provider_id' => null,
+            'provider' => null,
+        ]);
+
+        User::create([
+            'name' => 'Pro Account',
+            'email' => 'pro@pj.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'remember_token' => null,
+            'stripe_id' => null,
+            'pm_type' => null,
+            'pm_last_four' => null,
+            'trial_ends_at' => null,
+            'provider_id' => null,
+            'provider' => null,
+        ]);
     }
 }

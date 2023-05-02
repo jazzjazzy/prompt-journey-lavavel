@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = auth()->user();
-        $plan = $user->getSubscriptionPlan();
+        $plan = $user->getPlanFromUserSubscription();
         $endGracePeriod = null;
 
         if ($plan !== null) {

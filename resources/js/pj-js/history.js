@@ -28,7 +28,7 @@ $(document).ready(function () {
             promptText = stripStringFromPrompt(promptText, imagesArray);
 
             let promptArray = {
-                "promptText": promptText,
+                "prompt": promptText,
                 "suffix": suffixArray,
                 "images": imagesArray,
             };
@@ -47,14 +47,13 @@ $(document).ready(function () {
             let projectId = $('#projectId').val();
 
 
-            if (projectId !== null) {
+            if (projectId !== null && projectId !== undefined && projectId !== '') {
                 storeProjectHistory(projectId);
             } else {
                 //show alert that the prompt was copied
                 promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to clipboard');
             }
         }
-        //console.log(window.savedStrings);
     }
 
     function storeProjectHistory(projectId) {
@@ -83,7 +82,19 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
-                    promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to account history');
+                    if(response.promptHistory == undefined || response.promptHistory == null || response.promptHistory == ''){
+                        return;
+                    }
+                    promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt saved to account history');
+                    window.savedStrings = response.promptHistory;
+                    window.currentIndex = window.savedStrings.length;
+                    // add last 2 prompts to the pre prompt
+                    let nextIndex = window.currentIndex
+                    $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
+                    $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                    $('#post-prompt-1').text('');
+                    $('#post-prompt-2').text('');
+
                 } else {
                     alert('Error adding prompt history.');
                 }
@@ -98,6 +109,10 @@ $(document).ready(function () {
     function retrieveProjectHistory() {
         let projectId = $('#projectId').val();
 
+        if (projectId === null || projectId === undefined || projectId === '') {
+            return;
+        }
+
         $.ajax({
             url: `/projects/${projectId}/history`, // Replace with actual project ID
             type: 'get',
@@ -107,9 +122,10 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
+
                     window.savedStrings = response.promptHistory;
                     window.currentIndex = window.savedStrings.length;
-                    console.log(response.promptHistory);
+
                     // add last 2 prompts to the pre prompt
                     let nextIndex = window.currentIndex
                     $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
@@ -148,7 +164,7 @@ $(document).ready(function () {
                 });
             }
         });
-        return result;
+        return result.length > 0 ? result : null;
     }
 
     /**
@@ -181,7 +197,14 @@ $(document).ready(function () {
             var nextIndex = window.currentIndex + (event.keyCode === 38 ? -1 : 1);
 
             // Check if the index is within the bounds of the array
-            if (nextIndex >= 0 && nextIndex < window.savedStrings.length) {
+            if(nextIndex == window.savedStrings.length){
+                window.currentIndex = window.savedStrings.length;
+                $.clearAllPromptText(true);
+                removeAllSuffix();
+                removeAllImages();
+                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
+            } else if (nextIndex >= 0 && nextIndex < window.savedStrings.length) {
                 // Update the current index
                 window.currentIndex = nextIndex;
 
@@ -195,56 +218,29 @@ $(document).ready(function () {
                 $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
 
                 $('#prompt').val(window.savedStrings[nextIndex].prompt);
-                console.log(window.savedStrings)
 
                 $('#post-prompt-1').text(window.savedStrings[nextIndex + 1] ? window.savedStrings[nextIndex + 1].prompt : '');
                 $('#post-prompt-2').text(window.savedStrings[nextIndex + 2] ? window.savedStrings[nextIndex + 2].prompt : '');
 
                 popluatePromptHistory(window.savedStrings[nextIndex].prompt, window.savedStrings[nextIndex].suffix, window.savedStrings[nextIndex].images);
 
-            } else if (nextIndex == window.savedStrings.length) {
-                // reset the current index
-                window.currentIndex = window.savedStrings.length;
-                // update the master prompt with the current prompt and params
-                updatePromptText();
             }
 
-            //console.log(window.currentIndex);
         }
     });
-
-    //need function to search and update params fields with values from prompt
-    function updatePromptText() {
-
-        aspectParam();
-        chaosParam();
-        qualityParam();
-        noParam();
-        seedParam();
-        stopParam();
-        styleParam();
-        stylizeParam();
-        tileParam();
-        iwParam();
-        versionParam();
-        nijiParam();
-        hdParam();
-        testParam();
-        testpParam();
-        uplightParam();
-        upbetaParam();
-        upanimeParam();
-    }
 
     function popluatePromptHistory(prompt, suffix, images) {
 
         $.clearAllPromptText();
+        removeAllSuffix();
+        removeAllImages();
+
         $('.prompt-text-class')[0].value = prompt + ' ';
 
-        updatePromptText();
+        updatePromptAllFields();
 
-        addSuffixFromPromptHistory(JSON.parse(suffix));
-        addImagesFromPromptHistory(JSON.parse(images));
+        addSuffixFromPromptHistory(suffix);
+        addImagesFromPromptHistory(images);
     }
 
     function promptCopyNoticeAlert(paramId, massage) {
@@ -297,7 +293,7 @@ $(document).ready(function () {
             for (let i = 0; i < historyList.length; i++) {
                 history = history + '<li class="m-auto py-2 odd:bg-slate-50 even:bg-white">\n' +
                     '<div class="grid grid-cols-12 pt-1 m-auto px-12">\n' +
-                    '    <div class="historyPrompt col-span-11 ">' + historyList[i] + '</div>\n' +
+                    '    <div class="historyPrompt col-span-11 ">' + historyList[i].prompt + '</div>\n' +
                     '    <button class="copyFromHistroybtn col-span-1"> <i className="fas fa-copy"></i> </button>\n' +
                     '</div>\n' +
                     '</li>'
@@ -385,7 +381,6 @@ $(document).ready(function () {
             },
             error: function (response) {
                 //if the is an error log it but send back window.savedStrings
-                console.log(response);
                 $('#overlayHistory .card-body').attr('style', '');
                 $("#overlayContent").html('');
                 $("#overlayHistory").addClass('hidden');
