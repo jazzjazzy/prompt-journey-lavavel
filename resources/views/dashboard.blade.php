@@ -309,8 +309,11 @@
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
                                 @else
+                                @php
+                                $subSuffixMessage = 'Subscribe to Pro account to access Suffix List package.';
+                                @endphp
                                 <button id="" class="open-modal icon-button-disabled " title="Suffix List"
-                                        data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
+                                        data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
                                     <i class="fa-sharp fa-solid fa-align-right"></i>
                                 </button>
                                 @endif
@@ -340,8 +343,11 @@
                                     suffix List
                                 </button>
                                 @else
+                                    @php
+                                        $subSuffixMessage = 'Subscribe to Pro account to access Images List package.';
+                                    @endphp
                                 <button id="" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
-                                   data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
+                                   data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
                                     Suffix List
                                 </button>
                                 @endif
@@ -402,8 +408,11 @@
                                 Images gallery
                             </button>
                             @else
+                                @php
+                                    $subImageMessage = 'Subscribe to Pro account to access Images Gallery package.';
+                                @endphp
                             <button id="" class="open-modal btn btn-primary-disabled text-center" title="Images Gallery"
-                               data-modal-size="xl" data-url="{{ route('subscription.pricing.modal') }}">
+                               data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', $subImageMessage) }}">
                                 Images gallery
                             </button>
                             @endif

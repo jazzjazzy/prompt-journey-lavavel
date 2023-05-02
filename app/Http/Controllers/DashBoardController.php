@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Debugbar;
 
 class DashBoardController extends Controller
 {
@@ -14,8 +13,7 @@ class DashBoardController extends Controller
         $user = auth()->user();
         $user->accessLevels = $user->getAccessLevels();
         $projectId = $request->input('project_id');
-        Debugbar::info($request);
-        Debugbar::info($user->accessLevels);
+
         $subscription = $user->isSubscribed();
 
         $plan = $user->getPlanFromUserSubscription();
@@ -44,8 +42,7 @@ class DashBoardController extends Controller
     function viewUser($project_Id, Request $request){
         $user = auth()->user();
         $user->accessLevels = $user->getAccessLevels();
-        Debugbar::info($project_Id);
-        Debugbar::info($user->accessLevels);
+
         return view('dashboard', ['user' => $user, 'projectId' => $project_Id]);
     }
 }

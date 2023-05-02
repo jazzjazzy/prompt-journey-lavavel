@@ -14,7 +14,7 @@
         <span class="text-md px-3">Yearly</span>
     </div>
     <div class="flex justify-center mb-3 p-0 m-0 h-6"><span id="savings"
-                                                            class="hidden">Save 1 month when you pay yearly</span></div>
+                                                            class="hidden">Save 2 month when you pay yearly</span></div>
 
     <div class="Pricing grid grid-cols-4 w-3/4 mx-auto gap-5">
         @foreach ($plans as $plan)

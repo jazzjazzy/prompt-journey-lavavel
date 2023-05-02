@@ -1,4 +1,3 @@
-
 //section select arrays
 const aspectOptions = [
     {value: '1:1', text: '1:1'},
@@ -71,10 +70,10 @@ $(document).ready(function () {
         create: true,
         dropdownParent: 'body',
         render: {
-            option: function(data, escape) {
+            option: function (data, escape) {
                 return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';
             },
-            item: function(data, escape) {
+            item: function (data, escape) {
                 return '<div class="p-0">' + escape(data.text) + '</div>';
             }
         },
@@ -88,10 +87,10 @@ $(document).ready(function () {
         create: false,
         dropdownParent: 'body',
         render: {
-            option: function(data, escape) {
+            option: function (data, escape) {
                 return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';
             },
-            item: function(data, escape) {
+            item: function (data, escape) {
                 return '<div class="p-0">' + escape(data.text) + '</div>';
             }
         },
@@ -269,6 +268,7 @@ $(document).ready(function () {
         const regex = /--upanime/g;
         checkboxParameters('upanime', regex);
     }
+
     //section textparams
     /*******************
      * functions to update the prompt text
@@ -318,7 +318,7 @@ $(document).ready(function () {
             if (createEnabled) {
                 selectize.addOption({value: match, text: match});
                 selectize.setValue(match);
-            }else {
+            } else {
                 selectize.setValue(match);
             }
             // remove all matches aspect ratio from prompt text
@@ -358,7 +358,7 @@ $(document).ready(function () {
     //section update master prompt
     function updatePromptText() {
 
-        if(window.currentIndex === window.savedStrings.length) {
+        if (window.currentIndex === window.savedStrings.length) {
             // get the text from prompt text area
             let promptValue = $.trim($('.prompt-text-class').val());
             var paramValue = '';
@@ -367,8 +367,6 @@ $(document).ready(function () {
 
             // add the parameters to the prompt text
             $("input.parameter-class, select.parameter-class").each(function () {
-
-
                 var type = $(this).attr("type");
                 var paraName = $(this).attr("id");
 
@@ -404,13 +402,13 @@ $(document).ready(function () {
     }
 
     function getPromptText() {
-        let promptsSting =  getPromptTextString(true);
+        let promptsSting = getPromptTextString(true);
         $.clearAllPromptText(true);
         return promptsSting;
     }
 
     function getPramaText() {
-        let promptsSting =  getPromptTextString();
+        let promptsSting = getPromptTextString();
         $.clearAllPromptText();
         return promptsSting;
     }
@@ -435,7 +433,7 @@ $(document).ready(function () {
                 }
             }
             if (paramValue !== '') {
-                     value += paramValue;
+                value += paramValue;
             }
         });
         return value;

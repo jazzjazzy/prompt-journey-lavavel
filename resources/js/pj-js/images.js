@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     // Your SortableJS initialization code goes here.
     let inputImageFields = document.getElementById('input-image-fields');
-    if(inputImageFields) {
+    if (inputImageFields) {
         new Sortable(inputImageFields, {
             handle: '.handle',
             direction: 'vertical',
@@ -13,13 +13,13 @@ $(document).ready(function () {
         });
     }
 
-    function addCheckboxes() {
+    function addImageRow() {
 
         //count the number images input fields to create a id for the new one
         let id = $('#input-image-fields').find('.images-input').length + 1;
 
         //check if #project_id is set and create a route
-        let route = '';
+        let route = '/image';
         if ($('#projectId').val() !== undefined) {
             route = '/image/' + $('#projectId').val();
         }
@@ -69,7 +69,7 @@ $(document).ready(function () {
     });
 
     $('.add-images').click(function () {
-        addCheckboxes();
+        addImageRow();
     });
 
 
@@ -86,26 +86,26 @@ $(document).ready(function () {
 
         var imageIdData = '';
         if (imageId !== null) {
-            var imageIdData = 'data-image-id='+ imageId;
+            var imageIdData = 'data-image-id=' + imageId;
         }
         checkedData = '';
-        if(checked !== true){
+        if (checked === true) {
             var checkedData = 'checked';
         }
 
         return '<div class="flex mt-2">\n' +
             '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add" '+ checkedData +'>\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add" ' + checkedData + '>\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" '+
-            '                                   value="'+ value +'" ' +
+            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" ' +
+            '                                   value="' + value + '" ' +
             '                                       class="images-input disabled:text-gray-400 disabled:border-green-700">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"'+
-            '                             '+ imageIdData +'>\n' +
+            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"' +
+            '                             ' + imageIdData + '>\n' +
             '                                <i class="fas fa-image"></i>\n' +
             '                            </button>\n' +
             '                            <button class="icon-button images-input-copy">\n' +
@@ -124,7 +124,7 @@ $(document).ready(function () {
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
 
-        if(imgUrl=="" || imgUrl==null || imgUrl==undefined){
+        if (imgUrl == "" || imgUrl == null || imgUrl == undefined) {
             return
         }
 
@@ -133,10 +133,10 @@ $(document).ready(function () {
 
         let url = '';
         // if we have a imageId then get info from gallery else get info from url
-       if (imageId !== undefined && imageId !== null && imageId !== '') {
-             url = $(this).attr('data-url');
-        }else{
-             url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
+        if (imageId !== undefined && imageId !== null && imageId !== '') {
+            url = $(this).attr('data-url');
+        } else {
+            url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
         }
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
@@ -224,7 +224,7 @@ $(document).ready(function () {
         inputFields.each(function () {
             if ($(this).val() === '') {
                 $(this).val(url);
-                if(imageId) {
+                if (imageId) {
                     let showimage = $(this).parent().parent().find('.show-image');
                     //if we have a imageId the add it to data-image-id
                     showimage.attr('data-image-id', imageId);
@@ -249,7 +249,7 @@ $(document).ready(function () {
         }
 
         if (!added) {
-            let inputField = $(createDynamicImagesRow( rowid, route, url, imageId));
+            let inputField = $(createDynamicImagesRow(rowid, route, url, imageId));
             window.parent.$('#input-image-fields').append(inputField);
         }
 
@@ -264,7 +264,7 @@ $(document).ready(function () {
         let imageIds = [];
         //find all the ids for images used in the dashboard
         window.parent.$('#input-image-fields').find('.show-image').each(function () {
-            let imageId = 'image-'+$(this).attr('data-image-id');
+            let imageId = 'image-' + $(this).attr('data-image-id');
 
             if (imageId !== undefined) {
                 imageIds.push(imageId);
@@ -282,8 +282,8 @@ $(document).ready(function () {
         let imageIds = getImageIds();
 
         //find a list of all visable images in the modal
-       // var visableImage = [];
-        $(window.document).find('.modal a').each(function() {
+        // var visableImage = [];
+        $(window.document).find('.modal a').each(function () {
             var id = $(this).attr('id');
 
             if (imageIds.indexOf(id) >= 0) {
@@ -295,16 +295,22 @@ $(document).ready(function () {
 
     function addImagesFromPromptHistory(imagesHistory) {
 
+        if (!$.isArray(imagesHistory)) {
+            imagesHistory = JSON.parse(imagesHistory);
+        }
+
         //todo: add a route to suffix modal for paid accounts if they have a projectId
         let route = '/images';
         //add a route to images modal for paid accounts if they have a projectId
         if (window.parent.$('#projectId').val() !== undefined) {
             route += '/' + window.parent.$('#projectId').val();
         }
-        console.log(imagesHistory);
-        if(imagesHistory != null) {
-            $('#input-image-fields').empty();
-            $.each(imagesHistory, function(index, images) {
+        $('#input-image-fields').empty();
+        if (imagesHistory === null || imagesHistory.length === 0) {
+            let inputField = $(createDynamicImagesRow(1, route, '', null, null));
+            window.parent.$('#input-image-fields').append(inputField);
+        } else {
+            $.each(imagesHistory, function (index, images) {
                 let inputField = $(createDynamicImagesRow(index, route, images['input'], null, images['add']));
                 window.parent.$('#input-image-fields').append(inputField);
             });
@@ -312,16 +318,17 @@ $(document).ready(function () {
     }
 
     function removeAllImages() {
-        $('#input-images-fields').empty();
-        createDynamicImagesRow(1, '/image', '', null, false);
+        $('#input-image-fields').empty();
+        let inputField = createDynamicImagesRow(1, '/image', '', null, false);
+        window.parent.$('#input-image-fields').append(inputField);
     }
 
     $.extend(window, {
-         getImagePromptText: getImagePromptText,
+        getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
-        setCheckmarkGalleryImages:setCheckmarkGalleryImages,
-        addImagesFromPromptHistory:addImagesFromPromptHistory,
-        removeAllImages:removeAllImages
+        setCheckmarkGalleryImages: setCheckmarkGalleryImages,
+        addImagesFromPromptHistory: addImagesFromPromptHistory,
+        removeAllImages: removeAllImages
     });
 });

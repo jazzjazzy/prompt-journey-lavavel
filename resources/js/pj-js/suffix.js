@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     // Your SortableJS initialization code goes here.
     let inputSuffixFields = document.getElementById('input-suffix-fields');
-    if(inputSuffixFields) {
+    if (inputSuffixFields) {
         new Sortable(inputSuffixFields, {
             handle: '.handle',
             direction: 'vertical',
@@ -28,7 +28,7 @@ $(document).ready(function () {
         }
 
         $('#input-suffix-fields').append(
-            createDynamicSuffixRow( id, route)
+            createDynamicSuffixRow(id, route)
         );
     }
 
@@ -50,14 +50,15 @@ $(document).ready(function () {
     function paramsToSuffixList(withPrompt = false) {
         addToSuffixList();
     }
+
     function addToSuffixList(withPrompt = false) {
         var inputFields = $('#input-suffix-fields').find('.suffix-input');
         var added = false;
         let promptText;
 
-        if(withPrompt){
+        if (withPrompt) {
             promptText = getPromptText();
-        }else{
+        } else {
             promptText = getPramaText();
         }
 
@@ -81,26 +82,26 @@ $(document).ready(function () {
 
         var suffixIdData = '';
         if (suffixId !== null) {
-            var suffixIdData = 'data-suffix-id='+ suffixId;
+            var suffixIdData = 'data-suffix-id=' + suffixId;
         }
 
         checkedData = '';
-        if(checked === "true"){
+        if (checked === true || checked === 'true') {
             var checkedData = 'checked';
         }
 
         return ' <div class="flex mt-2">' +
             '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
-            '                                <input type="checkbox" name="suffixAdd-'+ rowId +'" id="suffix-add-'+ rowId +'" class="suffix-add" '+ checkedData +'>\n' +
+            '                                <input type="checkbox" name="suffixAdd-' + rowId + '" id="suffix-add-' + rowId + '" class="suffix-add" ' + checkedData + '>\n' +
             '                            </div>\n' +
             '                            <div class="grow">\n' +
-            '                                <input type="text" name="suffix-'+ rowId +'" id="suffix-input-'+ rowId +'" autocomplete="off" ' +
-            '                                   class="suffix-input disabled:text-gray-400 disabled:border-green-700" value="'+ value.trim() +'">\n' +
+            '                                <input type="text" name="suffix-' + rowId + '" id="suffix-input-' + rowId + '" autocomplete="off" ' +
+            '                                   class="suffix-input disabled:text-gray-400 disabled:border-green-700" value="' + value.trim() + '">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
             '                               <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm" data-url="' + route + '" \n' +
-            '                                  ' + suffixIdData + '>\n'+
+            '                                  ' + suffixIdData + '>\n' +
             '                                    <i class="fa-sharp fa-solid fa-align-right"></i>\n' +
             '                                </button>\n' +
             '                                <button class="icon-button suffix-input-copy">\n' +
@@ -110,7 +111,7 @@ $(document).ready(function () {
             '                                    <i class="fas fa-trash"></i>\n' +
             '                                </button\n' +
             '                            </div>\n' +
-            '                        </div>'
+            '                        </div>';
 
     }
 
@@ -119,7 +120,7 @@ $(document).ready(function () {
         var suffixText = parentDiv.find('.suffix-input').val();
         const modal = $('#myModal');
 
-        if(suffixText=="" || suffixText==null || suffixText==undefined){
+        if (suffixText == "" || suffixText == null || suffixText == undefined) {
             return
         }
 
@@ -130,7 +131,7 @@ $(document).ready(function () {
         // if we have a suffixId then get info from gallery else get info from url
         if (suffixId !== undefined && suffixId !== null && suffixId !== '') {
             url = $(this).attr('data-url');
-        }else{
+        } else {
             url = $(this).attr('data-url') + '?suffix=' + encodeURIComponent(suffixText);
         }
 
@@ -241,7 +242,7 @@ $(document).ready(function () {
         inputFields.each(function () {
             if ($(this).val() === '') {
                 $(this).val(url);
-                if(suffixId) {
+                if (suffixId) {
                     let showsuffix = $(this).parent().parent().find('.show-suffix');
                     //if we have a suffixId the add it to data-suffix-id
                     showsuffix.attr('data-suffix-id', suffixId);
@@ -267,7 +268,7 @@ $(document).ready(function () {
         }
 
         if (!added) {
-            let inputField = $(createDynamicSuffixRow( rowid, route, url, suffixId));
+            let inputField = $(createDynamicSuffixRow(rowid, route, url, suffixId));
             window.parent.$('#input-suffix-fields').append(inputField);
         }
 
@@ -282,7 +283,7 @@ $(document).ready(function () {
         let suffixIds = [];
         //find all the ids for suffixs used in the dashboard
         window.parent.$('#input-suffix-fields').find('.show-suffix').each(function () {
-            let suffixId = 'suffix-'+$(this).attr('data-suffix-id');
+            let suffixId = 'suffix-' + $(this).attr('data-suffix-id');
 
             if (suffixId !== undefined) {
                 suffixIds.push(suffixId);
@@ -301,7 +302,7 @@ $(document).ready(function () {
 
         //find a list of all visable suffixs in the modal
         // var visableSuffix = [];
-        $(window.document).find('.modal a').each(function() {
+        $(window.document).find('.modal a').each(function () {
             var id = $(this).attr('id');
 
             if (suffixIds.indexOf(id) >= 0) {
@@ -313,25 +314,34 @@ $(document).ready(function () {
 
     function addSuffixFromPromptHistory(suffixHistory) {
 
+        if (!$.isArray(suffixHistory)) {
+            suffixHistory = JSON.parse(suffixHistory);
+        }
+
         //todo: add a route to suffix modal for paid accounts if they have a projectId
         let route = '/suffix';
         //add a route to suffix modal for paid accounts if they have a projectId
         if (window.parent.$('#projectId').val() !== undefined) {
             route += '/' + window.parent.$('#projectId').val();
         }
-        console.log(suffixHistory);
-        if(suffixHistory != null) {
-            $('#input-suffix-fields').empty();
-            $.each(suffixHistory, function(index, suffix) {
+
+        $('#input-suffix-fields').empty();
+        if (suffixHistory === null || suffixHistory.length === 0) {
+            let inputField = $(createDynamicSuffixRow(1, route, '', null, null));
+            window.parent.$('#input-suffix-fields').append(inputField);
+        } else {
+            $.each(suffixHistory, function (index, suffix) {
                 let inputField = $(createDynamicSuffixRow(index, route, suffix['input'], null, suffix['add']));
                 window.parent.$('#input-suffix-fields').append(inputField);
             });
         }
+
     }
 
     function removeAllSuffix() {
         $('#input-suffix-fields').empty();
-        createDynamicSuffixRow(1, '/suffix', '', null, true);
+        let inputField = createDynamicSuffixRow(1, '/suffix', '', null, false);
+        window.parent.$('#input-suffix-fields').append(inputField);
     }
 
     $.extend(window, {
@@ -341,7 +351,7 @@ $(document).ready(function () {
         addToSuffixModalList: addToSuffixModalList,
         getSuffixPromptText: getSuffixPromptText,
         setCheckmarkListSuffix: setCheckmarkListSuffix,
-        addSuffixFromPromptHistory:addSuffixFromPromptHistory,
+        addSuffixFromPromptHistory: addSuffixFromPromptHistory,
         removeAllSuffix: removeAllSuffix
     });
 

@@ -3,25 +3,27 @@
 @section('content')
 <form action="/subscribe" method="POST">
     @csrf
-    <div class="plan text-4xl text-center my-9 boldest">Choose a subscription plan</div>
-    <div class="flex justify-center mb-3">
+    <div class="plan text-4xl text-center my-5 boldest">{{$message}}</div>
+    <div class="flex justify-center mb-1">
         <span class="text-md px-3">Monthly</span>
         <label for="toggle" class="toggle-switch bg-blue-200 cursor-pointer relative w-12 h-6 rounded-full">
             <input type="checkbox" id="toggle" class="sr-only peer">
             <span class="w-2/5 h-4/5 bg-blue-400 absolute rounded-full left-1 top-0.5 peer-checked:bg-blue-600
         peer-checked:left-6 transition-all duration-500"></span>
         </label>
+
+
         <span class="text-md px-3">Yearly</span>
     </div>
     <div class="flex justify-center mb-3 p-0 m-0 h-6"><span id="savings"
-                                                            class="hidden">Save 1 month when you pay yearly</span></div>
+                                                            class="hidden">Save 2 month when you pay yearly</span></div>
 
     <div class="Pricing grid grid-cols-4 w-3/4 mx-auto gap-5">
         @foreach ($plans as $plan)
         <div
             class="pricing-free bg-blue-900 drop-shadow-lg text-gray-100 col-span-1 rounded-lg border-2
             border-gray-300 p-5 bg-gradient-to-r
-            @if ($plan->name == $subscribed ) from-amber-500 via-orange-500 to-amber-500 @else from-blue-500 via-blue-500 to-blue-500 @endif
+            @if ($plan->slug == 'monthly-pro' || $plan->slug == 'Yearly-pro') from-amber-500 via-orange-500 to-amber-500 @else from-blue-500 via-blue-500 to-blue-500 @endif
             @if ($plan->abbreviation == '/Year') yearly hidden @elseif(($plan->abbreviation == '/Month')) monthly @endif ">
             <div class="heading w-full mx-auto font-bold text-2xl my-6">
                 <h2 class="text-center">{{$plan->name}}</h2>
@@ -51,8 +53,11 @@
             </div>
         </div>
         @endforeach
-    </div>
 
+    </div>
+    <div class="w-full flex justify-center items-center text-center mt-3">
+        <a href="{{route('subscription.pricing')}}" target="_blank" class="btn btn-primary w-1/2 text-2xl">Go to subscribtions page</a>
+    </div>
 </form>
 <script type="module">
 

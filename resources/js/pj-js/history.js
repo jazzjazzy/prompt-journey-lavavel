@@ -28,7 +28,7 @@ $(document).ready(function () {
             promptText = stripStringFromPrompt(promptText, imagesArray);
 
             let promptArray = {
-                "promptText": promptText,
+                "prompt": promptText,
                 "suffix": suffixArray,
                 "images": imagesArray,
             };
@@ -54,7 +54,6 @@ $(document).ready(function () {
                 promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt copied to clipboard');
             }
         }
-        //console.log(window.savedStrings);
     }
 
     function storeProjectHistory(projectId) {
@@ -83,6 +82,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
+                    if(response.promptHistory == undefined || response.promptHistory == null || response.promptHistory == ''){
+                        return;
+                    }
                     promptCopyNoticeAlert('#copy-mj-prompt', 'Prompt saved to account history');
                     window.savedStrings = response.promptHistory;
                     window.currentIndex = window.savedStrings.length;
@@ -90,6 +92,8 @@ $(document).ready(function () {
                     let nextIndex = window.currentIndex
                     $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
                     $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                    $('#post-prompt-1').text('');
+                    $('#post-prompt-2').text('');
 
                 } else {
                     alert('Error adding prompt history.');
@@ -118,9 +122,10 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.success) {
+
                     window.savedStrings = response.promptHistory;
                     window.currentIndex = window.savedStrings.length;
-                    console.log(response.promptHistory);
+
                     // add last 2 prompts to the pre prompt
                     let nextIndex = window.currentIndex
                     $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
@@ -159,7 +164,7 @@ $(document).ready(function () {
                 });
             }
         });
-        return result;
+        return result.length > 0 ? result : null;
     }
 
     /**
@@ -192,7 +197,14 @@ $(document).ready(function () {
             var nextIndex = window.currentIndex + (event.keyCode === 38 ? -1 : 1);
 
             // Check if the index is within the bounds of the array
-            if (nextIndex >= 0 && nextIndex < window.savedStrings.length) {
+            if(nextIndex == window.savedStrings.length){
+                window.currentIndex = window.savedStrings.length;
+                $.clearAllPromptText(true);
+                removeAllSuffix();
+                removeAllImages();
+                $('#pre-prompt-2').text(window.savedStrings[nextIndex - 2] ? window.savedStrings[nextIndex - 2].prompt : '');
+                $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
+            } else if (nextIndex >= 0 && nextIndex < window.savedStrings.length) {
                 // Update the current index
                 window.currentIndex = nextIndex;
 
@@ -206,21 +218,14 @@ $(document).ready(function () {
                 $('#pre-prompt-1').text(window.savedStrings[nextIndex - 1] ? window.savedStrings[nextIndex - 1].prompt : '');
 
                 $('#prompt').val(window.savedStrings[nextIndex].prompt);
-                console.log(window.savedStrings)
 
                 $('#post-prompt-1').text(window.savedStrings[nextIndex + 1] ? window.savedStrings[nextIndex + 1].prompt : '');
                 $('#post-prompt-2').text(window.savedStrings[nextIndex + 2] ? window.savedStrings[nextIndex + 2].prompt : '');
 
                 popluatePromptHistory(window.savedStrings[nextIndex].prompt, window.savedStrings[nextIndex].suffix, window.savedStrings[nextIndex].images);
 
-            } else if (nextIndex == window.savedStrings.length) {
-                // reset the current index
-                window.currentIndex = window.savedStrings.length;
-                // update the master prompt with the current prompt and params
-                updatePromptText();
             }
 
-            //console.log(window.currentIndex);
         }
     });
 
@@ -234,8 +239,8 @@ $(document).ready(function () {
 
         updatePromptAllFields();
 
-        addSuffixFromPromptHistory(JSON.parse(suffix));
-        addImagesFromPromptHistory(JSON.parse(images));
+        addSuffixFromPromptHistory(suffix);
+        addImagesFromPromptHistory(images);
     }
 
     function promptCopyNoticeAlert(paramId, massage) {
@@ -279,7 +284,6 @@ $(document).ready(function () {
         }
 
         let history = '<ul class="list-none mt-4 pl-8 divide-y divide-slate-400 overflow-auto">';
-        console.log(historyList);
 
         if (historyList.length === 0) {
             history = history + '<li class="py-4 px-6 {{ $loop->last ? \'\' : \'border-b\' }}">\n' +
@@ -377,7 +381,6 @@ $(document).ready(function () {
             },
             error: function (response) {
                 //if the is an error log it but send back window.savedStrings
-                console.log(response);
                 $('#overlayHistory .card-body').attr('style', '');
                 $("#overlayContent").html('');
                 $("#overlayHistory").addClass('hidden');

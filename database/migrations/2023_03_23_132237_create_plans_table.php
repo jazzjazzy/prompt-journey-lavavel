@@ -36,7 +36,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'false', 'text' => 'Save prompts'],
             ['checked' => 'false', 'text' => 'Access to projects'],
-            ['checked' => 'false', 'text' => 'Access to gallery']
+            ['checked' => 'false', 'text' => 'Access to image gallery'],
+            ['checked' => 'false', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
 
@@ -52,7 +53,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
             ['checked' => 'true', 'text' => 'Access 1 project'],
-            ['checked' => 'false', 'text' => 'Access to gallery']
+            ['checked' => 'false', 'text' => 'Access to image gallery'],
+            ['checked' => 'false', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
 
@@ -68,7 +70,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
             ['checked' => 'true', 'text' => 'Access 10 projects'],
-            ['checked' => 'false', 'text' => 'Access to gallery']
+            ['checked' => 'false', 'text' => 'Access to image gallery'],
+            ['checked' => 'false', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
 
@@ -84,7 +87,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
             ['checked' => 'true', 'text' => 'Access unlimited projects'],
-            ['checked' => 'true', 'text' => 'Access to gallery']
+            ['checked' => 'true', 'text' => 'Access to image gallery'],
+            ['checked' => 'true', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
 
@@ -100,7 +104,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
             ['checked' => 'true', 'text' => 'Access 10 projects'],
-            ['checked' => 'false', 'text' => 'Access to gallery']
+            ['checked' => 'false', 'text' => 'Access to image gallery'],
+            ['checked' => 'false', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
 
@@ -116,7 +121,8 @@ return new class extends Migration {
             ['checked' => 'true', 'text' => 'Access to Prompt journey'],
             ['checked' => 'true', 'text' => 'Save prompts'],
             ['checked' => 'true', 'text' => 'Access unlimited projects'],
-            ['checked' => 'true', 'text' => 'Access to gallery']
+            ['checked' => 'true', 'text' => 'Access to image gallery'],
+            ['checked' => 'true', 'text' => 'Access to Suffix List']
         ]);
         $plan->save();
     }

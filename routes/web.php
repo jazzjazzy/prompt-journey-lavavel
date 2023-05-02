@@ -52,7 +52,7 @@ Route::get('/dashboard',  [DashBoardController::class, 'view'])->middleware(['au
 Route::get('/dashboard/{projectId?}',  [DashBoardController::class, 'viewUser'])->middleware(['auth', 'verified'])->name('dashboard.project');
 
 Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
-Route::get('/page/pricing', [PlansController::class, 'modal'])->name('subscription.pricing.modal');
+Route::get('/page/pricing/{message?}', [PlansController::class, 'modal'])->name('subscription.pricing.modal');
 
 Route::middleware(['auth'])->group(function () {
     // profiles
