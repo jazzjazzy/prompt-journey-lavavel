@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Models\Images;
 use App\Models\Groups;
@@ -45,7 +46,14 @@ class GalleryController extends Controller
         }
 
 
-        $images = $imagesQuery->get();
+        $sql = $imagesQuery->toSql(); // Get the SQL query being executed
+        $bindings = $imagesQuery->getBindings(); // Get the parameter bindings for the query
+        $images = $imagesQuery->get(); // Execute the query and get the results
+
+        /*dump($groupId);
+        dump("SQL query: $sql");
+        dump("Bindings: " . json_encode($bindings));
+        dd("Results: " . json_encode($images));*/
 
         $images->map(function ($image) {
             $image->imageUrl = parse_url($image->link);

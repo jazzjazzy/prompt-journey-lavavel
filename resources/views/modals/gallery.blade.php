@@ -107,7 +107,7 @@
             let projectId = $('#projectId').val();
 
             $.ajax({
-                url: '/gallery/${groupId}',
+                url: '/gallery/'+groupId,
                 type: 'GET',
                 success: function (data) {
                     $('#gallery-images').html('');

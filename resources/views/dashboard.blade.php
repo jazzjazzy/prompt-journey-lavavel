@@ -180,7 +180,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="stylize" class="parameter-class w-full">
+                                    <input type="number" id="stylize" class="parameter-class w-full">
                                 </div>
                             </div>
                         </div>
@@ -188,7 +188,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="iw">--iw</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="iw" class="parameter-class">
+                                    <input type="number" id="iw" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -301,21 +301,28 @@
                             $route = isset($projectId) && $projectId !== null ? route('modals.suffix', ['project' =>
                             $projectId]) : route('modals.suffix');
                             @endphp
+
+                            {{-- if user don't have suffix access then create route createDynamicSuffixRow in suffix.js --}}
+                            @if ($user->accessLevels->suffix !== true)
+                                @php
+                                    $subSuffixMessage = 'You do not have access to suffixes. Please subscribe to a plan that includes suffixes.';
+                                    $route = route('subscription.pricing.modal', ['message' => $subSuffixMessage]);
+                                @endphp
+                                <input type="hidden" id="is-suffix" value="{{ $route }}">
+                            @endif
+
                             <div class="flex-none px-3">
                                 @if($user->accessLevels->suffix)
-                                <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
-                                        data-url="{{ $route }}"
-                                        data-suffix-id>
-                                    <i class="fa-sharp fa-solid fa-align-right"></i>
-                                </button>
+                                    <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
+                                            data-url="{{ $route }}"
+                                            data-suffix-id>
+                                        <i class="fa-sharp fa-solid fa-align-right"></i>
+                                    </button>
                                 @else
-                                @php
-                                $subSuffixMessage = 'Subscribe to Pro account to access Suffix List package.';
-                                @endphp
-                                <button id="" class="open-modal icon-button-disabled " title="Suffix List"
-                                        data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
-                                    <i class="fa-sharp fa-solid fa-align-right"></i>
-                                </button>
+                                    <button id="" class="open-modal icon-button-disabled " title="Suffix List"
+                                            data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
+                                        <i class="fa-sharp fa-solid fa-align-right"></i>
+                                    </button>
                                 @endif
                                 <button class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
@@ -334,8 +341,6 @@
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
-
-
                             <button class="add-suffix btn btn-primary">Add suffix</button>
                                 @if ($user->accessLevels->suffix === true)
                                 <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
@@ -343,11 +348,8 @@
                                     suffix List
                                 </button>
                                 @else
-                                    @php
-                                        $subSuffixMessage = 'Subscribe to Pro account to access Images List package.';
-                                    @endphp
-                                <button id="" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
-                                   data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
+                                <button id="suffix-list" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
+                                   data-modal-size="xl" data-url="{{ $route }}">
                                     Suffix List
                                 </button>
                                 @endif
