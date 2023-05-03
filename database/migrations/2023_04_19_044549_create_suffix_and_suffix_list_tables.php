@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -32,20 +31,29 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::table('suffix_group', function (Blueprint $table) {
-            $table->dropForeign('suffix_group_suffix_id_foreign');
-        });
+        // turn off foreign key constraints on the image_group table
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         Schema::dropIfExists('suffixes');
         Schema::dropIfExists('suffix_group');
 
-        $hasNonSuffixGroup = DB::table('groups')->where('type', '<>', 'Suffix')->doesntExist();
-        $isEmpty = DB::table('groups')->doesntExist();
+        // do we have a groups table?
+        if(Schema::hasTable('groups')) {
+            // is the table empty?
+            $isEmpty = DB::table('groups')->doesntExist();
+            // do we have a non-suffix type group?
+            $hasNonSuffixGroup = DB::table('groups')->where('type', '<>', 'Suffix')->doesntExist();
 
-        if ($hasNonSuffixGroup === null || $isEmpty) {
-            Schema::dropIfExists('groups');
-        } else {
-            DB::table('groups')->where('type', 'Suffix')->delete();
+            // if the table is empty or we don't have a non-suffix type group, drop the table
+            if ($hasNonSuffixGroup === null || $isEmpty) {
+                Schema::dropIfExists('groups');
+            } else {
+                // otherwise, delete the images type group
+                DB::table('groups')->where('type', 'Suffix')->delete();
+            }
         }
+
+        // turn on foreign key constraints on the image_group table
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 };

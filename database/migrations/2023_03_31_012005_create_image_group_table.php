@@ -45,8 +45,31 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('image_group');
-        Schema::dropIfExists('groups');
+        // turn off foreign key constraints on the image_group table
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Drop the images and image_group tables
         Schema::dropIfExists('images');
+        Schema::dropIfExists('image_group');
+
+
+        // do we have a groups table?
+        if(Schema::hasTable('groups')) {
+            // is the table empty?
+            $isEmpty = DB::table('groups')->doesntExist();
+            // do we have a non-images type group?
+            $hasNonImagesGroup = DB::table('groups')->where('type', '<>', 'Images')->doesntExist();
+
+            // if the table is empty or we don't have a non-images type group, drop the table
+            if ($hasNonImagesGroup === null || $isEmpty) {
+                Schema::dropIfExists('groups');
+            } else {
+                // otherwise, delete the images type group
+                DB::table('groups')->where('type', 'Images')->delete();
+            }
+        }
+
+        // turn on foreign key constraints on the image_group table
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 };

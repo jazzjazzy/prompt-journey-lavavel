@@ -46,9 +46,9 @@ $(document).ready(function () {
 
             if (type === "checkbox" && $('#' + paraName).is(":checked")) {
                 $('#' + paraName).prop("checked", false);
-            } else if (type === "text" && $('#' + paraName).val() !== '') {
+            } else if ( (type === "text" || type === 'number' ) && $('#' + paraName).val() !== '') {
                 $('#' + paraName).val('');
-            } else if (type !== "checkbox" && type !== "text") {
+            } else if ((type === undefined)) {
                 var selection = $('#' + paraName).selectize();
                 if (selection[0].selectize.getValue() !== '') {
                     let selectize = selection[0].selectize;

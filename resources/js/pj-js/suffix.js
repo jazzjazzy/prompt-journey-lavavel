@@ -16,7 +16,7 @@ $(document).ready(function () {
     /**
      * Add a new suffix row
      */
-    function addCheckboxes() {
+    function addNewSuffixRow() {
         // add the checkboxes to the #input-suffix-fields div
         var inputFields = $('#input-suffix-fields').find('.suffix-input');
 
@@ -90,6 +90,18 @@ $(document).ready(function () {
             var checkedData = 'checked';
         }
 
+
+        // need to setup the route for new suffix to the price modal if user does not have access
+        let viewSuffixIconClass = 'icon-button show-suffix';
+        let modelSize = 'sm';
+        // if the user has access to the suffix then is-suffix will be set
+        if ($('#is-suffix').length) {
+            //change the route to the price modal
+            route = $('#is-suffix').val();
+            viewSuffixIconClass = 'open-modal icon-button-disabled show-suffix';
+            modelSize = 'xl';
+        }
+
         return ' <div class="flex mt-2">' +
             '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
@@ -100,7 +112,7 @@ $(document).ready(function () {
             '                                   class="suffix-input disabled:text-gray-400 disabled:border-green-700" value="' + value.trim() + '">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
-            '                               <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm" data-url="' + route + '" \n' +
+            '                               <button class="'+viewSuffixIconClass+'" title="View Suffix" data-modal-size="'+modelSize+'" data-url="' + route + '" \n' +
             '                                  ' + suffixIdData + '>\n' +
             '                                    <i class="fa-sharp fa-solid fa-align-right"></i>\n' +
             '                                </button>\n' +
@@ -210,7 +222,7 @@ $(document).ready(function () {
     }
 
     $('.add-suffix').click(function () {
-        addCheckboxes();
+        addNewSuffixRow();
     });
 
     function getSuffixPromptText() {

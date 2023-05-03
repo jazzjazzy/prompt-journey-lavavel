@@ -18,14 +18,13 @@
                                     <nav>
                                         <ul>
                                             @foreach ($groups as $group)
-                                            <li class="group-item w-full cursor-pointer group-details"
-                                                data-group="{{$group->id}}">
+                                            <li class="group-item w-full cursor-pointer">
                                                 <a class="w-full group-details" data-group="{{$group->id}}">
                                                     {{$group->name}}
                                                 </a>
                                             </li>
                                             @endforeach
-                                            <li class="group-item w-full cursor-pointer group-details"
+                                            <li class="group-item w-full cursor-pointer"
                                                 data-group="all">
                                                 <a class="w-full group-details" data-group="all">
                                                     All

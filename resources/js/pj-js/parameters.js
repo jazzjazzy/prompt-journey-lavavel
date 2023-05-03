@@ -24,12 +24,16 @@ const versionOptions = [
     {value: '3', text: '3'},
     {value: '4', text: '4'},
     {value: '5', text: '5'},
+    {value: '5.1', text: '5.1'},
 ];
 
 const styleOptions = [
     {value: '4a', text: '4a'},
     {value: '4b', text: '4b'},
     {value: '4c', text: '4c'},
+    {value: 'raw', text: 'raw'},
+    {value: 'cute', text: 'cute'},
+    {value: 'expressive', text: 'expressive'},
 ];
 
 
@@ -281,7 +285,7 @@ $(document).ready(function () {
         const matches = promptText.match(regex);
 
         if (matches) {
-            let match = matches[0].match(/^([^ ]+) (.+)/)[2];
+            let match = $.trim(matches[0].match(/^([^ ]+) (.+)/)[2]);
             $('#' + paraName).val(match);
             let wrapper = $('#' + paraName + '-wrapper');
             var labels = wrapper.find('label');
@@ -357,8 +361,8 @@ $(document).ready(function () {
      */
     //section update master prompt
     function updatePromptText() {
-
-        if (window.currentIndex === window.savedStrings.length) {
+        console.log(window.savedStrings);
+       // if (window.currentIndex === window.savedStrings.length) {
             // get the text from prompt text area
             let promptValue = $.trim($('.prompt-text-class').val());
             var paramValue = '';
@@ -372,9 +376,9 @@ $(document).ready(function () {
 
                 if (type === "checkbox" && $('#' + paraName).is(":checked")) {
                     paramValue += ' --' + paraName;
-                } else if (type === "text" && $('#' + paraName).val() !== '') {
+                } else if ((type === "text" || type === 'number' ) && $('#' + paraName).val() !== '') {
                     paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
-                } else if (type !== "checkbox" && type !== "text") {
+                } else if (type === undefined){
                     var selection = $('#' + paraName).selectize();
                     if (selection[0].selectize.getValue() !== '') {
                         paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
@@ -398,7 +402,7 @@ $(document).ready(function () {
             mainPrompt.val(images + promptValue + paramValue + suffix);
             $.expandTextarea(mainPrompt[0]);
             mainPrompt.prop('disabled', true);
-        }
+      //  }
     }
 
     function getPromptText() {
@@ -424,9 +428,9 @@ $(document).ready(function () {
 
             if (type === "checkbox" && $('#' + paraName).is(":checked")) {
                 paramValue = ' --' + paraName;
-            } else if (type === "text" && $('#' + paraName).val() !== '') {
+            } else if ((type === "text" || type === 'number' ) && $('#' + paraName).val() !== '') {
                 paramValue = ' --' + paraName + ' ' + $('#' + paraName).val();
-            } else if (type !== "checkbox" && type !== "text") {
+            } else if ((type === undefined)) {
                 var selection = $('#' + paraName).selectize();
                 if (selection[0].selectize.getValue() !== '') {
                     paramValue = ' --' + paraName + ' ' + selection[0].selectize.getValue();
