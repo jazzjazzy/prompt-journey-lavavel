@@ -187,7 +187,7 @@ class User extends Authenticatable
     public function getUserCountry(Request $request)
     {
         $ip = $request->ip(); // Get the user's IP address
-        dump($ip);
+
         $response = Http::get("http://ip-api.com/json/{$ip}?fields=country");
 
         if ($response->successful() && $response->json('status') === 'success') {
