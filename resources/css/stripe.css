@@ -1,0 +1,17 @@
+.StripeElement {
+    @apply my-3 border border-gray-300 ring-sky-600 rounded-md px-4 py-2 bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
+}
+
+.StripeElement--focus {
+    border-color: #7c4dff;
+}
+
+.StripeElement--invalid {
+    border-color: #dc3545;
+}
+
+.StripeElement--webkit-autofill {
+    -webkit-text-fill-color: #495057 !important;
+    transition: background-color 100000000s;
+    -webkit-transition: background-color 100000000s;
+}

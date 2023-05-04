@@ -1,4 +1,3 @@
-
 //section select arrays
 const aspectOptions = [
     {value: '1:1', text: '1:1'},
@@ -25,17 +24,42 @@ const versionOptions = [
     {value: '3', text: '3'},
     {value: '4', text: '4'},
     {value: '5', text: '5'},
+    {value: '5.1', text: '5.1'},
 ];
 
 const styleOptions = [
     {value: '4a', text: '4a'},
     {value: '4b', text: '4b'},
     {value: '4c', text: '4c'},
+    {value: 'raw', text: 'raw'},
+    {value: 'cute', text: 'cute'},
+    {value: 'expressive', text: 'expressive'},
 ];
 
 
 // section select controls
 $(document).ready(function () {
+
+    function updatePromptAllFields() {
+        aspect();
+        chaos();
+        quality();
+        no();
+        seed();
+        stop();
+        style();
+        stylize();
+        tile();
+        iw();
+        version();
+        niji();
+        hd();
+        test();
+        testp();
+        uplight();
+        upbeta();
+        upanime();
+    }
 
 
     /*******************
@@ -50,10 +74,10 @@ $(document).ready(function () {
         create: true,
         dropdownParent: 'body',
         render: {
-            option: function(data, escape) {
+            option: function (data, escape) {
                 return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';
             },
-            item: function(data, escape) {
+            item: function (data, escape) {
                 return '<div class="p-0">' + escape(data.text) + '</div>';
             }
         },
@@ -67,10 +91,10 @@ $(document).ready(function () {
         create: false,
         dropdownParent: 'body',
         render: {
-            option: function(data, escape) {
+            option: function (data, escape) {
                 return '<div class="px-4 py-2 hover:bg-gray-900">' + escape(data.text) + '</div>';
             },
-            item: function(data, escape) {
+            item: function (data, escape) {
                 return '<div class="p-0">' + escape(data.text) + '</div>';
             }
         },
@@ -248,6 +272,7 @@ $(document).ready(function () {
         const regex = /--upanime/g;
         checkboxParameters('upanime', regex);
     }
+
     //section textparams
     /*******************
      * functions to update the prompt text
@@ -260,7 +285,7 @@ $(document).ready(function () {
         const matches = promptText.match(regex);
 
         if (matches) {
-            let match = matches[0].match(/^([^ ]+) (.+)/)[2];
+            let match = $.trim(matches[0].match(/^([^ ]+) (.+)/)[2]);
             $('#' + paraName).val(match);
             let wrapper = $('#' + paraName + '-wrapper');
             var labels = wrapper.find('label');
@@ -271,7 +296,7 @@ $(document).ready(function () {
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }
@@ -297,12 +322,12 @@ $(document).ready(function () {
             if (createEnabled) {
                 selectize.addOption({value: match, text: match});
                 selectize.setValue(match);
-            }else {
+            } else {
                 selectize.setValue(match);
             }
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }
@@ -326,7 +351,7 @@ $(document).ready(function () {
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
-            $('.prompt-text-class').val(promptText);
+            $('.prompt-text-class').val(promptText + ' ');
         }
         updatePromptText();
     }
@@ -336,8 +361,8 @@ $(document).ready(function () {
      */
     //section update master prompt
     function updatePromptText() {
-
-        if(window.currentIndex === window.savedStrings.length) {
+        console.log(window.savedStrings);
+       // if (window.currentIndex === window.savedStrings.length) {
             // get the text from prompt text area
             let promptValue = $.trim($('.prompt-text-class').val());
             var paramValue = '';
@@ -346,16 +371,14 @@ $(document).ready(function () {
 
             // add the parameters to the prompt text
             $("input.parameter-class, select.parameter-class").each(function () {
-
-
                 var type = $(this).attr("type");
                 var paraName = $(this).attr("id");
 
                 if (type === "checkbox" && $('#' + paraName).is(":checked")) {
                     paramValue += ' --' + paraName;
-                } else if (type === "text" && $('#' + paraName).val() !== '') {
+                } else if ((type === "text" || type === 'number' ) && $('#' + paraName).val() !== '') {
                     paramValue += ' --' + paraName + ' ' + $('#' + paraName).val();
-                } else if (type !== "checkbox" && type !== "text") {
+                } else if (type === undefined){
                     var selection = $('#' + paraName).selectize();
                     if (selection[0].selectize.getValue() !== '') {
                         paramValue += ' --' + paraName + ' ' + selection[0].selectize.getValue();
@@ -379,17 +402,17 @@ $(document).ready(function () {
             mainPrompt.val(images + promptValue + paramValue + suffix);
             $.expandTextarea(mainPrompt[0]);
             mainPrompt.prop('disabled', true);
-        }
+      //  }
     }
 
     function getPromptText() {
-        let promptsSting =  getPromptTextString(true);
+        let promptsSting = getPromptTextString(true);
         $.clearAllPromptText(true);
         return promptsSting;
     }
 
     function getPramaText() {
-        let promptsSting =  getPromptTextString();
+        let promptsSting = getPromptTextString();
         $.clearAllPromptText();
         return promptsSting;
     }
@@ -405,16 +428,16 @@ $(document).ready(function () {
 
             if (type === "checkbox" && $('#' + paraName).is(":checked")) {
                 paramValue = ' --' + paraName;
-            } else if (type === "text" && $('#' + paraName).val() !== '') {
+            } else if ((type === "text" || type === 'number' ) && $('#' + paraName).val() !== '') {
                 paramValue = ' --' + paraName + ' ' + $('#' + paraName).val();
-            } else if (type !== "checkbox" && type !== "text") {
+            } else if ((type === undefined)) {
                 var selection = $('#' + paraName).selectize();
                 if (selection[0].selectize.getValue() !== '') {
                     paramValue = ' --' + paraName + ' ' + selection[0].selectize.getValue();
                 }
             }
             if (paramValue !== '') {
-                     value += paramValue;
+                value += paramValue;
             }
         });
         return value;
@@ -427,24 +450,7 @@ $(document).ready(function () {
 
 
     $.extend(window, {
-        aspectParam: aspect,
-        chaosParam: chaos,
-        qualityParam: quality,
-        noParam: no,
-        seedParam: seed,
-        stopParam: stop,
-        styleParam: style,
-        stylizeParam: stylize,
-        tileParam: tile,
-        iwParam: iw,
-        versionParam: version,
-        nijiParam: niji,
-        hdParam: hd,
-        testParam: test,
-        testpParam: testp,
-        uplightParam: uplight,
-        upbetaParam: upbeta,
-        upanimeParam: upanime,
+        updatePromptAllFields: updatePromptAllFields,
         getPromptText: getPromptText,
         getPramaText: getPramaText,
         updatePromptText: updatePromptText,

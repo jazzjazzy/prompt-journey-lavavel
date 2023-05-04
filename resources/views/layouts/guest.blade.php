@@ -10,11 +10,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/js/main.js'])
+
 
     @if (env('APP_ENV') === 'production')
     <!-- Google tag (gtag.js) -->
@@ -44,10 +46,33 @@
     <div class="w-full sm:max-w-md mt-1 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
         {{ $slot }}
     </div>
+
+    <div id="myModal" class="modal hidden">
+        <div class="overlay">
+            <div class="card bg-gray-100 p-0 m-0">
+                <div class="close p-0">
+                    <div class="bg-red-900 m-0 px-2 rounded-xl"><i class="text-sm fa-solid fa-xmark"></i></div>
+                </div>
+                <div class="w-full h-full flex flex-col">
+                    <div class="card-header">
+                        <h1 id="modal-title" class="text-3xl">Active Modal</h1>
+                    </div>
+                    <div class="card-body flex-1 !mt-10 !p-0">
+                        <iframe class="w-full h-full" id="modal-iframe"></iframe>
+                    </div>
+                    <div class="card-footer footer-right !mt-0 p-2">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="module">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.popup-youtube').magnificPopup({
             type: 'iframe'
         });

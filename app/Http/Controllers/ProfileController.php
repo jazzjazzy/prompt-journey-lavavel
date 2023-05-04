@@ -16,8 +16,20 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = auth()->user();
+        $plan = $user->getPlanFromUserSubscription();
+        $endGracePeriod = null;
+
+        if ($plan !== null) {
+            if ($user->subscription($plan->id)->onGracePeriod()) {
+                $endGracePeriod['date'] = $user->subscription($plan->id)->ends_at->format('Y-m-d');
+                $endGracePeriod['plan'] = $plan->stripe_name;
+            }
+        }
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'endGracePeriod' => $endGracePeriod,
         ]);
     }
 

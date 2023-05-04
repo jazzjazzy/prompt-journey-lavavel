@@ -1,6 +1,8 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'overlay.css';
+@import 'modal.css';
 @import 'textarea-expander.css';
+@import 'stripe.css';
 @import '@selectize/selectize/dist/css/selectize.css';
 @import 'magnific-popup/dist/magnific-popup.css';
 
@@ -44,8 +46,9 @@
     [type='select-one'],
     textarea,
     select {
-        @apply my-3 border border-gray-300 ring-sky-600 rounded-md px-4 py-2 bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
+        @apply border border-gray-300 ring-sky-600 rounded-md bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     }
+
     [type='text'],
     [type='number'],
     select {
@@ -55,19 +58,49 @@
 
 @layer components {
 
+    #payment-form [type='text'],
+    #payment-form [type='number'],
+    #payment-form select {
+        appearance: none;
+        padding-top: 0.5rem;
+        padding-right: 0.75rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        --tw-shadow: 0 0 #0000;
+    }
+
+    #payment-form .payment-error {
+        @apply text-red-500 border border-red-500 rounded-md p-2;
+    }
+
+
+    input::placeholder {
+        color: #CFD7E0; /* Replace with your desired color */
+    }
+
     .parameter-container {
         @apply text-xs rounded p-2 border-sky-300;
     }
 
     .btn {
-        @apply  m-1 text-gray-500 drop-shadow-md text-shadow active:drop-shadow hover:drop-shadow-lg rounded-xl
+        @apply m-1 text-gray-500 drop-shadow-md text-shadow active:drop-shadow hover:drop-shadow-lg rounded-xl
     }
 
     .btn-primary {
-      @apply text-xs w-28 px-1 py-2 m-1
+        @apply text-xs w-28 px-1 py-2 m-1
         hover:bg-coquelicot hover:text-white
         text-gray-900 bg-slate-300 hover:bg-slate-500 active:bg-slate-600
         border border-gray-400
+        drop-shadow-md hover:drop-shadow-lg rounded-xl;
+    }
+
+    .btn-primary-disabled {
+        @apply text-xs w-28 px-1 py-2 m-1
+        hover:bg-coquelicot hover:text-white
+        text-gray-400 bg-slate-200 hover:bg-slate-200 active:bg-slate-600
+        border border-gray-200
         drop-shadow-md hover:drop-shadow-lg rounded-xl;
     }
 
@@ -88,6 +121,10 @@
         @apply px-3 border-t border-gray-700 mt-4 pt-2;
     }
 
+    .card .footer-right {
+        @apply flex content-end flex-row-reverse;
+    }
+
     .icon-button {
         @apply text-xs mx-1 p-1
         ring-indigo-400
@@ -100,14 +137,23 @@
         cursor-pointer;
     }
 
-    .alert{
-        float:left;
-        @apply text-[12px]
-        bg-green-200 rounded-xl h-5 pr-1 pt-1
-        relative
+    .icon-button-disabled {
+        @apply text-xs mx-1 p-1
+        ring-indigo-200
+        border-gray-300
+        hover:bg-indigo-50 hover:text-indigo-200
+        rounded-sm
+        bg-gradient-to-tl from-indigo-50 to-indigo-100
+        text-center
+        text-gray-400
+        flex-auto items-center justify-center
+        cursor-pointer;
     }
 
+
     .alert {
+        @apply my-auto pl-[70px] pr-3 text-[12px]
+        bg-green-200 rounded-xl h-5;
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -115,11 +161,13 @@
     }
 
     .alert-notice {
-        @apply pl-[80px] pr-2 bg-orange-200 border-fuchsia-900;
+        @apply bg-orange-200;
+        display: none;
+        overflow: hidden;
     }
 
     .alert-notice::before {
-        @apply text-gray-200 text-[12px] bg-coquelicot rounded-xl px-4 py-2 mr-2
+        @apply text-gray-200 text-[12px] bg-orange-600 rounded-xl px-4 py-2 mr-2
         left-0 top-0;
         content: 'Notice';
         position: absolute;
@@ -133,15 +181,14 @@
         z-index: 2; /* set z-index to display below alert message box */
     }
 
-
-
     .alert-success {
-        @apply py-2 pl-[80px] pr-2 bg-green-600;
+        @apply bg-green-300;
+        display: none;
+        overflow: hidden;
     }
 
     .alert-success::before {
-        @apply text-gray-300 text-[12px] bg-green-900 rounded-xl px-4 py-2 mr-2
-        left-0 top-0;
+        @apply text-gray-200 text-[12px] bg-green-600 rounded-xl px-4 py-2 mr-2;
         content: 'Success';
         position: absolute;
         top: 0;
@@ -154,19 +201,52 @@
         z-index: 2; /* set z-index to display below alert message box */
     }
 
-    .alert.success::before {
-        background-color: #388E3C;
-        z-index: 2; /* set lower z-index to display below alert message box */
+    .alert-error {
+        @apply bg-red-300;
+        display: none;
+        overflow: hidden;
     }
 
-    .alert.error::before {
-        background-color: #D32F2F;
+    .alert-error::before {
+        @apply text-gray-300 text-[12px] bg-red-600 rounded-xl px-4 py-2 mr-2;
+        content: 'Error';
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 64px;
+        height: 100%;
+        z-index: 2; /* set z-index to display below alert message box */
     }
 
-    .alert.warning::before {
-        background-color: #FFA000;
+
+    .viewData {
+        display: block;
+        grid-template-columns: 1fr;
     }
+
+    .viewData .viewItem {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .viewData .viewItem .label {
+        margin-right: 10px;
+    }
+
+    .viewData .viewItem .label::after {
+        @apply content-[':'];
+    }
+
+    .viewData .viewItem .data {
+        font-weight: bold;
+    }
+
 }
+
 .selectize-control {
     @apply ring-sky-600 rounded-lg bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     overflow: hidden;
@@ -175,9 +255,35 @@
 .selectize-input {
     @apply bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     border: 0;
+    padding: 4px 8px;
 }
 
 .selectize-dropdown .active:not(.selected) {
     background: #bdced9;
     color: #495c68;
+}
+
+/* Dark mode styles */
+.selectize-dropdown-content .create.active {
+    color: white;
+}
+
+.selectize-dropdown-content .create.active strong {
+    @apply text-gray-700;
+}
+
+.selectize-input .remove {
+    color: black;
+    background-color: transparent;
+    color: indianred;
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.selectize-control.multi .selectize-input > div {
+    @apply rounded-full shadow-lg text-gray-700;
+    cursor: pointer;
+    padding-left: 12px;
+    background: #b4b4b4;
+    border: 0;
 }

@@ -16,17 +16,43 @@
                         {{ __('Prompt Journey') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('subscription.pricing')"
+                                :active="request()->routeIs('subscription.pricing')">
+                        {{ __('Pricing') }}
+                    </x-nav-link>
+                </div>
 
-                        <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1" class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
-                            <div class="pt-3 flex justify-center items-center">
-                                watch me
-                                <i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i>
-                            </div>
-                        </a>
-                <a href="https://discord.gg/5wNq4yDT" target="_blank" class="inline-flex items-center ml-2 px-1 pt-3"><i class="fab fa-discord  m-3 text text-indigo-700 text-[35px]"></i></a>
+                @if(Auth::user()->isSubscribed())
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('projects.index')"
+                                :active="request()->routeIs('projects.index')">
+                        {{ __('Projects') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
+
+                <a href="https://www.youtube.com/watch?v=X4_leGsfPME?autoplay=1&vq=hd1080&controls=1"
+                   class="popup-youtube inline-flex items-center ml-10 px-1 pt-1 dark:border-indigo-600 text-sm font-medium leading-5 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
+                    <div class="pt-3 flex justify-center items-center">
+                        watch me
+                        <i class="ml-3 fa-solid fa-play-circle text text-red-400 text-[35px]"></i>
+                    </div>
+                </a>
+                <a href="https://discord.gg/5wNq4yDT" target="_blank" class="inline-flex items-center ml-2 px-1 pt-3"><i
+                        class="fab fa-discord  m-3 text text-indigo-700 text-[35px]"></i></a>
+
+
+                <div class="pl-6 my-auto text-xl text-gray-500">
+                    @if (isset($plan))
+                    Current Plan : {{ $plan->name }} <span class="pl-2 text-bold text-red-300 text-xs">@if ($daysTillExpire !== null)[ expires in {{ $daysTillExpire }} days ]@endif</span>
+                    @endif
+                </div>
+
+
 
             </div>
-
             <!-- Settings Dropdown -->
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

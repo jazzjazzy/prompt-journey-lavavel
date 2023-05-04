@@ -1,0 +1,17 @@
+
+/* This will fixed the heigh of the modal to remove the scroll bar */
+.modal-fixed {
+    height: 100vh;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.flex {
+    display: flex;
+}
+
+.overflow-y-scroll {
+    overflow-y: scroll;
+}
