@@ -11,6 +11,8 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Cashier\Billable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Stevebauman\Location\Position;
+use Location;
 
 class User extends Authenticatable
 {
@@ -188,11 +190,15 @@ class User extends Authenticatable
     {
         $ip = $request->ip(); // Get the user's IP address
 
-        $response = Http::get("http://ip-api.com/json/{$ip}?fields=country");
+        // since we are in docker we need to set the ip to a mock external AU one
+        if(env('APP_ENV') == 'local') {
+            $ip = '60.242.236.239';
+        }
 
-        if ($response->successful() && $response->json('status') === 'success') {
-            $data = $response->json();
-            return $data['countryCode'];
+        $countryInfo = Location::get($ip);
+
+        if($countryInfo instanceof Position){
+            return $countryInfo->countryCode;
         }
 
         return null;

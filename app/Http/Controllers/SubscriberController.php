@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 use Laravel\Cashier\Exceptions\SubscriptionUpdateFailure;
+use Stripe\Exception\InvalidRequestException;
 use App\Models\Plan;
 use App\Models\Project;
 use Laravel\Cashier\Subscription;
@@ -36,12 +37,8 @@ class SubscriberController
         // Get the authenticated user
         $user = Auth::user();
 
-        //get the country of the user for tax purposes or set to AU for testing
-        if(env('APP_ENV') == 'production'){
-            $country = $user->getUserCountry($request);
-        }else{
-            $country = 'AU';
-        };
+        //get the country of the user for tax purposes
+        $country = $user->getUserCountry($request);
 
         $userPlan = $user->getPlanFromUserSubscription();
 
@@ -52,13 +49,12 @@ class SubscriberController
             return $this->processOneTimePayment($user, $plan, $paymentMethod, $request);
         } else {
 
-            // Check if the user already has a Stripe customer ID
-            if (!$user->stripe_id) {
-                // Create the Stripe customer
-                $user->createAsStripeCustomer();
-            }
-
             try {
+                // Check if the user already has a Stripe customer ID
+                if (!$user->stripe_id) {
+                    // Create the Stripe customer
+                    $user->createAsStripeCustomer();
+                }
                 // Check if the user already has a subscription and it is not a Tester plan
                 if ($userPlan instanceof Plan && $userPlan->stripe_name !== 'Tester Plan') {
                     // if user already has a subscription, swap it
@@ -71,6 +67,9 @@ class SubscriberController
                 // Payment action required, redirect to a payment page
                 return redirect($e->payment->getHostedUrl())->withInput();
             } catch (IncompletePayment $e) {
+                // Payment failed, redirect back to the subscription page with an error message
+                return back()->with('error', $e->getMessage())->withInput();
+            } catch (InvalidRequestException $e) {
                 // Payment failed, redirect back to the subscription page with an error message
                 return back()->with('error', $e->getMessage())->withInput();
             }
