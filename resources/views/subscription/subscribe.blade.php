@@ -108,15 +108,15 @@
                     </div>
                 </div>
                 <div class="card-footer footer-right">
-                    @if(session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
                     <div class="col-xl-12 col-lg-12">
                         <a href="{{route('subscription.pricing')}}"
                            class="btn btn-primary text-center w-30 inline-block" id="cancel-button">
                             Cancel
                         </a>
                     </div>
+                    @if(session('error'))
+                    <div class="alert alert-error">{{ session('error') }}</div>
+                    @endif
                 </div>
 
         </form>
