@@ -461,7 +461,8 @@
     </script>
 
     {{-- remove this on local as it is announcing when working on pages --}}
-    @if (env('APP_ENV') === 'production')
+    {{-- also only do this ig the user is free plan as they can't save prompts --}}
+    @if (env('APP_ENV') === 'production' && $user->accessLevels->plan === 'Free')
     <script type="module">
         $(document).ready(function () {
             $(window).bind('beforeunload', function () {
