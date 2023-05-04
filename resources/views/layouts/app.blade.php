@@ -52,7 +52,7 @@
                     | <div data-url="{{route('privacy')}}" title="Privacy Policy" class="open-modal inline-block cursor-pointer" data-model-size="xl">Privacy Policy</div>
                 </span>
         <span class="float-right">
-                <i class="fa fa-envelope"></i> <a href="mailto:jsjazzau@gmail.com" target="_blank">jsjazzau@gmail.com </a>
+                 <a href="mailto:aithought@proton.me" target="_blank"><i class="fa fa-envelope"></i> Contact us </a>
                 </span>
     </footer>
 </div>

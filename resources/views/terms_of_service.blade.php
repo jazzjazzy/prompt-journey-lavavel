@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-policies-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')"/>
     <div style="margin: 20px">
@@ -117,9 +117,9 @@
 
     Contact Information
     <ol>
-        <li>If you have any questions about these Terms of Service or Prompt Journey, please contact us at
-            jsjazzau@gmail.com.
+        <li>If you have any questions about these Terms of Service or Prompt Journey, please contact
+            <span id="email"></span>.
         </li>
     </ol>
-</x-guest-layout>
+</x-policies-layout>
 

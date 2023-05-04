@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Cashier::calculateTaxes();
 
+        //if login user is tester, then show hoe many days left before expire
         View::composer('layouts.navigation', function ($view) {
             $user = auth()->user();
             $plan = null;

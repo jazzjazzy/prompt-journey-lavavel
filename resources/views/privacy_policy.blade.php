@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-policies-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')"/>
     <div style="margin: 20px">
@@ -37,6 +37,6 @@
             Policy, we will notify you by email or by posting a notice on our website.</p>
         <h2>Contact Us</h2>
         <p>If you have any questions or concerns about this Privacy Policy or our practices, please contact us at
-            <a href="mailto:jsjazzau@gmail.com">jsjazzau@gmail.com</a>.</p>
+            <span id="email"></span>.</p>
     </div>
-</x-guest-layout>
+</x-policies-layout>
