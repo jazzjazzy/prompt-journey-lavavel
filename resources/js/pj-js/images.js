@@ -136,7 +136,7 @@ $(document).ready(function () {
         if (imageId !== undefined && imageId !== null && imageId !== '') {
             url = $(this).attr('data-url');
         } else {
-            url = $(this).attr('data-url') + '?image=' + encodeURIComponent(imgUrl);
+            url = $(this).attr('data-url') + '?' + createQueryStringFromUrl(imgUrl);
         }
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
@@ -321,6 +321,43 @@ $(document).ready(function () {
         $('#input-image-fields').empty();
         let inputField = createDynamicImagesRow(1, '/image', '', null, false);
         window.parent.$('#input-image-fields').append(inputField);
+    }
+
+    function createQueryStringFromUrl(url) {
+        // Break down the URL
+        var a = document.createElement('a');
+        a.href = url;
+
+        // Extract the components of the URL
+        var scheme = a.protocol.replace(':','');
+        var host = a.hostname;
+        var dirname = a.pathname.split('/').slice(0, -1).join('/');
+        var file = a.pathname.split('/').pop();
+        var ext = file.split('.').pop();
+        file = file.replace('.' + ext, '');
+
+        // Create an object with the URL components
+        var urlObj = {
+            'scheme': scheme,
+            'host': host,
+            'dirname': dirname,
+            'file': file,
+            'ext': ext
+        };
+
+        // Encode the values of the object properties
+        for (var prop in urlObj) {
+            if (urlObj.hasOwnProperty(prop)) {
+                urlObj[prop] = encodeURIComponent(urlObj[prop]);
+            }
+        }
+
+        // Convert the object to a query string
+        var queryString = Object.keys(urlObj).map(function(key) {
+            return key + '=' + urlObj[key];
+        }).join('&');
+
+        return queryString;
     }
 
     $.extend(window, {
