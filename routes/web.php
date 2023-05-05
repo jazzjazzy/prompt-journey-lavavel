@@ -55,6 +55,9 @@ Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pr
 Route::get('/page/pricing/{message?}', [PlansController::class, 'modal'])->name('subscription.pricing.modal');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/pricing', [PlansController::class, 'index'])->name('subscription.pricing');
+    Route::get('/page/pricing/{message?}', [PlansController::class, 'modal'])->name('subscription.pricing.modal');
+
     // profiles
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
