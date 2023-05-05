@@ -24,7 +24,7 @@
                             @csrf
                             <input id="image-link" type="hidden" value="{{$image}}"/>
                             <div class="grid grid-cols-12">
-                                @if (isset($projectId) && $projectId !== null)
+                                @if (isset($projectId) && $projectId !== null && $user->accessLevels->images == true)
                                 <div class="col-span-4">
                                     <div class="pl-0 pb-3 h-1/2">
                                         <div class="h-[15rem] w-[15rem] border-2">
@@ -103,7 +103,7 @@
                                 @endif
                             </div>
                         </form>
-                        @if (isset($projectId) && $projectId !== null)
+                        @if ((isset($projectId) && $projectId !== null) && $user->accessLevels->images == true)
                         <div class="viewData">
                             <div class="text-xs p-3 viewItem">
                                 <div class="label">Host</div>

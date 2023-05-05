@@ -15,6 +15,7 @@ class ImagesController extends Controller
     public function edit(Project $project, Images $images, Request $request): View
     {
         $user = auth()->user();
+        $user->accessLevels = $user->getAccessLevels();
 
         $endGracePeriod = null;
         $projectId = $project->id;
@@ -26,11 +27,14 @@ class ImagesController extends Controller
         $imageUrl = parse_url($images->link);
         $imagePath =pathinfo($imageUrl['path']);
 
+
+
         $groupsSelected = $this->getOptionsOfGroupsByimageId($imagesId);
 
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
         return view('modals.images', [
+            'user' => $user,
             'imagesName' => $imagesName,
             'groupsSelected' => $groupsSelected,
             'image' => $images->link,
@@ -45,6 +49,7 @@ class ImagesController extends Controller
     {
         $user = auth()->user();
         $projectId = $project->id;
+        $user->accessLevels = $user->getAccessLevels();
 
         $image = $this->createUrlFromQueryStrings($request) ?? null;
 
@@ -54,6 +59,7 @@ class ImagesController extends Controller
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
         return view('modals.images', [
+            'user' => $user,
             'imagesName' => '',
             'image' => $image,
             'imageUrl' => $imageUrl,
