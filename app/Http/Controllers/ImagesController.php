@@ -21,6 +21,8 @@ class ImagesController extends Controller
         $imagesId = $images->id;
         $imagesName = $images->name;
 
+        $image = $this->createUrlFromQueryStrings($request);
+
         $imageUrl = parse_url($images->link);
         $imagePath =pathinfo($imageUrl['path']);
 
@@ -44,7 +46,7 @@ class ImagesController extends Controller
         $user = auth()->user();
         $projectId = $project->id;
 
-        $image = $request->input('image')?? null;
+        $image = $this->createUrlFromQueryStrings($request) ?? null;
 
         $imageUrl = parse_url($image);
         $imagePath = pathinfo($imageUrl['path']);
@@ -145,5 +147,21 @@ class ImagesController extends Controller
         }
 
         return  count($option) == 0 ? null : json_encode($option);
+    }
+
+    /**
+     * need to re-assemble the url from the query strings
+     *
+     * @see images.js::getUrlFromQueryStrings()
+     *
+     * @param Request $request
+     * @return string
+     */
+    private function createUrlFromQueryStrings($request){
+        $domain = $request->input('scheme') . "://" . $request->input('host');
+        $directory = $request->input('dirname');
+        $fileName = $request->input('file'). '.' . $request->input('ext');
+
+        return $domain . $directory .'/'. $fileName;
     }
 }
