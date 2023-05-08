@@ -19,8 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call([SubscriptionsItemsTableSeeder::class]);
         $this->call([ProjectsTableSeeder::class]);
         $this->call([ImagesTableSeeder::class]);
+        $this->call([SuffixTableSeeder::class]);
         $this->call([GroupsTableSeeder::class]);
         $this->call([ImageGroupTableSeeder::class]);
+        $this->call([SuffixGroupTableSeeder::class]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

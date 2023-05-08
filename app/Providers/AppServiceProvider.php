@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
                 if ($plan && $plan->name == 'Tester') {
                     $subscription = $user->subscription($plan->stripe_name);
                     if ($subscription) {
-                        $endDate = Carbon::parse($subscription->ends_at);
+                        $endDate = Carbon::parse($subscription->trial_ends_at);
                         $now = Carbon::now();
                         $daysTillExpire = $now->diffInDays($endDate, false);
                     }
