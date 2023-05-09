@@ -343,7 +343,8 @@
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-suffix btn btn-primary">Add suffix</button>
                                 @if ($user->accessLevels->suffix === true)
-                                <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
+                                <button id="" class="open-modal btn btn-primary" title="Suffix List" data-modal-size="lg"
+                                        data-modal-fixed=true
                                         data-url="{{ route('suffixes.view') }}">
                                     suffix List
                                 </button>

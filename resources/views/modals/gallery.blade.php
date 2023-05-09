@@ -113,7 +113,7 @@
                     $('#gallery-images').html('');
                     data.images.forEach(function (image) {
                         $("#gallery-images").append(`
-                                <a href="#" class="image-populate" data-image-url="${image.link}" id="image-${image.id}">
+                                <a href="#" class="image-populate" data-image-url="${image.link}" id="image-${image.image_id}">
                                         <div class="w-[290px] m-2 relative overflow-hidden">
                                             <i class="fa-sharp fa-solid fa-circle-check text-green-700 absolute top-3 right-3" hidden></i>
                                             <div class="absolute bottom-0 left-0">

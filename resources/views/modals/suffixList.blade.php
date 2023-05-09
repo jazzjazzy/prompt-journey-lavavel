@@ -90,7 +90,7 @@
                     $('#gallery-suffixes').html('');
                     data.suffixes.forEach(function (suffix) {
                         $('#gallery-suffixes').append(`
-                                <a href="#" class="suffix-populate" data-suffix-url="${suffix.suffix}" id="suffix-${suffix.id}">
+                                <a href="#" class="suffix-populate" data-suffix-url="${suffix.suffix}" id="suffix-${suffix.suffix_id}">
                                         <div class="m-2 relative overflow-hidden">
                                             <i class="fa-sharp fa-solid fa-circle-check text-green-700 absolute top-2 right-6"
                                                hidden></i>
