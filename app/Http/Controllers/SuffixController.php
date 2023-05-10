@@ -41,9 +41,11 @@ class SuffixController extends Controller
         $projectId = $project->id;
 
         $suffix = $request->input('suffix')?? null;
+        $buttonRow = $request->input('rowId')?? null;
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
         return view('modals.suffix', [
+            'buttonRow' => $buttonRow,
             'suffixName' => '',
             'suffix' => $suffix,
             'projectId' => $projectId,
@@ -57,13 +59,13 @@ class SuffixController extends Controller
         $user = auth()->user();
         // $plan = $user->getSubscriptionPlan();
 
-        //if get suffix id by name id not null and group id not null that check if suffix and group already exist in suffixs and groups table and add if it don't exist
+        //if get suffix id by name id not null and group id not null that check if suffix and group already exist in suffixs_groups table and add if it don't exist
         //else return json response with success true
         if ($this->getSuffixesIdByName($request->input('title')) !== null && $this->getGroupIdByName($request->input('group')) !== null) {
             $suffixs = $this->getSuffixesIdByName($request->input('title'));
             $groups = $this->getGroupIdByName($request->input('group'));
             DB::table('suffix_group')->insertOrIgnore(['suffix_id' => $suffixs, 'group_id' => $groups]);
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'suffixId' => $suffixs->id]);
         }
 
         $suffixs = new Suffixes();
@@ -90,8 +92,7 @@ class SuffixController extends Controller
 
             $suffixs->groups()->attach($group->id);
         }
-
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'suffixId' => $suffixs->id]);
     }
 
     private function getSuffixesIdByName($suffixName) : ?Suffixes

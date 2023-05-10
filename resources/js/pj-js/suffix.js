@@ -112,14 +112,14 @@ $(document).ready(function () {
             '                                   class="suffix-input disabled:text-gray-400 disabled:border-green-700" value="' + value.trim() + '">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
-            '                               <button class="'+viewSuffixIconClass+'" title="View Suffix" data-modal-size="'+modelSize+'" data-url="' + route + '" \n' +
+            '                               <button id="row-view-suffix-' + rowId + '" class="'+viewSuffixIconClass+'" title="View Suffix" data-modal-size="'+modelSize+'" data-url="' + route + '" \n' +
             '                                  ' + suffixIdData + '>\n' +
             '                                    <i class="fa-sharp fa-solid fa-align-right"></i>\n' +
             '                                </button>\n' +
-            '                                <button class="icon-button suffix-input-copy">\n' +
+            '                                <button id="row-copy-suffix-' + rowId + '" class="icon-button suffix-input-copy">\n' +
             '                                    <i class="fas fa-copy"></i>\n' +
             '                                </button>\n' +
-            '                                <button class="icon-button suffix-input-delete">\n' +
+            '                                <button id="row-delete-suffix-' + rowId + '" class="icon-button suffix-input-delete">\n' +
             '                                    <i class="fas fa-trash"></i>\n' +
             '                                </button\n' +
             '                            </div>\n' +
@@ -131,6 +131,7 @@ $(document).ready(function () {
         var parentDiv = $(this).closest('.flex');
         var suffixText = parentDiv.find('.suffix-input').val();
         const modal = $('#myModal');
+        var rowId = $(this).attr('id').replace('row-view-suffix-', '');
 
         if (suffixText == "" || suffixText == null || suffixText == undefined) {
             return
@@ -144,7 +145,11 @@ $(document).ready(function () {
         if (suffixId !== undefined && suffixId !== null && suffixId !== '') {
             url = $(this).attr('data-url');
         } else {
+
             url = $(this).attr('data-url') + '?suffix=' + encodeURIComponent(suffixText);
+            if (rowId !== undefined && rowId !== null && rowId !== '') {
+                url += '&rowId=' + rowId;
+            }
         }
 
         $('#myModal .overlay .card').addClass('w-1/2 h-1/2');
@@ -153,9 +158,22 @@ $(document).ready(function () {
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
         modalIframe.attr('src', url);
-        const suffix = modalIframe.contents().find('#suffix-preview');
-        suffix.attr('src', suffixText);
+
+        // Add a 'load' event listener for the iframe
+        modalIframe.off('load').on('load', function() {
+            const iframe = modalIframe[0].contentWindow.document;
+            const buttonId = $(this).attr('id');
+            $(iframe).find('#row-id').data('row-suffix-id', buttonId);
+        });
+
         modal.css('display', 'block');
+        /*modalIframe.on('load', function() {
+            const suffix = modalIframe.contents().find('#row-id');
+            suffix.data('row-id', rowId);
+            console.log(suffix.data('row-id'), 'jason2');
+
+        });*/
+
     });
 
     /**

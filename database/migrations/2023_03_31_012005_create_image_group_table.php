@@ -58,14 +58,14 @@ return new class extends Migration
             // is the table empty?
             $isEmpty = DB::table('groups')->doesntExist();
             // do we have a non-images type group?
-            $hasNonImagesGroup = DB::table('groups')->where('type', '<>', 'Images')->doesntExist();
+            $hasNonImagesGroup = DB::table('groups')->where('type', '<>', 'Image')->doesntExist();
 
             // if the table is empty or we don't have a non-images type group, drop the table
             if ($hasNonImagesGroup === null || $isEmpty) {
                 Schema::dropIfExists('groups');
             } else {
                 // otherwise, delete the images type group
-                DB::table('groups')->where('type', 'Images')->delete();
+                DB::table('groups')->where('type', 'Image')->delete();
             }
         }
 

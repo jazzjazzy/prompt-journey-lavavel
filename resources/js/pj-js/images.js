@@ -76,13 +76,13 @@ $(document).ready(function () {
     /**
      * This will create the dynamic image row for Images Links
      *
-     * @param rowid - is the row that this image currenly is in the list
+     * @param rowId - is the row that this image currenly is in the list
      * @param route - if we need to display a free image modal or paid image model
      * @param value - the link to the image
      * @param imageId - the image id if we get the image from gallery
      * @returns {string} new row image to append to the #input-image-fields div
      */
-    function createDynamicImagesRow(rowid, route, value = '', imageId = null, checked = null) {
+    function createDynamicImagesRow(rowId, route, value = '', imageId = null, checked = null) {
 
         var imageIdData = '';
         if (imageId !== null) {
@@ -96,22 +96,22 @@ $(document).ready(function () {
         return '<div class="flex mt-2">\n' +
             '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add" ' + checkedData + '>\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + rowId + '" id="images-add-' + rowId + '" class="images-add" ' + checkedData + '>\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" ' +
+            '                            <input type="text" name="images-' + rowId + '" id="images-input-' + rowId + '" autocomplete="off" ' +
             '                                   value="' + value + '" ' +
             '                                       class="images-input disabled:text-gray-400 disabled:border-green-700">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"' +
+            '                            <button id="row-view-image-' + rowId + '" class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"' +
             '                             ' + imageIdData + '>\n' +
             '                                <i class="fas fa-image"></i>\n' +
             '                            </button>\n' +
-            '                            <button class="icon-button images-input-copy">\n' +
+            '                            <button id="row-copy-image-' + rowId + '" class="icon-button images-input-copy">\n' +
             '                                <i class="fas fa-copy"></i>\n' +
             '                            </button>\n' +
-            '                            <button class="icon-button images-input-delete">\n' +
+            '                            <button id="row-delete-image-' + rowId + '" class="icon-button images-input-delete">\n' +
             '                                <i class="fas fa-trash"></i>\n' +
             '                            </button>\n' +
             '                        </div>\n' +
@@ -123,6 +123,7 @@ $(document).ready(function () {
         var parentDiv = $(this).closest('.flex');
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
+        var rowId = $(this).attr('id').replace('row-view-image-', '');
 
         if (imgUrl == "" || imgUrl == null || imgUrl == undefined) {
             return
@@ -137,6 +138,9 @@ $(document).ready(function () {
             url = $(this).attr('data-url');
         } else {
             url = $(this).attr('data-url') + '?' + createQueryStringFromUrl(imgUrl);
+            if (rowId !== undefined && rowId !== null && rowId !== '') {
+                url += '&rowId=' + rowId;
+            }
         }
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
@@ -144,9 +148,20 @@ $(document).ready(function () {
         const title = $(this).attr('title');
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
+
+        // set the iframe src to the url
         modalIframe.attr('src', url);
+
+        // set the image src to the image url
         const image = modalIframe.contents().find('#image-preview');
         image.attr('src', imgUrl);
+
+        // set the row id to the iframe so we can get it when we save the image and update the input field
+        modalIframe.off('load').on('load', function() {
+            const iframe = modalIframe[0].contentWindow.document;
+            const buttonId = $(this).attr('id');
+            $(iframe).find('#row-id').data('row-image-id', buttonId);
+        });
         modal.css('display', 'block');
 
     });
@@ -236,7 +251,7 @@ $(document).ready(function () {
                 return false;
             }
         });
-        let rowid = inputFields.length + 1;
+        let rowId = inputFields.length + 1;
 
         //if route is empty with show use the input url to show the image in a modal
         let route = '/image';
@@ -249,7 +264,7 @@ $(document).ready(function () {
         }
 
         if (!added) {
-            let inputField = $(createDynamicImagesRow(rowid, route, url, imageId));
+            let inputField = $(createDynamicImagesRow(rowId, route, url, imageId));
             window.parent.$('#input-image-fields').append(inputField);
         }
 

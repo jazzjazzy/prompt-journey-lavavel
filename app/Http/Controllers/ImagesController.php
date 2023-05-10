@@ -52,6 +52,7 @@ class ImagesController extends Controller
         $user->accessLevels = $user->getAccessLevels();
 
         $image = $this->createUrlFromQueryStrings($request) ?? null;
+        $buttonRow = $request->input('rowId')?? null;
 
         $imageUrl = parse_url($image);
         $imagePath = pathinfo($imageUrl['path']);
@@ -59,6 +60,7 @@ class ImagesController extends Controller
         $groupOption = $this->getOptionsOfGroupsByUserId($user->id);
 
         return view('modals.images', [
+            'buttonRow' => $buttonRow,
             'user' => $user,
             'imagesName' => '',
             'image' => $image,
@@ -80,7 +82,7 @@ class ImagesController extends Controller
             $images = $this->getImagesIdByName($request->input('title'));
             $groups = $this->getGroupIdByName($request->input('group'));
             DB::table('image_group')->insertOrIgnore(['image_id' => $images, 'group_id' => $groups]);
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true , 'imageId' => $images->id]);
         }
 
         $images = new Images();
@@ -108,7 +110,7 @@ class ImagesController extends Controller
             $images->groups()->attach($group->id);
         }
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'imageId' => $images->id]);
     }
 
     private function getImagesIdByName($imageName) : ?Images

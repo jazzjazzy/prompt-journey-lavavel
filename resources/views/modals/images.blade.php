@@ -17,7 +17,6 @@
             <div class="modal-content">
                 <div class="modal-body flex justify-center">
                     <div class="p-5">
-
                         @if (isset($image) && filter_var($image, FILTER_VALIDATE_URL))
 
                         <form action="" method="post">
@@ -25,15 +24,15 @@
                             <input id="image-link" type="hidden" value="{{$image}}"/>
                             <div class="grid grid-cols-12">
                                 @if (isset($projectId) && $projectId !== null && $user->accessLevels->images == true)
-                                <div class="col-span-4">
-                                    <div class="pl-0 pb-3 h-1/2">
-                                        <div class="h-[15rem] w-[15rem] border-2">
-                                            <img id="image-preview" class="h-[15rem]" src="{{$image}}"
+                                <div class="col-span-5">
+                                    <div class="pl-0 pb-3">
+                                        <div class="  border-2">
+                                            <img id="image-preview" class="w-full" src="{{$image}}"
                                                  alt="Image Preview">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-span-8">
+                                <div class="col-span-7 grow">
                                     <div class="card m-3 mt-0">
                                         <div class="card-body pt-0">
                                             <div class="grid grid-cols-12 mb-3 flex items-center">
@@ -44,6 +43,7 @@
                                                 </div>
                                             </div>
                                             <div class="grid grid-cols-12 flex items-center">
+
                                                 <label class="col-span-3 text-gray-600" for="style">Add to
                                                     group</label>
                                                 <div class="col-span-9">
@@ -61,6 +61,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-span-4 footer-right">
+                                                <input type="hidden" name="row_id" id="row-image-id" value="" data-row-image-id="{{$buttonRow}}">
                                                 <button class="btn btn-primary" id="save-images">Add to gallery</button>
                                             </div>
                                         </div>
@@ -173,7 +174,7 @@
 
         });
 
-        $('#save-images').on('click', function (e) {
+        $('#save-images').on('click', (e) => {
             e.preventDefault();
             saveImages();
         });
@@ -182,6 +183,7 @@
             var select = $('#add-to-group').selectize();
             var selectize = select[0].selectize;
             var projectId = $('#projectId').val();
+            var rowIndex = $('#row-image-id').data('row-image-id');
 
             const createEnabled = selectize.getValue();
 
@@ -202,6 +204,8 @@
                 success: function (response) {
                     if (response.success) {
                         imageNoticeAlert('#image-save-notice', 'Image link Image has been saved to your gallery.');
+
+                        window.parent.postMessage({ type: 'image', elementId: response.imageId, rowIndex: 'row-view-image-' + rowIndex }, '*');
                     } else {
                         alert('Error adding image to gallery.');
                     }

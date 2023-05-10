@@ -31,6 +31,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+         // turn off foreign key constraints on the image_group table
+         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+         Schema::dropIfExists('users');
+         // turn on foreign key constraints on the image_group table
+         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 };
