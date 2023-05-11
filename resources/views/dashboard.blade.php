@@ -494,7 +494,6 @@
             window.addEventListener('message', function(event) {
                 if (event.data && event.data.elementId && event.data.rowIndex) {
                     const { type, elementId, rowIndex } = event.data;
-                    console.log(event.data);
                     $('#'+ rowIndex).attr('data-'+ type +'-id', elementId);
                 }
             }, false);

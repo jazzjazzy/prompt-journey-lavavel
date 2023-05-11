@@ -361,7 +361,6 @@ $(document).ready(function () {
      */
     //section update master prompt
     function updatePromptText() {
-        console.log(window.savedStrings);
        // if (window.currentIndex === window.savedStrings.length) {
             // get the text from prompt text area
             let promptValue = $.trim($('.prompt-text-class').val());

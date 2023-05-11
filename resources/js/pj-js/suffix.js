@@ -142,12 +142,11 @@ $(document).ready(function () {
 
         let url = '';
         // if we have a suffixId then get info from gallery else get info from url
-        if (suffixId !== undefined && suffixId !== null && suffixId !== '') {
-            url = $(this).attr('data-url');
+        if (suffixId) {
+            url = $(this).attr('data-url')+ '/' + suffixId;
         } else {
-
             url = $(this).attr('data-url') + '?suffix=' + encodeURIComponent(suffixText);
-            if (rowId !== undefined && rowId !== null && rowId !== '') {
+            if (rowId) {
                 url += '&rowId=' + rowId;
             }
         }

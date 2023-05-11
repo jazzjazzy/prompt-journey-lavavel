@@ -125,23 +125,25 @@ $(document).ready(function () {
         const modal = $('#myModal');
         var rowId = $(this).attr('id').replace('row-view-image-', '');
 
-        if (imgUrl == "" || imgUrl == null || imgUrl == undefined) {
+        if (!imgUrl) {
             return
-        }
-
-        // if the image is from gallery
-        var imageId = $(this).attr('data-image-id');
+        };
 
         let url = '';
+
+        let imageId = $(this).attr('data-image-id');
         // if we have a imageId then get info from gallery else get info from url
-        if (imageId !== undefined && imageId !== null && imageId !== '') {
+        if (imageId) {
             url = $(this).attr('data-url');
         } else {
             url = $(this).attr('data-url') + '?' + createQueryStringFromUrl(imgUrl);
-            if (rowId !== undefined && rowId !== null && rowId !== '') {
+            if (rowId) {
                 url += '&rowId=' + rowId;
             }
+
         }
+
+
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
