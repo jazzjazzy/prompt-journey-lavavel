@@ -22,10 +22,9 @@ return new class extends Migration {
         });
 
         Schema::create('suffix_group', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('suffix_id')->constrained()->onDelete('cascade');;
             $table->foreignId('group_id')->constrained()->onDelete('cascade');;
-            $table->timestamps();
+            $table->primary(['suffix_id', 'group_id']);
         });
     }
 
