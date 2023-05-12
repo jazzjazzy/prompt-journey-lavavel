@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class SuffixController extends Controller
 {
+    /**
+     * @param Project $project
+     * @param Suffixes $suffix
+     * @param Request $request
+     * @return View
+     */
     public function edit(Project $project, Suffixes $suffix, Request $request): View
     {
         $user = auth()->user();
@@ -35,6 +41,11 @@ class SuffixController extends Controller
         ]);
     }
 
+    /**
+     * @param Project $project
+     * @param Request $request
+     * @return View
+     */
     public function view(Project $project, Request $request): view
     {
         $user = auth()->user();
@@ -54,6 +65,10 @@ class SuffixController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function save(Request $request)
     {
 
@@ -131,18 +146,30 @@ class SuffixController extends Controller
         return response()->json(['success' => true, 'suffixId' => $suffix->id]);
     }
 
+    /**
+     * @param $suffixName
+     * @return Suffixes|null
+     */
     private function getSuffixesIdByName($suffixName): ?Suffixes
     {
         $suffix = Suffixes::where('name', $suffixName)->get()->first();
         return $suffix;
     }
 
+    /**
+     * @param $groupName
+     * @return Groups|null
+     */
     private function getGroupIdByName($groupName): ?Groups
     {
         $group = Groups::where('name', $groupName)->get()->first();
         return $group;
     }
 
+    /**
+     * @param $userId
+     * @return string|null
+     */
     private function getOptionsOfGroupsByUserId($userId): ?string
     {
         $group = Groups::where(['user_id' => $userId, 'type' => 'Suffix'])->get();
@@ -158,6 +185,10 @@ class SuffixController extends Controller
         return count($options) == 0 ? null : json_encode($options);
     }
 
+    /**
+     * @param $suffixId
+     * @return string|null
+     */
     private function getOptionsOfGroupsBysuffixId($suffixId): ?string
     {
         $groups = DB::table('suffix_group')

@@ -9,10 +9,19 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string
+     */
     const TABLE = 'subscriptions';
 
+    /**
+     * @var string
+     */
     protected $table = self::TABLE;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'user_id',
         'name',

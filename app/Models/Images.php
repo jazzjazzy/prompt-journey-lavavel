@@ -10,6 +10,9 @@ class Images extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string
+     */
     protected $table = 'images';
 
     protected $fillable = [

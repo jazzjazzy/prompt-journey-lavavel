@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class GalleryController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function view()
     {
         $user = auth()->user();
@@ -31,6 +34,10 @@ class GalleryController extends Controller
         ]);
     }
 
+    /**
+     * @param $groupId
+     * @return \Illuminate\Http\JsonResponse
+     */
     function viewImages($groupId = null)
     {
         $user = auth()->user();

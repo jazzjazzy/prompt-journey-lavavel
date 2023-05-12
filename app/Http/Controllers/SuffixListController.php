@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class SuffixListController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function view()
     {
         $user = auth()->user();
@@ -23,6 +26,10 @@ class SuffixListController extends Controller
         ]);
     }
 
+    /**
+     * @param $groupId
+     * @return \Illuminate\Http\JsonResponse
+     */
     function viewSuffixes($groupId = null)
     {
         $user = auth()->user();

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class ImagesController extends Controller
 {
+    /**
+     * @param Project $project
+     * @param Images $images
+     * @param Request $request
+     * @return View
+     */
     public function edit(Project $project, Images $images, Request $request): View
     {
         $user = auth()->user();
@@ -45,6 +51,11 @@ class ImagesController extends Controller
         ]);
     }
 
+    /**
+     * @param Project $project
+     * @param Request $request
+     * @return View
+     */
     public function view(Project $project, Request $request): view
     {
         $user = auth()->user();
@@ -71,6 +82,11 @@ class ImagesController extends Controller
         ]);
     }
 
+    /**
+     * @param Project $project
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function save(Project $project, Request $request)
     {
         $user = auth()->user();
@@ -144,22 +160,27 @@ class ImagesController extends Controller
         return response()->json(['success' => true, 'imageId' => $image->id]);
     }
 
-    private
-    function getImagesIdByName($imageName): ?Images
+    /**
+     * @param $imageName
+     * @return Images|null
+     */
+    private function getImagesIdByName($imageName): ?Images
     {
         $images = Images::where('name', $imageName)->get()->first();
         return $images;
     }
 
-    private
-    function getGroupIdByName($groupName): ?Groups
+    /**
+     * @param $groupName
+     * @return Groups|null
+     */
+    private function getGroupIdByName($groupName): ?Groups
     {
         $group = Groups::where('name', $groupName)->get()->first();
         return $group;
     }
 
-    private
-    function getOptionsOfGroupsByUserId($userId): ?string
+    private function getOptionsOfGroupsByUserId($userId): ?string
     {
         $group = Groups::where(['user_id' => $userId, 'type' => 'Image'])->get();
 
@@ -174,8 +195,11 @@ class ImagesController extends Controller
         return count($options) == 0 ? null : json_encode($options);
     }
 
-    private
-    function getOptionsOfGroupsByimageId($imagesId): ?string
+    /**
+     * @param $imagesId
+     * @return string|null
+     */
+    private function getOptionsOfGroupsByimageId($imagesId): ?string
     {
         $groups = DB::table('image_group')
             ->join('groups', 'image_group.group_id', '=', 'groups.id')
@@ -200,8 +224,7 @@ class ImagesController extends Controller
      * @see images.js::getUrlFromQueryStrings()
      *
      */
-    private
-    function createUrlFromQueryStrings($request)
+    private function createUrlFromQueryStrings($request): string
     {
         $domain = $request->input('scheme') . "://" . $request->input('host');
         $directory = $request->input('dirname');
