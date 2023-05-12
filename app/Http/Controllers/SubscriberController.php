@@ -160,12 +160,12 @@ class SubscriberController
             // Create a new subscription record in the subscriptions table with a custom end date (1 month from now)
             $subscription = $user->subscriptions()->create([
                 'name' => $plan->stripe_name,
-                'stripe_id' => 'one-time-payment-' . $user->id, // No Stripe subscription for a one-time payment
+                'stripe_id' => 'one-time-payment-' . uniqid($user->id.'-'), // No Stripe subscription for a one-time payment so we make one
                 'stripe_status' => 'active',
                 'stripe_price' => $plan->stripe_id,
                 'quantity' => 1,
-                'trial_ends_at' => null,
-                'ends_at' => now()->addMonth(),
+                'trial_ends_at' => now()->addMonth(),
+                'ends_at' => null,
             ]);
 
             return view("subscription.subscribe_success", compact('user', 'plan', 'request'));

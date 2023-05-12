@@ -211,21 +211,28 @@ $(document).ready(function () {
      * Delete the suffix input value and uncheck the checkbox
      */
     $('#input-suffix-fields').on('click', '.suffix-input-delete', function () {
-        var parentDiv = $(this).closest('.flex');
-        let suffixInput = parentDiv.find('.suffix-input');
-        let suffixAdd = parentDiv.find('.suffix-add');
 
-        if ($('#input-suffix-fields .flex').length > 1) {
-            parentDiv.remove();
-        } else {
-            suffixInput.val('');
-            suffixInput.prop('disabled', false);
-            suffixAdd.prop("checked", false);
-        }
-
+        deleteSuffixRow($(this));
         suffixNoticeAlert('#suffix-notice', 'Suffix string deleted');
 
     });
+
+    function deleteSuffixRow(rowElemen) {
+        var parentDiv = rowElemen.closest('.flex');
+
+        if (window.parent.$('#input-suffix-fields .flex').length > 1) {
+            parentDiv.remove();
+        } else {
+            parentDiv.remove();
+            let route = '/suffix';
+            if (window.parent.$('#projectId').val() !== undefined) {
+                route += '/' + window.parent.$('#projectId').val();
+            }
+            let inputField = $(createDynamicSuffixRow(1, route, '', null, null));
+            window.parent.$('#input-suffix-fields').append(inputField);
+        }
+        return;
+    }
 
     function suffixNoticeAlert(paramId, massage) {
         $(paramId).text(massage);
@@ -262,7 +269,7 @@ $(document).ready(function () {
         $('#prompt').val($('#prompt').val() + ' ' + suffixText);
     }
 
-    function addToSuffixModalList(url, id) {
+    function addToSuffixList(suffixStr = null, id) {
         var inputFields = window.parent.$('#input-suffix-fields').find('.suffix-input');
         var added = false;
         let suffixId = id.split('-')[1];
@@ -270,14 +277,15 @@ $(document).ready(function () {
         // Find the first empty input field
         inputFields.each(function () {
             if ($(this).val() === '') {
-                $(this).val(url);
+                //add suffix to the input field
+                $(this).val(suffixStr);
                 if (suffixId) {
                     let showsuffix = $(this).parent().parent().find('.show-suffix');
                     //if we have a suffixId the add it to data-suffix-id
                     showsuffix.attr('data-suffix-id', suffixId);
                     //and also add it to the route
                     let route = showsuffix.attr('data-url');
-                    showsuffix.attr('data-url', route + '/' + suffixId);
+                    showsuffix.attr('data-url', route);
                 }
                 added = true;
                 return false;
@@ -291,17 +299,31 @@ $(document).ready(function () {
         //add a route to suffix modal for paid accounts if they have a projectId
         if (window.parent.$('#projectId').val() !== undefined) {
             route += '/' + window.parent.$('#projectId').val();
-            if (suffixId !== undefined) {
-                route += '/' + suffixId;
-            }
         }
 
         if (!added) {
-            let inputField = $(createDynamicSuffixRow(rowid, route, url, suffixId));
+            let inputField = $(createDynamicSuffixRow(rowid, route, suffixStr, suffixId));
             window.parent.$('#input-suffix-fields').append(inputField);
         }
 
         setCheckmarkListSuffix();
+    }
+
+    function removeFromSuffixList(id) {
+        var inputFields = window.parent.$('#input-suffix-fields').find('.suffix-input');
+        let suffixId = id.split('-')[1];
+
+        // Find the first empty input field
+        inputFields.each(function () {
+
+            let dataSuffixId = $(this).parent().parent().find('.show-suffix').attr('data-suffix-id');
+            let showSuffix = $(this).parent().parent().find('.suffix-input-delete');
+            if (dataSuffixId === suffixId) {
+                deleteSuffixRow(showSuffix);
+                setCheckmarkListSuffix();
+            }
+
+        });
     }
 
     /**
@@ -331,12 +353,17 @@ $(document).ready(function () {
 
         //find a list of all visable suffixs in the modal
         // var visableSuffix = [];
-        $(window.document).find('.modal a').each(function () {
+        $(window.document).find('.modal #gallery-suffixes a').each(function () {
             var id = $(this).attr('id');
 
             if (suffixIds.indexOf(id) >= 0) {
                 let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-suffix-list', true);
                 checkMark.show();
+            }else {
+                let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-suffix-list', false);
+                checkMark.hide();
             }
         });
     }
@@ -377,7 +404,8 @@ $(document).ready(function () {
         allToSuffixList: allToSuffixList,
         paramsToSuffixList: paramsToSuffixList,
         suffixNoticeAlert: suffixNoticeAlert,
-        addToSuffixModalList: addToSuffixModalList,
+        addToSuffixList: addToSuffixList,
+        removeFromSuffixList:removeFromSuffixList,
         getSuffixPromptText: getSuffixPromptText,
         setCheckmarkListSuffix: setCheckmarkListSuffix,
         addSuffixFromPromptHistory: addSuffixFromPromptHistory,

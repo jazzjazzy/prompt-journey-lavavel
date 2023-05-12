@@ -151,12 +151,16 @@ class User extends Authenticatable
      */
     public function getAccessLevels()
     {
+        $user = auth()->user();
+        $usersPlan = $this->getUsersPlan();
 
-        $this->getUsersPlan();
+        if($usersPlan === 'Tester' && !$user->subscription('Tester Plan')->onTrial()) {
+            $usersPlan = 'Free';
+        }
 
         $accesslevel = new \stdClass();
-        $accesslevel->plan = $this->getUsersPlan();
-        switch ($this->getUsersPlan()) {
+        $accesslevel->plan = $usersPlan;
+        switch ($usersPlan) {
             case 'Tester':
                 $accesslevel->suffix = false;
                 $accesslevel->images = false;

@@ -35,25 +35,28 @@ class GalleryController extends Controller
     {
         $user = auth()->user();
 
-        $imagesQuery = DB::table('images')
-            ->join('image_group', 'images.id', '=', 'image_group.image_id')
-            ->join('groups', 'groups.id', '=', 'image_group.group_id')
-            ->where('groups.type', 'Image')
-            ->where('images.user_id', $user->id);
+        $imagesQuery = DB::table('images');
 
-        if ($groupId !== null && $groupId !== 'all') {
-            $imagesQuery->where('image_group.group_id', $groupId);
+        if($groupId === 'no-group') {
+            $imagesQuery->select('images.*')
+                ->leftJoin('image_group', 'images.id', '=', 'image_group.image_id')
+                ->leftJoin('groups', 'groups.id', '=', 'image_group.group_id')
+                ->where('groups.id', null)
+                ->where('images.user_id', $user->id);
+        } else {
+            if ($groupId === 'all') {
+                $imagesQuery->where('images.user_id', $user->id);
+            }else {
+                $imagesQuery->select('images.*')
+                    ->Join('image_group', 'images.id', '=', 'image_group.image_id')
+                    ->Join('groups', 'groups.id', '=', 'image_group.group_id')
+                    ->where('groups.type', 'Image')
+                    ->where('images.user_id', $user->id)
+                    ->where('image_group.group_id', $groupId);
+            }
         }
 
-
-        $sql = $imagesQuery->toSql(); // Get the SQL query being executed
-        $bindings = $imagesQuery->getBindings(); // Get the parameter bindings for the query
         $images = $imagesQuery->get(); // Execute the query and get the results
-
-        /*dump($groupId);
-        dump("SQL query: $sql");
-        dump("Bindings: " . json_encode($bindings));
-        dd("Results: " . json_encode($images));*/
 
         $images->map(function ($image) {
             $image->imageUrl = parse_url($image->link);

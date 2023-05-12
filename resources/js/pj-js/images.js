@@ -127,7 +127,8 @@ $(document).ready(function () {
 
         if (!imgUrl) {
             return
-        };
+        }
+        ;
 
         let url = '';
 
@@ -144,7 +145,6 @@ $(document).ready(function () {
         }
 
 
-
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
         const title = $(this).attr('title');
@@ -159,7 +159,7 @@ $(document).ready(function () {
         image.attr('src', imgUrl);
 
         // set the row id to the iframe so we can get it when we save the image and update the input field
-        modalIframe.off('load').on('load', function() {
+        modalIframe.off('load').on('load', function () {
             const iframe = modalIframe[0].contentWindow.document;
             const buttonId = $(this).attr('id');
             $(iframe).find('#row-id').data('row-image-id', buttonId);
@@ -185,19 +185,27 @@ $(document).ready(function () {
      * Delete the suffix input value and uncheck the checkbox
      */
     $('#input-image-fields').on('click', '.images-input-delete', function () {
-        var parentDiv = $(this).closest('.flex');
-        let imagesInput = parentDiv.find('.images-input');
-        let imagesAdd = parentDiv.find('.images-add');
-
-        if ($('#input-image-fields .flex').length > 1) {
-            parentDiv.remove();
-        } else {
-            imagesInput.val('');
-            imagesInput.prop('disabled', false);
-            imagesAdd.prop("checked", false);
-        }
+        deleteImageRow($(this));
         imageNoticeAlert('#images-notice', 'Image link Image deleted');
     });
+
+    function deleteImageRow(rowElemen) {
+        const parentDiv = rowElemen.closest('.flex');
+
+        if (window.parent.$('#input-image-fields .flex').length > 1) {
+            parentDiv.remove();
+        } else {
+            parentDiv.remove();
+            let route = '/image';
+            //add a route to images modal for paid accounts if they have a projectId
+            if (window.parent.$('#projectId').val() !== undefined) {
+                route += '/' + window.parent.$('#projectId').val();
+            }
+            let inputField = $(createDynamicImagesRow(1, route, '', null, null));
+            window.parent.$('#input-image-fields').append(inputField);
+        }
+        return;
+    }
 
 
     function imageNoticeAlert(paramId, massage) {
@@ -273,6 +281,23 @@ $(document).ready(function () {
         setCheckmarkGalleryImages();
     }
 
+    function removeFromImageList(id) {
+        var inputFields = window.parent.$('#input-image-fields').find('.images-input');
+        let imageId = id.split('-')[1];
+
+        // Find the first empty input field
+        inputFields.each(function () {
+
+            let dataImageId = $(this).parent().parent().find('.show-image').attr('data-image-id');
+            let showimage = $(this).parent().parent().find('.images-input-delete');
+            if (dataImageId === imageId) {
+                deleteImageRow(showimage);
+                setCheckmarkGalleryImages();
+            }
+
+        });
+    }
+
     /**
      * find all the ids for images used in the dashboard
      * @returns {*[]}
@@ -300,12 +325,17 @@ $(document).ready(function () {
 
         //find a list of all visable images in the modal
         // var visableImage = [];
-        $(window.document).find('.modal a').each(function () {
+        $(window.document).find('.modal #gallery-images a').each(function () {
             var id = $(this).attr('id');
 
             if (imageIds.indexOf(id) >= 0) {
                 let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-image-list', true);
                 checkMark.show();
+            } else {
+                let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-image-list', false);
+                checkMark.hide();
             }
         });
     }
@@ -317,7 +347,7 @@ $(document).ready(function () {
         }
 
         //todo: add a route to suffix modal for paid accounts if they have a projectId
-        let route = '/images';
+        let route = '/image';
         //add a route to images modal for paid accounts if they have a projectId
         if (window.parent.$('#projectId').val() !== undefined) {
             route += '/' + window.parent.$('#projectId').val();
@@ -346,7 +376,7 @@ $(document).ready(function () {
         a.href = url;
 
         // Extract the components of the URL
-        var scheme = a.protocol.replace(':','');
+        var scheme = a.protocol.replace(':', '');
         var host = a.hostname;
         var dirname = a.pathname.split('/').slice(0, -1).join('/');
         var file = a.pathname.split('/').pop();
@@ -370,7 +400,7 @@ $(document).ready(function () {
         }
 
         // Convert the object to a query string
-        var queryString = Object.keys(urlObj).map(function(key) {
+        var queryString = Object.keys(urlObj).map(function (key) {
             return key + '=' + urlObj[key];
         }).join('&');
 
@@ -381,6 +411,7 @@ $(document).ready(function () {
         getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
+        removeFromImageList: removeFromImageList,
         setCheckmarkGalleryImages: setCheckmarkGalleryImages,
         addImagesFromPromptHistory: addImagesFromPromptHistory,
         removeAllImages: removeAllImages

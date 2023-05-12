@@ -79,12 +79,14 @@ class ImagesController extends Controller
         $image = $this->getImagesIdByName($request->input('title'));
 
         // get a list of groups that the image is already in
-        $groupList =  Groups::join('image_group', 'groups.id', '=', 'image_group.group_id')
-            ->where('groups.user_id', $user->id)
-            ->where('image_group.image_id', $image->id)
-            ->select('groups.*') // Optional: Select only the 'groups' table columns
-            ->get();
-
+        $groupList = null;
+        if ($image instanceof Images) {
+            $groupList = Groups::join('image_group', 'groups.id', '=', 'image_group.group_id')
+                ->where('groups.user_id', $user->id)
+                ->where('image_group.image_id', $image->id)
+                ->select('groups.*') // Optional: Select only the 'groups' table columns
+                ->get();
+        }
         // get the list group that we want this image in from the request
         $groups = explode('-::-', $request->input('group'));
 
@@ -110,15 +112,18 @@ class ImagesController extends Controller
             $image->user_id = $user->id;
             $image->save();
 
-            // save the group if it doesn't exist in the database
-            if ($groupList->contains('name', $groupStr) === false) {
-                $group->name = $groupStr;
-                $group->type = 'Image';
-                $group->user_id = $user->id;
-                $group->save();
-            } else {
-                // if the group does exist, get the group object
-                $group = $groupList->where('name', $groupStr)->first();
+            //if we have a groupList, check if the group exists
+            if($groupList !== null) {
+                // save the group if it doesn't exist in the database
+                if ($groupList->contains('name', $groupStr) === false) {
+                    $group->name = $groupStr;
+                    $group->type = 'Image';
+                    $group->user_id = $user->id;
+                    $group->save();
+                } else {
+                    // if the group does exist, get the group object
+                    $group = $groupList->where('name', $groupStr)->first();
+                }
             }
             // add the image to the group
             $image->groups()->attach($group->id);

@@ -54,14 +54,14 @@ class SuffixController extends Controller
         ]);
     }
 
-    public function save(Project $project, Request $request)
+    public function save(Request $request)
     {
 
         $user = auth()->user();
 
         //get the suffix id by name
         $suffix = $this->getSuffixesIdByName($request->input('title'));
-
+        $groupList = null;
         if ($suffix instanceof Suffixes) {
             //get a list of groups that the suffix is already in
             $groupList = Groups::join('suffix_group', 'groups.id', '=', 'suffix_group.group_id')
@@ -96,15 +96,18 @@ class SuffixController extends Controller
             $suffix->user_id = $user->id;
             $suffix->save();
 
-            //save the group if it doesn't exist in the groups table
-            if ($groupList->contains('name', $groupStr) === false) {
-                $group->name = $groupStr;
-                $group->type = 'Suffix';
-                $group->user_id = $user->id;
-                $group->save();
-            } else {
-                //if the group does exist, get the group object
-                $group = $groupList->where('name', $groupStr)->first();
+            //if we have a groupList, check if the group exists
+            if($groupList !== null) {
+                //save the group if it doesn't exist in the groups table
+                if ($groupList->contains('name', $groupStr) === false) {
+                    $group->name = $groupStr;
+                    $group->type = 'Suffix';
+                    $group->user_id = $user->id;
+                    $group->save();
+                } else {
+                    //if the group does exist, get the group object
+                    $group = $groupList->where('name', $groupStr)->first();
+                }
             }
             //add the suffix to the group
             $suffix->groups()->attach($group->id);
