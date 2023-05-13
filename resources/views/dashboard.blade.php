@@ -399,9 +399,11 @@
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
                             <div class="alert alert-success" id="images-notice">
+
+                            </div>
+                            <div class="alert alert-error" id="images-error" style="display:none">
                                 images copied to clipboard
                             </div>
-
                         </div>
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-images btn btn-primary">Add image</button>

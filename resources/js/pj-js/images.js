@@ -14,7 +14,6 @@ $(document).ready(function () {
     }
 
     function addImageRow() {
-
         //count the number images input fields to create a id for the new one
         let id = $('#input-image-fields').find('.images-input').length + 1;
 
@@ -36,7 +35,7 @@ $(document).ready(function () {
 
         let promptText = getPromptText();
         // Find the first empty input field
-        inputFields.each(function () {
+        inputFields.each(function (){
             if ($(this).val() === '') {
                 $(this).val(promptText);
                 added = true;
@@ -51,9 +50,11 @@ $(document).ready(function () {
         if (!added) {
             $('#input-image-fields').append(createDynamicImagesRow(id));
         }
-
     });
 
+    /**
+     *
+     */
     $('#input-image-fields').on('click', '.images-add', function () {
         updatePromptText();
         var parentDiv = $(this).closest('.flex');
@@ -125,10 +126,10 @@ $(document).ready(function () {
         const modal = $('#myModal');
         var rowId = $(this).attr('id').replace('row-view-image-', '');
 
-        if (!imgUrl) {
-            return
+        if (!imgUrl || !isValidUrl(imgUrl)) {
+            imageErrorAlert('#images-error', 'Image link not a valid url');
+            return;
         }
-        ;
 
         let url = '';
 
@@ -219,6 +220,17 @@ $(document).ready(function () {
         }, 3000);
     }
 
+    function imageErrorAlert(paramId, massage) {
+        $(paramId).text(massage);
+        // Slide the div from left to right
+        $(paramId).fadeIn(1000);
+
+        // Wait for 3 seconds before sliding the div from right to left
+        setTimeout(function () {
+            $(paramId).fadeOut(1000);
+        }, 3000);
+    }
+
     function getImagePromptText() {
         let imagesText = '';
         // if field is not empty, add it to the imagesText
@@ -240,6 +252,11 @@ $(document).ready(function () {
         $('#prompt').val($.trim(ImagesText) + ' ' + $('#prompt').val());
     }
 
+    /**
+     * Add the image url to the image list
+     * @param url
+     * @param id
+     */
     function addToImageList(url, id) {
         var inputFields = window.parent.$('#input-image-fields').find('.images-input');
         var added = false;
@@ -371,17 +388,27 @@ $(document).ready(function () {
     }
 
     function createQueryStringFromUrl(url) {
-        // Break down the URL
-        var a = document.createElement('a');
-        a.href = url;
 
-        // Extract the components of the URL
-        var scheme = a.protocol.replace(':', '');
-        var host = a.hostname;
-        var dirname = a.pathname.split('/').slice(0, -1).join('/');
-        var file = a.pathname.split('/').pop();
-        var ext = file.split('.').pop();
-        file = file.replace('.' + ext, '');
+        if(isValidUrl) {
+            // Break down the URL
+            var a = document.createElement('a');
+            a.href = url;
+
+            // Extract the components of the URL
+            var scheme = a.protocol.replace(':', '');
+            var host = a.hostname;
+            var dirname = a.pathname.split('/').slice(0, -1).join('/');
+            var file = a.pathname.split('/').pop();
+            var ext = file.split('.').pop();
+            file = file.replace('.' + ext, '');
+        }else{
+            // Extract the components of the URL
+            var scheme = '';
+            var host = '';
+            var dirname = '';
+            var file = '';
+            var ext = '';
+        }
 
         // Create an object with the URL components
         var urlObj = {
@@ -406,6 +433,17 @@ $(document).ready(function () {
 
         return queryString;
     }
+
+    function isValidUrl(string) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(string);
+    }
+
 
     $.extend(window, {
         getImagePromptText: getImagePromptText,

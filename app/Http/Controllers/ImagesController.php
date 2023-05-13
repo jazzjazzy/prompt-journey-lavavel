@@ -18,17 +18,14 @@ class ImagesController extends Controller
      * @param Request $request
      * @return View
      */
-    public function edit(Project $project, Images $images, Request $request): View
+    public function edit(Project $project, Images $images): View
     {
         $user = auth()->user();
         $user->accessLevels = $user->getAccessLevels();
 
-        $endGracePeriod = null;
         $projectId = $project->id;
         $imagesId = $images->id;
         $imagesName = $images->name;
-
-        $image = $this->createUrlFromQueryStrings($request);
 
         $imageUrl = parse_url($images->link);
         $imagePath = pathinfo($imageUrl['path']);
@@ -226,6 +223,9 @@ class ImagesController extends Controller
      */
     private function createUrlFromQueryStrings($request): string
     {
+        if($request->input('scheme') === null) {
+            return '';
+        }
         $domain = $request->input('scheme') . "://" . $request->input('host');
         $directory = $request->input('dirname');
         $fileName = $request->input('file') . '.' . $request->input('ext');
