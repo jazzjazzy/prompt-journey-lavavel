@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class SuffixListController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function view()
     {
         $user = auth()->user();
@@ -23,18 +26,33 @@ class SuffixListController extends Controller
         ]);
     }
 
+    /**
+     * @param $groupId
+     * @return \Illuminate\Http\JsonResponse
+     */
     function viewSuffixes($groupId = null)
     {
         $user = auth()->user();
 
-        $suffixesQuery = DB::table('suffixes')
-            ->join('suffix_group', 'suffixes.id', '=', 'suffix_group.suffix_id')
-            ->join('groups', 'groups.id', '=', 'suffix_group.group_id')
-            ->where('groups.type', 'Suffix')
-            ->where('suffixes.user_id', $user->id);
+        $suffixesQuery = DB::table('suffixes');
 
-        if ($groupId !== null && $groupId !== 'all') {
-            $suffixesQuery->where('suffix_group.group_id', $groupId);
+        if($groupId === 'no-group') {
+            $suffixesQuery->select('suffixes.*')
+                ->leftJoin('suffix_group', 'suffixes.id', '=', 'suffix_group.suffix_id')
+                ->leftJoin('groups', 'groups.id', '=', 'suffix_group.group_id')
+                ->where('groups.id', null)
+                ->where('suffixes.user_id', $user->id);
+        } else {
+            if ($groupId === 'all') {
+                $suffixesQuery->where('suffixes.user_id', $user->id);
+            }else {
+                $suffixesQuery->select('suffixes.*')
+                    ->join('suffix_group', 'suffixes.id', '=', 'suffix_group.suffix_id')
+                    ->join('groups', 'groups.id', '=', 'suffix_group.group_id')
+                    ->where('groups.type', 'Suffix')
+                    ->where('suffixes.user_id', $user->id)
+                    ->where('suffix_group.group_id', $groupId);
+            }
         }
 
         $suffixes = $suffixesQuery->get();

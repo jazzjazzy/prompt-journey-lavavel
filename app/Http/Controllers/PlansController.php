@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class PlansController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $plans = Plan::all();
@@ -18,6 +21,10 @@ class PlansController extends Controller
         return view('subscription.pricing', compact('plans', 'subscribed'));
     }
 
+    /**
+     * @param $message
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function modal($message = null)
     {
         $plans = Plan::all();
@@ -37,6 +44,10 @@ class PlansController extends Controller
     {
     }
 
+    /**
+     * @param Plan $plan
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show(Plan $plan)
     {
         $intent = auth()->user()->createSetupIntent();

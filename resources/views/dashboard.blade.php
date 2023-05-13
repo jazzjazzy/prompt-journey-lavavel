@@ -313,21 +313,21 @@
 
                             <div class="flex-none px-3">
                                 @if($user->accessLevels->suffix)
-                                    <button class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
+                                    <button id="row-view-suffix-1" class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
                                             data-url="{{ $route }}"
                                             data-suffix-id>
                                         <i class="fa-sharp fa-solid fa-align-right"></i>
                                     </button>
                                 @else
-                                    <button id="" class="open-modal icon-button-disabled " title="Suffix List"
+                                    <button id="row-view-suffix-1" class="open-modal icon-button-disabled " title="Suffix List"
                                             data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
                                         <i class="fa-sharp fa-solid fa-align-right"></i>
                                     </button>
                                 @endif
-                                <button class="icon-button suffix-input-copy" title="copy suffix">
+                                <button id="row-copy-suffix-1" class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button class="icon-button suffix-input-delete" title="delete suffix">
+                                <button id="row-delete-suffix-1" class="icon-button suffix-input-delete" title="delete suffix">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -343,7 +343,8 @@
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-suffix btn btn-primary">Add suffix</button>
                                 @if ($user->accessLevels->suffix === true)
-                                <button id="" class="open-modal btn btn-primary" title="Suffix Gallery" data-modal-size="lg"
+                                <button id="" class="open-modal btn btn-primary" title="Suffix List" data-modal-size="lg"
+                                        data-modal-fixed=true
                                         data-url="{{ route('suffixes.view') }}">
                                     suffix List
                                 </button>
@@ -380,14 +381,14 @@
                             $projectId]) : route('modals.images');
                             @endphp
                             <div class="flex-none px-3">
-                                <button class="icon-button show-image" title="View images" data-modal-size="lg"
+                                <button id="row-view-image-1" class="icon-button show-image" title="View images" data-modal-size="lg"
                                         data-url="{{ $route }}" data-image-id>
                                     <i class="fas fa-image"></i>
                                 </button>
-                                <button class="icon-button images-input-copy">
+                                <button id="row-copy-image-1" class="icon-button images-input-copy">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button class="icon-button images-input-delete">
+                                <button id="row-delete-image-1" class="icon-button images-input-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -398,9 +399,11 @@
                     <div class="grid grid-cols-2">
                         <div class="flex content-start items-center">
                             <div class="alert alert-success" id="images-notice">
+
+                            </div>
+                            <div class="alert alert-error" id="images-error" style="display:none">
                                 images copied to clipboard
                             </div>
-
                         </div>
                         <div class="flex content-end flex-row-reverse">
                             <button class="add-images btn btn-primary">Add image</button>
@@ -488,6 +491,14 @@
             });
 
             $('#prompt').prop('disabled', true); // disable prompt
+
+            // Listen for an event from the iframe page when the Ajax call is completed
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.elementId && event.data.rowIndex) {
+                    const { type, elementId, rowIndex } = event.data;
+                    $('#'+ rowIndex).attr('data-'+ type +'-id', elementId);
+                }
+            }, false);
         });
     </script>
     @endsection

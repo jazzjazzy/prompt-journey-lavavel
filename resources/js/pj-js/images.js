@@ -14,7 +14,6 @@ $(document).ready(function () {
     }
 
     function addImageRow() {
-
         //count the number images input fields to create a id for the new one
         let id = $('#input-image-fields').find('.images-input').length + 1;
 
@@ -36,7 +35,7 @@ $(document).ready(function () {
 
         let promptText = getPromptText();
         // Find the first empty input field
-        inputFields.each(function () {
+        inputFields.each(function (){
             if ($(this).val() === '') {
                 $(this).val(promptText);
                 added = true;
@@ -51,9 +50,11 @@ $(document).ready(function () {
         if (!added) {
             $('#input-image-fields').append(createDynamicImagesRow(id));
         }
-
     });
 
+    /**
+     *
+     */
     $('#input-image-fields').on('click', '.images-add', function () {
         updatePromptText();
         var parentDiv = $(this).closest('.flex');
@@ -76,13 +77,13 @@ $(document).ready(function () {
     /**
      * This will create the dynamic image row for Images Links
      *
-     * @param rowid - is the row that this image currenly is in the list
+     * @param rowId - is the row that this image currenly is in the list
      * @param route - if we need to display a free image modal or paid image model
      * @param value - the link to the image
      * @param imageId - the image id if we get the image from gallery
      * @returns {string} new row image to append to the #input-image-fields div
      */
-    function createDynamicImagesRow(rowid, route, value = '', imageId = null, checked = null) {
+    function createDynamicImagesRow(rowId, route, value = '', imageId = null, checked = null) {
 
         var imageIdData = '';
         if (imageId !== null) {
@@ -96,22 +97,22 @@ $(document).ready(function () {
         return '<div class="flex mt-2">\n' +
             '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <input type="checkbox" name="imagesAdd-' + rowid + '" id="images-add-' + rowid + '" class="images-add" ' + checkedData + '>\n' +
+            '                            <input type="checkbox" name="imagesAdd-' + rowId + '" id="images-add-' + rowId + '" class="images-add" ' + checkedData + '>\n' +
             '                        </div>\n' +
             '                        <div class="grow">\n' +
-            '                            <input type="text" name="images-' + rowid + '" id="images-input-' + rowid + '" autocomplete="off" ' +
+            '                            <input type="text" name="images-' + rowId + '" id="images-input-' + rowId + '" autocomplete="off" ' +
             '                                   value="' + value + '" ' +
             '                                       class="images-input disabled:text-gray-400 disabled:border-green-700">\n' +
             '                        </div>\n' +
             '                        <div class="flex-none px-3">\n' +
-            '                            <button class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"' +
+            '                            <button id="row-view-image-' + rowId + '" class="icon-button show-image" title="View images" data-modal-size="lg" data-url="' + route + '"' +
             '                             ' + imageIdData + '>\n' +
             '                                <i class="fas fa-image"></i>\n' +
             '                            </button>\n' +
-            '                            <button class="icon-button images-input-copy">\n' +
+            '                            <button id="row-copy-image-' + rowId + '" class="icon-button images-input-copy">\n' +
             '                                <i class="fas fa-copy"></i>\n' +
             '                            </button>\n' +
-            '                            <button class="icon-button images-input-delete">\n' +
+            '                            <button id="row-delete-image-' + rowId + '" class="icon-button images-input-delete">\n' +
             '                                <i class="fas fa-trash"></i>\n' +
             '                            </button>\n' +
             '                        </div>\n' +
@@ -123,30 +124,47 @@ $(document).ready(function () {
         var parentDiv = $(this).closest('.flex');
         var imgUrl = parentDiv.find('.images-input').val();
         const modal = $('#myModal');
+        var rowId = $(this).attr('id').replace('row-view-image-', '');
 
-        if (imgUrl == "" || imgUrl == null || imgUrl == undefined) {
-            return
+        if (!imgUrl || !isValidUrl(imgUrl)) {
+            imageErrorAlert('#images-error', 'Image link not a valid url');
+            return;
         }
 
-        // if the image is from gallery
-        var imageId = $(this).attr('data-image-id');
-
         let url = '';
+
+        let imageId = $(this).attr('data-image-id');
         // if we have a imageId then get info from gallery else get info from url
-        if (imageId !== undefined && imageId !== null && imageId !== '') {
+        if (imageId) {
             url = $(this).attr('data-url');
         } else {
             url = $(this).attr('data-url') + '?' + createQueryStringFromUrl(imgUrl);
+            if (rowId) {
+                url += '&rowId=' + rowId;
+            }
+
         }
+
 
         $('#myModal .overlay .card').addClass('w-1/2 h-3/4');
 
         const title = $(this).attr('title');
         const modalIframe = $('#modal-iframe');
         $('#modal-title').text(title);
+
+        // set the iframe src to the url
         modalIframe.attr('src', url);
+
+        // set the image src to the image url
         const image = modalIframe.contents().find('#image-preview');
         image.attr('src', imgUrl);
+
+        // set the row id to the iframe so we can get it when we save the image and update the input field
+        modalIframe.off('load').on('load', function () {
+            const iframe = modalIframe[0].contentWindow.document;
+            const buttonId = $(this).attr('id');
+            $(iframe).find('#row-id').data('row-image-id', buttonId);
+        });
         modal.css('display', 'block');
 
     });
@@ -168,22 +186,41 @@ $(document).ready(function () {
      * Delete the suffix input value and uncheck the checkbox
      */
     $('#input-image-fields').on('click', '.images-input-delete', function () {
-        var parentDiv = $(this).closest('.flex');
-        let imagesInput = parentDiv.find('.images-input');
-        let imagesAdd = parentDiv.find('.images-add');
-
-        if ($('#input-image-fields .flex').length > 1) {
-            parentDiv.remove();
-        } else {
-            imagesInput.val('');
-            imagesInput.prop('disabled', false);
-            imagesAdd.prop("checked", false);
-        }
+        deleteImageRow($(this));
         imageNoticeAlert('#images-notice', 'Image link Image deleted');
     });
 
+    function deleteImageRow(rowElemen) {
+        const parentDiv = rowElemen.closest('.flex');
+
+        if (window.parent.$('#input-image-fields .flex').length > 1) {
+            parentDiv.remove();
+        } else {
+            parentDiv.remove();
+            let route = '/image';
+            //add a route to images modal for paid accounts if they have a projectId
+            if (window.parent.$('#projectId').val() !== undefined) {
+                route += '/' + window.parent.$('#projectId').val();
+            }
+            let inputField = $(createDynamicImagesRow(1, route, '', null, null));
+            window.parent.$('#input-image-fields').append(inputField);
+        }
+        return;
+    }
+
 
     function imageNoticeAlert(paramId, massage) {
+        $(paramId).text(massage);
+        // Slide the div from left to right
+        $(paramId).fadeIn(1000);
+
+        // Wait for 3 seconds before sliding the div from right to left
+        setTimeout(function () {
+            $(paramId).fadeOut(1000);
+        }, 3000);
+    }
+
+    function imageErrorAlert(paramId, massage) {
         $(paramId).text(massage);
         // Slide the div from left to right
         $(paramId).fadeIn(1000);
@@ -215,6 +252,11 @@ $(document).ready(function () {
         $('#prompt').val($.trim(ImagesText) + ' ' + $('#prompt').val());
     }
 
+    /**
+     * Add the image url to the image list
+     * @param url
+     * @param id
+     */
     function addToImageList(url, id) {
         var inputFields = window.parent.$('#input-image-fields').find('.images-input');
         var added = false;
@@ -236,7 +278,7 @@ $(document).ready(function () {
                 return false;
             }
         });
-        let rowid = inputFields.length + 1;
+        let rowId = inputFields.length + 1;
 
         //if route is empty with show use the input url to show the image in a modal
         let route = '/image';
@@ -249,11 +291,28 @@ $(document).ready(function () {
         }
 
         if (!added) {
-            let inputField = $(createDynamicImagesRow(rowid, route, url, imageId));
+            let inputField = $(createDynamicImagesRow(rowId, route, url, imageId));
             window.parent.$('#input-image-fields').append(inputField);
         }
 
         setCheckmarkGalleryImages();
+    }
+
+    function removeFromImageList(id) {
+        var inputFields = window.parent.$('#input-image-fields').find('.images-input');
+        let imageId = id.split('-')[1];
+
+        // Find the first empty input field
+        inputFields.each(function () {
+
+            let dataImageId = $(this).parent().parent().find('.show-image').attr('data-image-id');
+            let showimage = $(this).parent().parent().find('.images-input-delete');
+            if (dataImageId === imageId) {
+                deleteImageRow(showimage);
+                setCheckmarkGalleryImages();
+            }
+
+        });
     }
 
     /**
@@ -283,12 +342,17 @@ $(document).ready(function () {
 
         //find a list of all visable images in the modal
         // var visableImage = [];
-        $(window.document).find('.modal a').each(function () {
+        $(window.document).find('.modal #gallery-images a').each(function () {
             var id = $(this).attr('id');
 
             if (imageIds.indexOf(id) >= 0) {
                 let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-image-list', true);
                 checkMark.show();
+            } else {
+                let checkMark = $(this).children('div').children('i.fa-circle-check');
+                $(this).attr('data-in-image-list', false);
+                checkMark.hide();
             }
         });
     }
@@ -300,7 +364,7 @@ $(document).ready(function () {
         }
 
         //todo: add a route to suffix modal for paid accounts if they have a projectId
-        let route = '/images';
+        let route = '/image';
         //add a route to images modal for paid accounts if they have a projectId
         if (window.parent.$('#projectId').val() !== undefined) {
             route += '/' + window.parent.$('#projectId').val();
@@ -324,17 +388,27 @@ $(document).ready(function () {
     }
 
     function createQueryStringFromUrl(url) {
-        // Break down the URL
-        var a = document.createElement('a');
-        a.href = url;
 
-        // Extract the components of the URL
-        var scheme = a.protocol.replace(':','');
-        var host = a.hostname;
-        var dirname = a.pathname.split('/').slice(0, -1).join('/');
-        var file = a.pathname.split('/').pop();
-        var ext = file.split('.').pop();
-        file = file.replace('.' + ext, '');
+        if(isValidUrl) {
+            // Break down the URL
+            var a = document.createElement('a');
+            a.href = url;
+
+            // Extract the components of the URL
+            var scheme = a.protocol.replace(':', '');
+            var host = a.hostname;
+            var dirname = a.pathname.split('/').slice(0, -1).join('/');
+            var file = a.pathname.split('/').pop();
+            var ext = file.split('.').pop();
+            file = file.replace('.' + ext, '');
+        }else{
+            // Extract the components of the URL
+            var scheme = '';
+            var host = '';
+            var dirname = '';
+            var file = '';
+            var ext = '';
+        }
 
         // Create an object with the URL components
         var urlObj = {
@@ -353,17 +427,29 @@ $(document).ready(function () {
         }
 
         // Convert the object to a query string
-        var queryString = Object.keys(urlObj).map(function(key) {
+        var queryString = Object.keys(urlObj).map(function (key) {
             return key + '=' + urlObj[key];
         }).join('&');
 
         return queryString;
     }
 
+    function isValidUrl(string) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(string);
+    }
+
+
     $.extend(window, {
         getImagePromptText: getImagePromptText,
         imageNoticeAlert: imageNoticeAlert,
         addToImageList: addToImageList,
+        removeFromImageList: removeFromImageList,
         setCheckmarkGalleryImages: setCheckmarkGalleryImages,
         addImagesFromPromptHistory: addImagesFromPromptHistory,
         removeAllImages: removeAllImages

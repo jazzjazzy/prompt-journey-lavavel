@@ -4,9 +4,14 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\removeTesterAccountexpired;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        removeTesterAccountexpired::class,
+    ];
+
     /**
      * Define the application's command schedule.
      *
@@ -15,7 +20,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('command:testerExpired')
+            ->daily()
+            ->sendOutputTo(storage_path('logs/testerExpired.log'));
     }
 
     /**

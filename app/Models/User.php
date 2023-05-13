@@ -17,6 +17,10 @@ use Location;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Billable;
+
+    /**
+     * @var array
+     */
     public $accessLevels= [];
     const PLAN_FREE = 1;
     const PLAN_TESTER = 2;
@@ -57,6 +61,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);
@@ -88,15 +95,7 @@ class User extends Authenticatable
                 $query->where('ends_at', '>', now())
                     ->orWhereNull('ends_at');
             });
-/*
-        $query = $queryBuilder->toSql();
-        $bindings = $queryBuilder->getBindings();
 
-        dd([
-            'query' => $query,
-            'bindings' => $bindings
-        ]);
-        */
         $subscriptions = $queryBuilder->first();
 
         $currentPlan = null;
@@ -110,6 +109,9 @@ class User extends Authenticatable
         return $currentPlan;
     }
 
+    /**
+     * @return Plan|null
+     */
     public function getPlanFromUserSubscription(): ?Plan
     {
         $user = auth()->user();
@@ -151,12 +153,16 @@ class User extends Authenticatable
      */
     public function getAccessLevels()
     {
+        $user = auth()->user();
+        $usersPlan = $this->getUsersPlan();
 
-        $this->getUsersPlan();
+        if($usersPlan === 'Tester' && !$user->subscription('Tester Plan')->onTrial()) {
+            $usersPlan = 'Free';
+        }
 
         $accesslevel = new \stdClass();
-        $accesslevel->plan = $this->getUsersPlan();
-        switch ($this->getUsersPlan()) {
+        $accesslevel->plan = $usersPlan;
+        switch ($usersPlan) {
             case 'Tester':
                 $accesslevel->suffix = false;
                 $accesslevel->images = false;
@@ -186,6 +192,10 @@ class User extends Authenticatable
         return $accesslevel;
     }
 
+    /**
+     * @param Request $request
+     * @return string|null
+     */
     public function getUserCountry(Request $request)
     {
         $ip = $request->ip(); // Get the user's IP address

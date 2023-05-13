@@ -11,6 +11,9 @@ use PDOException;
 
 class ProjectController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $user = auth()->user();
@@ -33,11 +36,19 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function add()
     {
         return view('projects.add');
     }
 
+    /**
+     * @param $project_Id
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function edit($project_Id, Request $request)
     {
         $id = $request->input('project_id');
@@ -50,6 +61,10 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function save(Request $request)
     {
 
@@ -75,6 +90,10 @@ class ProjectController extends Controller
         return view('projects.success');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
         $project = Project::findOrFail($id);
@@ -83,6 +102,11 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Record deleted successfully']);
     }
 
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updatePromptHistory(Request $request, Project $project)
     {
         try {
@@ -118,6 +142,10 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'promptHistory' => $promptHistoryResult]);
     }
 
+    /**
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPromptHistory(Project $project){
 
         $promptHistory = DB::table('prompt_history')
@@ -127,6 +155,10 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'promptHistory' => $promptHistory]);
     }
 
+    /**
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function clearPromptHistory(Project $project){
 
         $promptHistory = DB::table('prompt_history')

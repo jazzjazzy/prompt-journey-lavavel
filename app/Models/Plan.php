@@ -9,12 +9,19 @@ use App\Casts\PriceCast;
 
 class Plan extends Model
 {
+    /**
+     *
+     */
     use HasFactory;
 
     const TABLE = 'plans';
-
+    /**
+     * @var string
+     */
     protected $table = self::TABLE;
-
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'slug',
@@ -26,10 +33,16 @@ class Plan extends Model
         'metaData'
     ];
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'price' => PriceCast::class,
     ];
 
+    /**
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'slug';
