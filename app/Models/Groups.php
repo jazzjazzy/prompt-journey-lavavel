@@ -10,14 +10,22 @@ class Groups extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string
+     */
     protected $table = 'groups';
-
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'type',
         'user_id',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function images()
     {
         return $this->belongsToMany(Images::class, 'image_group', 'image_id', 'group_id');

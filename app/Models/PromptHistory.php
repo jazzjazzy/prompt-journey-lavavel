@@ -9,13 +9,22 @@ class PromptHistory extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string[]
+     */
     protected $casts = [
         'suffix' => 'json',
         'images' => 'json',
     ];
 
+    /**
+     * @var string
+     */
     protected $table = 'prompt_history';
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'prompt',
         'basic_params',
@@ -25,6 +34,9 @@ class PromptHistory extends Model
         'images',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);

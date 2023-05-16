@@ -11,9 +11,14 @@ class SubscriptionItem extends Model
     use HasFactory;
 
     const TABLE = 'subscription_items';
-
+    /**
+     * @var string
+     */
     protected $table = self::TABLE;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'user_id',
         'name',

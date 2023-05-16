@@ -61,7 +61,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-span-4 footer-right">
-                                                <button class="btn btn-primary" id="save-suffixs">Add to gallery
+                                                <input type="hidden" name="row_id" id="row-suffix-id" value="" data-row-suffix-id="{{$buttonRow}}">
+                                                <button class="btn btn-primary" id="save-suffixes">Add to gallery
                                                 </button>
                                             </div>
                                         </div>
@@ -117,7 +118,7 @@
 
         });
 
-        $('#save-suffixs').on('click', function (e) {
+        $('#save-suffixes').on('click', (e) => {
             e.preventDefault();
             saveSuffixes();
         });
@@ -126,6 +127,7 @@
             var select = $('#add-to-group').selectize();
             var selectize = select[0].selectize;
             var projectId = $('#projectId').val();
+            var rowIndex = $('#row-suffix-id').data('row-suffix-id');
 
             const createEnabled = selectize.getValue();
 
@@ -147,6 +149,8 @@
                 success: function (response) {
                     if (response.success) {
                         suffixNoticeAlert('#suffix-save-notice', 'Suffix Text has been saved to your list.');
+                        // Send the row ID back to the parent window
+                        window.parent.postMessage({ type: 'suffix', elementId: response.suffixId, rowIndex: 'row-view-suffix-' + rowIndex }, '*');
                     } else {
                         alert('Error adding suffix.');
                     }
