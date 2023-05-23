@@ -27,6 +27,10 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+//if we goto log out then we will be redirected to the home page
+Route::get('/logout', function () {
+    return redirect('/');
+});
 
 Route::get('/terms-of-service', function () {
     return view('terms_of_service');

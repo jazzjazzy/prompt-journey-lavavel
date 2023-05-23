@@ -48,15 +48,15 @@
     select {
         @apply border border-gray-300 ring-sky-600 rounded-md bg-white bg-gradient-to-t from-gray-100 via-gray-200 to-gray-100;
     }
-
-    [type='text'],
-    [type='number'],
-    select {
-        @apply w-full m-0 p-0 px-2 py-1 text-xs
-    }
 }
 
 @layer components {
+
+    #dashbaord-fields [type='text'],
+    #dashbaord-fields [type='number'],
+    #dashbaord-fields select {
+        @apply w-full m-0 p-0 px-2 py-1 text-sm;
+    }
 
     #payment-form [type='text'],
     #payment-form [type='number'],
@@ -67,7 +67,7 @@
         padding-bottom: 0.5rem;
         padding-left: 0.75rem;
         font-size: 1rem;
-        line-height: 1.5rem;
+        line-height: 1rem;
         --tw-shadow: 0 0 #0000;
     }
 
