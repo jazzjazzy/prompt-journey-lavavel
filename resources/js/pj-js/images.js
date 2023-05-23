@@ -95,7 +95,7 @@ $(document).ready(function () {
         }
 
         return '<div class="flex mt-2">\n' +
-            '                        <span class="handle my-auto cursor-grab">&#9776;</span>' +
+            '                        <span id= "imageHandle-' + rowId + '" class="handle my-auto cursor-grab">&#9776;</span>' +
             '                        <div class="flex-none px-3">\n' +
             '                            <input type="checkbox" name="imagesAdd-' + rowId + '" id="images-add-' + rowId + '" class="images-add" ' + checkedData + '>\n' +
             '                        </div>\n' +

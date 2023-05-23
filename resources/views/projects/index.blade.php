@@ -17,11 +17,10 @@
                     <div class="col-span-7 text-left">Description</div>
                     <div class="col-span-1 text-left">Action</div>
                 </div>
-                <for
                     @foreach ($projects as $project)
                 <div class="grid grid-cols-12 px-4 m-auto py-2 odd:bg-slate-100 even:bg-white">
                     <div class="col-span-11">
-                        <a href="{{route('dashboard.project', [$project->id])}}">
+                        <a href="{{route('dashboard.project', [$project->id])}}" id="project-id-{{$loop->index}}">
                             <div class="grid grid-cols-11">
                                 <div class="col-span-4">
                                     <div class="grid grid-cols-11">

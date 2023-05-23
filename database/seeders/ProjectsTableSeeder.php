@@ -17,12 +17,12 @@ class ProjectsTableSeeder extends Seeder
         Project::create([
             'user_id' => '2',
             'name' => 'Default',
-            'description' => 'My First Project',
+            'description' => 'My first project',
         ]);
         Project::create([
             'user_id' => '5',
             'name' => 'Default',
-            'description' => 'My First Project',
+            'description' => 'My first project',
         ]);
         Project::create([
             'user_id' => '5',

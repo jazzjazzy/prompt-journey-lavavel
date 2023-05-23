@@ -27,7 +27,8 @@ class ProjectController extends Controller
         } else if($usersPlan == 'Professional') {
             $addButton = true;
         } else {
-            $addButton = false;
+            //if anything else (Free) then they don't get to add a project, so send them back to the dashboard
+            return redirect('/');
         }
 
         return view('projects.index', [
