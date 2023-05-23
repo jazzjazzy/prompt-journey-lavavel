@@ -15,7 +15,8 @@ class MyFirstDuskTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Laravel');
+                ->assertPathIs('/login')
+                ->assertSee('REGISTER NOW');
         });
     }
 }

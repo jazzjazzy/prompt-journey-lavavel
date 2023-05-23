@@ -20,14 +20,16 @@ class ProjectController extends Controller
         $usersPlan = $user->getUsersPlan();
         $projects = $user->projects()->get();
 
+        $addButton = false;
         if($usersPlan == 'Tester' && $projects->count() == 0) {
             $addButton = true;
         } else if($usersPlan == 'User' && $projects->count() <= 9) {
             $addButton = true;
         } else if($usersPlan == 'Professional') {
             $addButton = true;
-        } else {
-            $addButton = false;
+        } else if($usersPlan == 'free') {
+            //if Free then they don't get to add a project, so send them back to the dashboard
+            return redirect('/dashboard');
         }
 
         return view('projects.index', [

@@ -36,12 +36,12 @@
     </div>
     <div class="col-span-2">
         {{-- Main prompt copy button --}}
-        <button id="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
+        <button id="copyMjButton" name="copyMjButton" title="Ctrl + shift + c" class="btn btn-primary mt-3 mx-4 h-fit w-fit">
             <i class="text-[90px] p-4 fas fa-copy"></i>
         </button>
     </div>
 </div>
-<div class="mx-12 mt-1">
+<div class="mx-12 mt-1" id="dashbaord-fields">
     <div class="grid grid-cols-10">
         <div id="text-field" class="p-2 col-span-7 bg-gradient-to-r from-gray-100 bg-gray-300 overflow-auto">
             <div class="grid grid-cols-12 gap-2">
@@ -59,7 +59,7 @@
                                         {{-- ************************************** --}}
                                         {{-- This is the input field for the prompt --}}
                                         {{-- ************************************** --}}
-                                        <textarea name="text" id="prompt-text"
+                                        <textarea name="prompt-text" id="prompt-text"
                                                   onInput="$.expandTextarea(this)"
                                                   class="prompt-text-class mt-0 w-full overflow-auto" type="text"
                                                   title="ctrl-space"></textarea>
@@ -83,10 +83,12 @@
                                     </div>
                                     <div class="px-1 pb-1 col-span-12 gap-1 flex items-center justify-center">
                                         <button id="add-to-suffix-list"
+                                                name="add-to-suffix-list"
                                                 class="btn btn-primary col-span-6 m-0 p-1 w-full">
                                             All
                                         </button>
                                         <button id="pramas-to-suffix-list"
+                                                name="pramas-to-suffix-list"
                                                 class="btn btn-primary col-span-6 m-0 p-1 w-full">
                                             Params
                                         </button>
@@ -94,10 +96,10 @@
                                 </div>
                             </div>
 
-                            <button id="clear" class="btn btn-primary m-0 mt-2 w-full">
+                            <button id="clear" name="clear" class="btn btn-primary m-0 mt-2 w-full">
                                 Clear
                             </button>
-                            <button id="show-history" class="btn btn-primary m-0 mt-2 w-full">
+                            <button id="show-history" name="show-history" class="btn btn-primary m-0 mt-2 w-full">
                                 show History
                             </button>
                         </div>
@@ -115,7 +117,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--aspect</label>
                                 <div class="col-span-8">
-                                    <select id="aspect" class="parameter-class w-full"></select>
+                                    <select id="aspect" name="aspect" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +125,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="chaos">--chaos</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="chaos" class="parameter-class">
+                                    <input type="text" id="chaos" name="chaos" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -131,7 +133,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
                                 <div class="col-span-8">
-                                    <label for="quality"></label><select id="quality"
+                                    <label for="quality"></label><select id="quality" name="quality"
                                                                          class="parameter-class w-full"></select>
                                 </div>
                             </div>
@@ -140,7 +142,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="no">--no</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="no" class="parameter-class">
+                                    <input type="text" id="no" name="no" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -148,7 +150,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="seed">--seed</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="seed" class="parameter-class">
+                                    <input type="text" id="seed" name="seed" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -156,7 +158,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="stop">--stop</label>
                                 <div class="col-span-8">
-                                    <input type="text" id="stop" class="parameter-class">
+                                    <input type="text" id="stop" name="stop" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -164,7 +166,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="style">--style</label>
                                 <div class="col-span-8">
-                                    <select id="style" class="parameter-class w-full"></select>
+                                    <select id="style" name="style" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +174,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="version">--version</label>
                                 <div class="col-span-8">
-                                    <select id="version" class="parameter-class w-full"></select>
+                                    <select id="version" name="version" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +182,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
                                 <div class="col-span-8">
-                                    <input type="number" id="stylize" class="parameter-class w-full">
+                                    <input type="number" id="stylize" name="stylize" class="parameter-class w-full">
                                 </div>
                             </div>
                         </div>
@@ -188,7 +190,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="iw">--iw</label>
                                 <div class="col-span-8">
-                                    <input type="number" id="iw" class="parameter-class">
+                                    <input type="number" id="iw" name="iw" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -196,7 +198,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="tile">--tile</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="tile" class="parameter-class">
+                                    <input type="checkbox" id="tile" name="tile" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -213,7 +215,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="niji">--niji</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="niji" class="parameter-class">
+                                    <input type="checkbox" id="niji" name="niji" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -221,7 +223,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="hd">--hd</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="hd" class="parameter-class">
+                                    <input type="checkbox" id="hd" name="hd" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -229,7 +231,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="test">--test</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="test" class="parameter-class">
+                                    <input type="checkbox" id="test" name="test" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -237,7 +239,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="testp">--testp</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="testp" class="parameter-class">
+                                    <input type="checkbox" id="testp" name="testp" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -255,7 +257,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="uplight">--uplight</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="uplight" class="parameter-class">
+                                    <input type="checkbox" id="uplight" name="uplight" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -263,7 +265,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="upbeta">--upbeta</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="upbeta" class="parameter-class">
+                                    <input type="checkbox" id="upbeta" name="upbeta" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -271,7 +273,7 @@
                             <div class="grid grid-cols-12 flex items-center">
                                 <label class="col-span-4 text-gray-600" for="upanime">--upanime</label>
                                 <div class="col-span-8">
-                                    <input type="checkbox" id="upanime" class="parameter-class">
+                                    <input type="checkbox" id="upanime" name="upanime" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -287,7 +289,7 @@
                 <div class="card-body">
                     <div id="input-suffix-fields">
                         <div class="flex mt-2">
-                            <span class="handle my-auto cursor-grab">&#9776;</span>
+                            <span  id= "suffixHandle-1" class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
                                 <label for="suffix-add-1"></label><input type="checkbox" name="suffixAdd-1"
                                                                          id="suffix-add-1" class="suffix-add">
@@ -308,26 +310,26 @@
                                     $subSuffixMessage = 'You do not have access to suffixes. Please subscribe to a plan that includes suffixes.';
                                     $route = route('subscription.pricing.modal', ['message' => $subSuffixMessage]);
                                 @endphp
-                                <input type="hidden" id="is-suffix" value="{{ $route }}">
+                                <input type="hidden" id="is-suffix" name="isSuffix" value="{{ $route }}">
                             @endif
 
                             <div class="flex-none px-3">
                                 @if($user->accessLevels->suffix)
-                                    <button id="row-view-suffix-1" class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
+                                    <button id="row-view-suffix-1" name="row-view-suffix-1" class="icon-button show-suffix" title="View Suffix" data-modal-size="sm"
                                             data-url="{{ $route }}"
                                             data-suffix-id>
                                         <i class="fa-sharp fa-solid fa-align-right"></i>
                                     </button>
                                 @else
-                                    <button id="row-view-suffix-1" class="open-modal icon-button-disabled " title="Suffix List"
+                                    <button id="row-view-suffix-1" name="row-view-suffix-1"  class="open-modal icon-button-disabled " title="Suffix List"
                                             data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', ['message' => $subSuffixMessage]) }}">
                                         <i class="fa-sharp fa-solid fa-align-right"></i>
                                     </button>
                                 @endif
-                                <button id="row-copy-suffix-1" class="icon-button suffix-input-copy" title="copy suffix">
+                                <button id="row-copy-suffix-1" name="row-copy-suffix-1" class="icon-button suffix-input-copy" title="copy suffix">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button id="row-delete-suffix-1" class="icon-button suffix-input-delete" title="delete suffix">
+                                <button id="row-delete-suffix-1" name="row-delete-suffix-1" class="icon-button suffix-input-delete" title="delete suffix">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -341,15 +343,16 @@
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
-                            <button class="add-suffix btn btn-primary">Add suffix</button>
+                            <button class="add-suffix btn btn-primary" name="add-suffix">Add suffix</button>
                                 @if ($user->accessLevels->suffix === true)
-                                <button id="" class="open-modal btn btn-primary" title="Suffix List" data-modal-size="lg"
+                                <button id="suffix-list" name="suffix-list" class="open-modal btn btn-primary" title="Suffix List" data-modal-size="lg"
                                         data-modal-fixed=true
                                         data-url="{{ route('suffixes.view') }}">
                                     suffix List
                                 </button>
                                 @else
-                                <button id="suffix-list" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
+                                {{-- button link to show price page --}}
+                                <button id="suffix-list" name="suffix-list" class="open-modal btn btn-primary-disabled text-center" title="Suffix List"
                                    data-modal-size="xl" data-url="{{ $route }}">
                                     Suffix List
                                 </button>
@@ -366,7 +369,7 @@
                 <div class="card-body">
                     <div id="input-image-fields">
                         <div class="flex mt-2">
-                            <span class="handle my-auto cursor-grab">&#9776;</span>
+                            <span id= "imageHandle-1" class="handle my-auto cursor-grab">&#9776;</span>
                             <div class="flex-none px-3">
                                 <label for="images-add-1"></label><input type="checkbox" name="imagesAdd-1"
                                                                          id="images-add-1" class="images-add">
@@ -381,14 +384,14 @@
                             $projectId]) : route('modals.images');
                             @endphp
                             <div class="flex-none px-3">
-                                <button id="row-view-image-1" class="icon-button show-image" title="View images" data-modal-size="lg"
+                                <button id="row-view-image-1" name="row-view-image-1" class="icon-button show-image" title="View images" data-modal-size="lg"
                                         data-url="{{ $route }}" data-image-id>
                                     <i class="fas fa-image"></i>
                                 </button>
-                                <button id="row-copy-image-1" class="icon-button images-input-copy">
+                                <button id="row-copy-image-1" name="row-copy-image-1" class="icon-button images-input-copy">
                                     <i class="fas fa-copy"></i>
                                 </button>
-                                <button id="row-delete-image-1" class="icon-button images-input-delete">
+                                <button id="row-delete-image-1" name="row-delete-image-1" class="icon-button images-input-delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -406,9 +409,9 @@
                             </div>
                         </div>
                         <div class="flex content-end flex-row-reverse">
-                            <button class="add-images btn btn-primary">Add image</button>
+                            <button class="add-images btn btn-primary" name="add-images">Add image</button>
                             @if ($user->accessLevels->images === true)
-                            <button id="" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl"
+                            <button id="open-gallery" name="open-gallery" class="btn btn-primary open-modal" title="Images Gallery" data-modal-size="xl"
                                     data-modal-fixed=true data-url="{{ route('gallery.view') }}">
                                 Images gallery
                             </button>
@@ -416,7 +419,7 @@
                                 @php
                                     $subImageMessage = 'Subscribe to Pro account to access Images Gallery package.';
                                 @endphp
-                            <button id="" class="open-modal btn btn-primary-disabled text-center" title="Images Gallery"
+                            <button id="open-gallery" name="open-gallery" class="open-modal btn btn-primary-disabled text-center" title="Images Gallery"
                                data-modal-size="xl" data-url="{{ route('subscription.pricing.modal', $subImageMessage) }}">
                                 Images gallery
                             </button>
@@ -441,10 +444,10 @@
                         <!-- history content goes here in #overlayContent -->
                     </div>
                     <div class="card-footer footer-right !mt-0 p-2">
-                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star">
+                        <button class="close-btn btn btn-primary px-4 ml-2 mt-2 self-star" name="close-hitory">
                             Close
                         </button>
-                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 self-start">
+                        <button id="clear-history" class="btn btn-primary py-2 px-4 ml-2 mt-2 self-start" name="clear-hitory">
                             Clear History
                         </button>
                     </div>

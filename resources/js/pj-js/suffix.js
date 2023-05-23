@@ -103,7 +103,7 @@ $(document).ready(function () {
         }
 
         return ' <div class="flex mt-2">' +
-            '                            <span class="handle my-auto cursor-grab">&#9776;</span>' +
+            '                            <span id= "suffixHandle-' + rowId + '" class="handle my-auto cursor-grab">&#9776;</span>' +
             '                            <div class="flex-none px-3">\n' +
             '                                <input type="checkbox" name="suffixAdd-' + rowId + '" id="suffix-add-' + rowId + '" class="suffix-add" ' + checkedData + '>\n' +
             '                            </div>\n' +
@@ -112,14 +112,14 @@ $(document).ready(function () {
             '                                   class="suffix-input disabled:text-gray-400 disabled:border-green-700" value="' + value.trim() + '">\n' +
             '                            </div>\n' +
             '                            <div class="flex-none px-3">\n' +
-            '                               <button id="row-view-suffix-' + rowId + '" class="'+viewSuffixIconClass+'" title="View Suffix" data-modal-size="'+modelSize+'" data-url="' + route + '" \n' +
+            '                               <button id="row-view-suffix-' + rowId + '" name="row-view-suffix-' + rowId + '" class="'+viewSuffixIconClass+'" title="View Suffix" data-modal-size="'+modelSize+'" data-url="' + route + '" \n' +
             '                                  ' + suffixIdData + '>\n' +
             '                                    <i class="fa-sharp fa-solid fa-align-right"></i>\n' +
             '                                </button>\n' +
-            '                                <button id="row-copy-suffix-' + rowId + '" class="icon-button suffix-input-copy">\n' +
+            '                                <button id="row-copy-suffix-' + rowId + '" name="row-copy-suffix-' + rowId + '" class="icon-button suffix-input-copy">\n' +
             '                                    <i class="fas fa-copy"></i>\n' +
             '                                </button>\n' +
-            '                                <button id="row-delete-suffix-' + rowId + '" class="icon-button suffix-input-delete">\n' +
+            '                                <button id="row-delete-suffix-' + rowId + '" name="row-delete-suffix-' + rowId + '" class="icon-button suffix-input-delete">\n' +
             '                                    <i class="fas fa-trash"></i>\n' +
             '                                </button\n' +
             '                            </div>\n' +

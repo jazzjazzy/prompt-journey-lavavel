@@ -4,8 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="Discover Prompt Journey, your go-to tool for creating unique and engaging prompts for mid-journey experiences. Join our creative community today!">
+    <meta name="keywords" content="Prompt Journey, prompt creation tool, mid-journey prompts, creative writing, prompt generator, writing tool, creative inspiration">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <title>Welcome to Prompt Journey: Your Compass for Creative Exploration</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -43,9 +46,9 @@
         </a>
     </div>
 
-    <div class="w-full sm:max-w-md mt-1 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
-        {{ $slot }}
-    </div>
+
+    {{ $slot }}
+
 
     <div id="myModal" class="modal hidden">
         <div class="overlay">

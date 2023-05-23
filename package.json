@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "docker up": "docker-compose up -d",
+        "local mysql stop": "sudo /etc/init.d/mysql stop",
         "dev": "vite",
         "build": "vite build",
         "__list commands run on docker__": "echo __list commands run on docker__",

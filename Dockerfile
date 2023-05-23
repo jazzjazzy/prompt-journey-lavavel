@@ -48,6 +48,19 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.0
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
+# Install Chrome
+RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+RUN apt-get update && apt-get install -y google-chrome-stable
+
+# Install ChromeDriver
+RUN apt-get install -yqq unzip
+RUN curl -sS -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+
+# Set the ChromeDriver path as an environment variable
+ENV CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
+
 COPY . .
 COPY /vendor/laravel/sail/runtimes/8.0/start-container /usr/local/bin/start-container
 COPY /vendor/laravel/sail/runtimes/8.0/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
