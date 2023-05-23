@@ -41,7 +41,7 @@
         </button>
     </div>
 </div>
-<div class="mx-12 mt-1">
+<div class="mx-12 mt-1" id="dashbaord-fields">
     <div class="grid grid-cols-10">
         <div id="text-field" class="p-2 col-span-7 bg-gradient-to-r from-gray-100 bg-gray-300 overflow-auto">
             <div class="grid grid-cols-12 gap-2">
