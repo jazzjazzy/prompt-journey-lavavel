@@ -19,7 +19,7 @@
                     <div class="flex inline-flex bg-gray-900">
                         <i class="fab fa-gitHub m-3 text text-white text-[35px]"></i>
                     </div>
-                @elseif ($user->provider === 'twitter')
+                @elseif ($user->provider === 'facebook')
                     <div class="flex inline-flex bg-sky-900 ">
                         <i class="fab fa-twitter m-3 text text-white text-[35px]"></i>
                     </div>
