@@ -21,7 +21,7 @@
                     </div>
                 @elseif ($user->provider === 'facebook')
                     <div class="flex inline-flex bg-sky-900 ">
-                        <i class="fab fa-twitter m-3 text text-white text-[35px]"></i>
+                        <i class="fab fa-facebook m-3 text text-white text-[35px]"></i>
                     </div>
                 @else
                     <div class="text-lg text-red-600 p-2">Provider `{{$user->provider}}` not found</div>
