@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DebugBar;
+use http\Exception\BadQueryStringException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Exceptions\IncompletePayment;
@@ -82,25 +83,37 @@ class SubscriberController
      */
     public function cancelSubscription(Request $request)
     {
+        try {
+            $user = Auth::user(); // Get the currently authenticated user
 
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
+            if (!is_null($user->password)) {
+                $request->validateWithBag('cancelSubsciption', [
+                    'password' => ['required', 'current-password'],
+                ]);
+            }
 
-        $user = Auth::user(); // Get the currently authenticated user
-        $plan = $user->subscribedLastActivePlan(); // Check if the user is subscribed to a plan
+            $plan = $user->subscribedLastActivePlan(); // Check if the user is subscribed to a plan
 
-        $user->subscription($plan->id)->cancel(); // Cancel the user's subscription in Stripe
-        $user->subscription($plan->id)->stripe_status = 'canceled'; // Update the subscription status in your database
-        $user->subscription($plan->id)->save(); // Save the changes to the database$request = {Illuminate\Http\Request}
+            if (is_null($plan)) {
+                return redirect()->route('profile.edit')->with('error', 'You are not subscribed to any plan.');
+            }
 
-        $endGracePeriod = null;
-        if($user->subscription($plan->id)->onGracePeriod()){
-            $endGracePeriod['date'] = $user->subscription($plan->id)->ends_at->format('Y-m-d');
-            $endGracePeriod['plan'] = $plan->stripe_name;
+            $user->subscription($plan->stripe_name)->cancel(); // Cancel the user's subscription in Stripe
+            $user->subscription($plan->stripe_name)->stripe_status = 'canceled'; // Update the subscription status in your database
+            $user->subscription($plan->stripe_name)->save(); // Save the changes to the database$request = {Illuminate\Http\Request}
+
+            $endGracePeriod = null;
+            if ($user->subscription($plan->stripe_name)->onGracePeriod()) {
+                $endGracePeriod['date'] = $user->subscription($plan->stripe_name)->ends_at->format('Y-m-d');
+                $endGracePeriod['plan'] = $plan->stripe_name;
+            }
+
+            return view("profile.edit", compact('user', 'endGracePeriod'));
+        }catch( InvalidRequestException $e ){
+            return back()->with('error-cancel', $e->getMessage())->withInput();
+        }catch( \Exception $e ){
+            return back()->with('error-cancel', $e->getMessage())->withInput();
         }
-
-        return view("profile.edit", compact('user', 'endGracePeriod'));
     }
 
     /**
@@ -109,23 +122,33 @@ class SubscriberController
      */
     public function resumeSubscription(Request $request)
     {
+        try {
+            if (!is_null(Auth::user()->password)) {
+                $request->validateWithBag('resumeSubsciption', [
+                    'password' => ['required', 'current-password'],
+                ]);
+            }
 
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
+            $user = Auth::user(); // Get the currently authenticated user
+            $plan = $user->getPlanFromUserGracePeriod(); // Check if the user is subscribed to a plan
 
-        $user = Auth::user(); // Get the currently authenticated user
-        $plan = $user->getPlanFromUserSubscription(); // Check if the user is subscribed to a plan
+            if (is_null($plan)) {
+                return redirect()->route('profile.edit')->with('error', 'You are not subscribed to any plan.');
+            }
 
-        // check the plan is the same as the one the user is subscribed to and if the user is on grace period
-        if ($user->subscription($plan->id)->onGracePeriod()) {
-            $user->subscription($plan->id)->resume(); // Cancel the user's subscription in Stripe
-            $user->subscription($plan->id)->stripe_status = 'active'; // Update the subscription status in your database
-            $user->subscription($plan->id)->save(); // Save the changes to the database
-        } else {
-            return back()->with('error', 'You are not subscribed to this plan');
+            // check the plan is the same as the one the user is subscribed to and if the user is on grace period
+            if ($user->subscription($plan->stripe_name)->onGracePeriod()) {
+                $user->subscription($plan->stripe_name)->resume(); // resume the user's subscription in Stripe
+                $user->subscription($plan->stripe_name)->stripe_status = 'active'; // Update the subscription status in your database
+                $user->subscription($plan->stripe_name)->save(); // Save the changes to the database
+            }
+
+            return view("profile.edit", compact('user'));
+        }catch( InvalidRequestException $e ){
+            return back()->with('error-resume', $e->getMessage())->withInput();
+        }catch( \Exception $e ){
+            return back()->with('error-resume', $e->getMessage())->withInput();
         }
-        return view("profile.edit", compact('user'));
     }
 
 

@@ -21,13 +21,17 @@
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            @foreach ($errors->updatePassword->get('name') as $error)
+            <x-input-error :messages="$error" class="mt-2 alert alert-error text-white" />
+            @endforeach
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            @foreach ($errors->updatePassword->get('email') as $error)
+            <x-input-error :messages="$error" class="mt-2 alert alert-error text-white" />
+            @endforeach
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -49,7 +53,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button id="profile-save">{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
