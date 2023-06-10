@@ -94,7 +94,7 @@ class ParameterTest extends DuskTestCase
     }
 
 
-    public function testLogout(Browser $browser)
+    protected function testLogout(Browser $browser)
     {
         $browser->press('#profile-menu')
             ->click('#logout')

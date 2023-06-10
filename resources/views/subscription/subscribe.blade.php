@@ -10,7 +10,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    The{{ $plan->name }} Plan
+                    The {{ $plan->name }} Plan
                     <input type="hidden" name="plan-id" value="{{$plan->id}}">
                     @if($plan->id == 2)
                     <input type="hidden" name="payment-type" id="payment-type" value="one-time" >
