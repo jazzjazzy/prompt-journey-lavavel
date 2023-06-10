@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install -y google-chrome-stable
 
 # Install ChromeDriver
 RUN apt-get install -yqq unzip
-RUN curl -sS -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/113.0.5672.63/chromedriver_linux64.zip
+RUN curl -sS -o /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
 # Set the ChromeDriver path as an environment variable

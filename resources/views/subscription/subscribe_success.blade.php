@@ -45,7 +45,7 @@
                     </div>
                     <div class="card-footer footer-right">
                         <a href="{{route('dashboard')}}" class="btn btn-primary text-center w-30 inline-block"
-                           id="cancel-button">
+                           id="goto-button">
                             @if ($plan->abbreviation == 'Test')
                                 Go to dashboard
                             @else

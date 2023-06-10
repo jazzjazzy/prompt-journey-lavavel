@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -109,6 +110,20 @@ class User extends Authenticatable
         return $currentPlan;
     }
 
+    public function getPlanFromUserGracePeriod(): ?Plan
+    {
+        $user = auth()->user();
+
+        $plan = DB::table('subscriptions')
+            ->select('plans.*')
+            ->join('plans', 'subscriptions.stripe_price', '=', 'plans.stripe_id')
+            ->where('stripe_status', 'canceled')
+            ->where('ends_at', '>', now())
+            ->where('user_id', $user->id)
+            ->latest('subscriptions.created_at')
+            ->first();
+        return $plan ? Plan::hydrate([(array) $plan])->first()  : null;
+    }
     /**
      * @return Plan|null
      */
@@ -123,6 +138,7 @@ class User extends Authenticatable
             ->where('user_id', $user->id)
             ->latest('subscriptions.created_at')
             ->first();
+
         return $plan ? Plan::hydrate([(array) $plan])->first()  : null;
     }
 

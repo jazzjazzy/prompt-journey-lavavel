@@ -53,17 +53,17 @@
             <div class="list p-4 my-auto flex justify-center">
                 @if ($plan->abbreviation == '')
                     @if(auth()->check())
-                        <a href="{{ url('/dashboard') }}" class="btn btn-primary text-center">Free</a>
+                        <a href="{{ url('/dashboard') }}" id="free-dashboard" class="btn btn-primary text-center">Free</a>
                     @else
-                        <a href="{{ url('/register') }}" class="btn btn-primary text-center">Register</a>
+                        <a href="{{ url('/register') }}" id="free-register" class="btn btn-primary text-center">Register</a>
                     @endif
                 @else
                     @if ($plan->name == $subscribed )
-                        <a href="{{ url('/dashboard') }}" class="btn btn-primary text-center">Current Plan</a>
+                        <a href="{{ url('/dashboard') }}" id="purchase-current" class="btn btn-primary text-center">Current Plan</a>
                     @elseif ($subscribed !== null)
-                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" class="btn btn-primary text-center">upgrade</a>
+                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" id="purchase-{{$plan->slug}}" class="btn btn-primary text-center">upgrade</a>
                     @else
-                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" class="btn btn-primary text-center">Subscribe</a>
+                        <a href="{{ route('subscription.subscribe', $plan->slug ) }}" id="purchase-{{$plan->slug}}" class="btn btn-primary text-center">Subscribe</a>
                     @endif
                 @endif
             </div>
