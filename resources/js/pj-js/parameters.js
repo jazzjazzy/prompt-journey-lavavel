@@ -25,6 +25,7 @@ const versionOptions = [
     {value: '4', text: '4'},
     {value: '5', text: '5'},
     {value: '5.1', text: '5.1'},
+    {value: '5.2', text: '5.2'},
 ];
 
 const styleOptions = [
@@ -198,7 +199,7 @@ $(document).ready(function () {
 
 
     function version() {
-        const regex = /--v(?:ersion)?\s[1-4]\s/g;
+        const regex = /--v(?:ersion)?\s(1|2|3|4|5|5\.1|5\.2)\s/g;
         selectParameters('version', regex, versionSelect);
     }
 
