@@ -81,7 +81,7 @@
     }
 
     .parameter-container {
-        @apply text-xs rounded p-2 border-sky-300;
+        @apply text-xs rounded p-2 border-sky-300 h-[46px];
     }
 
     .btn {

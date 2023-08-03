@@ -110,7 +110,7 @@ class ImagesController extends Controller
             $group = $this->getGroupIdByName($groupStr);
 
             //
-            if ($image instanceof $image && $group instanceof Groups) {
+            if ($image instanceof Images && $group instanceof Groups) {
                 DB::table('image_group')->insertOrIgnore(['image_id' => $image->id, 'group_id' => $group->id]);
                 continue;
             }
@@ -142,16 +142,19 @@ class ImagesController extends Controller
             $image->groups()->attach($group->id);
         }
 
-        // need to check if any groups have been removed and remove them from the image_group table if they have
-        $groupsToRemove = [];
-        foreach ($groupList as $group) {
-            if (in_array($group->name, $groups) === false) {
-                $groupsToRemove[] = $group->id;
+        // if we have a groupList
+        if ($groupList) {
+            // need to check if any groups have been removed and remove them from the image_group table if they have
+            $groupsToRemove = [];
+            foreach ($groupList as $group) {
+                if (in_array($group->name, $groups) === false) {
+                    $groupsToRemove[] = $group->id;
+                }
             }
-        }
-        // if we find groups that need to be removed, remove them
-        if($groupsToRemove !== []) {
-            DB::table('image_group')->whereIn('group_id', $groupsToRemove)->delete();
+            // if we find groups that need to be removed, remove them
+            if ($groupsToRemove !== []) {
+                DB::table('image_group')->whereIn('group_id', $groupsToRemove)->delete();
+            }
         }
 
         return response()->json(['success' => true, 'imageId' => $image->id]);

@@ -35,8 +35,19 @@ const styleOptions = [
     {value: 'raw', text: 'raw'},
     {value: 'cute', text: 'cute'},
     {value: 'expressive', text: 'expressive'},
+    {value: `original`, text: `original`},
+    {value: `scenic`, text: `scenic`},
 ];
 
+const zoomOptions = [
+    {value: '1', text: '1'},
+    {value: '2', text: '2'},
+];
+
+const nijiOptions = [
+    {value: '4', text: '4'},
+    {value: '5', text: '5'},
+];
 
 // section select controls
 $(document).ready(function () {
@@ -50,8 +61,12 @@ $(document).ready(function () {
         stop();
         style();
         stylize();
+        video();
         tile();
         iw();
+        repeat();
+        zoom();
+        weird()
         version();
         niji();
         hd();
@@ -60,6 +75,9 @@ $(document).ready(function () {
         uplight();
         upbeta();
         upanime();
+        fast();
+        relaxed();
+        turbo();
     }
 
 
@@ -118,6 +136,24 @@ $(document).ready(function () {
         dropdownParent: 'body'
     });
 
+    var zoomSelect = $('#zoom').selectize({
+        options: zoomOptions,
+        valueField: 'value',
+        labelField: 'text',
+        searchField: 'text',
+        create: false,
+        dropdownParent: 'body'
+    });
+
+    var nijiSelect = $('#niji').selectize({
+        options: nijiOptions,
+        valueField: 'value',
+        labelField: 'text',
+        searchField: 'text',
+        create: false,
+        dropdownParent: 'body'
+    });
+
     //section param action calls
     /*******************
      * Lister for any changes to the parameters to update the prompt text
@@ -155,7 +191,19 @@ $(document).ready(function () {
     $('#tile').on('change', function () {
         tile();
     });
-    $('#niji').on('change', function () {
+    $('#repeat').on('change', function () {
+        repeat();
+    });
+    $('#video').on('change', function () {
+        video();
+    });
+    zoomSelect[0].selectize.on('change', function () {
+        zoom();
+    });
+    $('#weird').on('change', function () {
+        weird();
+    });
+    nijiSelect[0].selectize.on('change', function () {
         niji();
     });
     $('#hd').on('change', function () {
@@ -188,12 +236,12 @@ $(document).ready(function () {
     }
 
     function chaos() {
-        const regex = /--chaos\s(?:100|\d{1,2})\s/g;
+        const regex = /--c(?:haos)?\s(?:100|\d{1,2})\s/g;
         textParmeters('chaos', regex);
     }
 
     function quality() {
-        const regex = /--(quality|q)\s+(?:(?:\.25|\.5)|[12])/g;
+        const regex = /--q(?:uality)?\s+(?:(?:\.25|\.5)|[12])/g;
         selectParameters('quality', regex, qualitySelect);
     }
 
@@ -219,12 +267,15 @@ $(document).ready(function () {
     }
 
     function style() {
-        const regex = /--style\s*[4][abc]\s/g;
+        const allStyleTextValues = styleOptions.map((option) => option.text);
+        const styleOptionsString = allStyleTextValues.join('|');
+
+        const regex = new RegExp(`--style\\s*(${styleOptionsString})\\s`, `g`);
         selectParameters('style', regex, styleSelect);
     }
 
     function stylize() {
-        const regex = /--s(?:tylize)?\s[0-9]{1,4}(?:\.[0-9]+)?/g;
+        const regex = /--s(?:tylize)?\s(?:1000|\d{1,3})\s/g;
         textParmeters('stylize', regex);
     }
 
@@ -238,9 +289,35 @@ $(document).ready(function () {
         checkboxParameters('tile', regex);
     }
 
+    function repeat() {
+        const regex = /--r(?:epeat)?\s*(?:[2-9]|[2-3]|40)\s/g;
+        textParmeters('repeat', regex);
+    }
+
+    function zoom() {
+        const allZoomTextValues = zoomOptions.map((option) => option.text);
+        const ZoomOptionsString = allZoomTextValues.join('|');
+
+        const regex = new RegExp(`--zoom\\s*(${ZoomOptionsString})\\s`, `g`);
+        selectParameters('zoom', regex, zoomOptions);
+    }
+
+    function weird() {
+        const regex = /--w(?:eird)?\s(?:1000|\d{1,3})\s/g;
+        textParmeters('weird', regex);
+    }
+
+    function video() {
+        const regex = /--video/g;
+        checkboxParameters('video', regex);
+    }
+
     function niji() {
-        const regex = /--niji/g;
-        checkboxParameters('niji', regex);
+        const allNijiTextValues = nijiOptions.map((option) => option.text);
+        const nijiOptionsString = allNijiTextValues.join('|');
+
+        const regex = new RegExp(`--niji\\s*(${nijiOptionsString})\\s`, `g`);
+        selectParameters('niji', regex, nijiOptions);
     }
 
     function hd() {
@@ -272,6 +349,21 @@ $(document).ready(function () {
     function upanime() {
         const regex = /--upanime/g;
         checkboxParameters('upanime', regex);
+    }
+
+    function fast() {
+        const regex = /--fast/g;
+        checkboxParameters('fast', regex);
+    }
+
+    function relaxed() {
+        const regex = /--relaxed/g;
+        checkboxParameters('relaxed', regex);
+    }
+
+    function turbo() {
+        const regex = /--turbo/g;
+        checkboxParameters('turbo', regex);
     }
 
     //section textparams
@@ -313,6 +405,7 @@ $(document).ready(function () {
         let promptText = $('.prompt-text-class').val();
 
         const matches = promptText.match(regex);
+
         if (matches) {
             let match = matches[0].split(' ')[1];
 
@@ -348,7 +441,7 @@ $(document).ready(function () {
             let color = wrapper.attr("data-color");
             //wrapper.removeClass('bg-'+color+'-300').addClass('bg-'+color+'-700');
             wrapper.removeClass('bg-' + color + '-300').addClass('bg-' + color + '-700');
-            labels.removeClass('text-gray-600').addClass('text-gray-200');
+            labels.removeClass('text-gray-200').addClass('text-gray-600');
 
             // remove all matches aspect ratio from prompt text
             promptText = $.trim(promptText.replace(regex, ''));
@@ -448,12 +541,18 @@ $(document).ready(function () {
         $.clearAllPromptText();
     });
 
+    const getPramaShortcut = (functionName) => {
+        if (typeof eval(functionName + "()") === "function") {
+            eval(functionName + "()"); // Attempt to call the function
+        }
+    };
 
     $.extend(window, {
         updatePromptAllFields: updatePromptAllFields,
         getPromptText: getPromptText,
         getPramaText: getPramaText,
         updatePromptText: updatePromptText,
+        getPramaShortcut: getPramaShortcut,
     });
 });
 
