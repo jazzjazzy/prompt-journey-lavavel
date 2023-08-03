@@ -16,18 +16,18 @@
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+shift+c:</span>
-            <span class="text-gray-900 font-medium text-xs">copy Mj Prompt</span>
+            <span class="text-gray-900 font-medium text-xs"><u>c</u>opy Mj Prompt</span>
         </div>
         <div class="col-span-full border-b border-gray-400">
             Action Shortcut
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+Shift+s:</span>
-            <span class="text-gray-900 font-medium text-xs">Add Suffix</span>
+            <span class="text-gray-900 font-medium text-xs">Add <u>S</u>uffix</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+Shift+p:</span>
-            <span class="text-gray-900 font-medium text-xs">Param Suffix</span>
+            <span class="text-gray-900 font-medium text-xs"><u>P</u>aram Suffix</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+Shift+F4:</span>
@@ -35,88 +35,115 @@
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+Shift+h:</span>
-            <span class="text-gray-900 font-medium text-xs">history</span>
+            <span class="text-gray-900 font-medium text-xs"><u>h</u>istory</span>
         </div>
         <div class="col-span-full border-b border-gray-400">
             Basic Param shortcuts
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+a:</span>
-            <span class="text-gray-900 font-medium text-xs">aspect </span>
+            <span class="text-gray-900 font-medium text-xs"><u>a</u>spect </span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+c:</span>
-            <span class="text-gray-900 font-medium text-xs">chaos</span>
+            <span class="text-gray-900 font-medium text-xs"><u>c</u>haos</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+q:</span>
-            <span class="text-gray-900 font-medium text-xs">quality</span>
+            <span class="text-gray-900 font-medium text-xs"><u>q</u>uality</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+n:</span>
-            <span class="text-gray-900 font-medium text-xs">no</span>
+            <span class="text-gray-900 font-medium text-xs"><u>n</u>o</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+e:</span>
-            <span class="text-gray-900 font-medium text-xs">seed</span>
+            <span class="text-gray-900 font-medium text-xs">s<u>e</u>ed</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+t:</span>
-            <span class="text-gray-900 font-medium text-xs">stop</span>
+            <span class="text-gray-900 font-medium text-xs">s<u>t</u>op</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+y:</span>
-            <span class="text-gray-900 font-medium text-xs">style</span>
+            <span class="text-gray-900 font-medium text-xs">st<u>y</u>le</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+v:</span>
-            <span class="text-gray-900 font-medium text-xs">version</span>
+            <span class="text-gray-900 font-medium text-xs"><u>v</u>ersion</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+s:</span>
-            <span class="text-gray-900 font-medium text-xs">stylize</span>
+            <span class="text-gray-900 font-medium text-xs"><u>s</u>tylize</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+i:</span>
-            <span class="text-gray-900 font-medium text-xs">image weight</span>
+            <span class="text-gray-900 font-medium text-xs"><u>i</u>mage weight</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+l:</span>
-            <span class="text-gray-900 font-medium text-xs">tile</span>
+            <span class="text-gray-900 font-medium text-xs">ti<u>l</u>e</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+r:</span>
+            <span class="text-gray-900 font-medium text-xs"><u>r</u>epeat</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+z:</span>
+            <span class="text-gray-900 font-medium text-xs"><u>z</u>oom</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+d:</span>
+            <span class="text-gray-900 font-medium text-xs">vi<u>d</u>eo</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Ctrl+Alt+w:</span>
+            <span class="text-gray-900 font-medium text-xs"><u>w</u>eird</span>
         </div>
         <div class="col-span-full border-b border-gray-400">
         Model version Param shortcuts
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+n:</span>
-            <span class="text-gray-900 font-medium text-xs">niji</span>
+            <span class="text-gray-900 font-medium text-xs"><u>n</u>iji</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+h:</span>
-            <span class="text-gray-900 font-medium text-xs">hd</span>
+            <span class="text-gray-900 font-medium text-xs"><u>h</u>d</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+t:</span>
-            <span class="text-gray-900 font-medium text-xs">test</span>
+            <span class="text-gray-900 font-medium text-xs"><u>t</u>est</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+p:</span>
-            <span class="text-gray-900 font-medium text-xs">testp</span>
+            <span class="text-gray-900 font-medium text-xs">test<u>p</u></span>
         </div>
         <div class="col-span-full border-b border-gray-400">
             Upscaler Param shortcuts
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+l:</span>
-            <span class="text-gray-900 font-medium text-xs">uplight</span>
+            <span class="text-gray-900 font-medium text-xs">up<u>l</u>ight</span>
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
             <span class="text-gray-500 font-medium text-xs mr-4">Alt+b:</span>
-            <span class="text-gray-900 font-medium text-xs">upbeta</span>
+            <span class="text-gray-900 font-medium text-xs">up<u>b</u>eta</span>
+        </div>
+        <div class="col-span-full border-b border-gray-400">
+            Speed Mode Parameters
         </div>
         <div class="col-span-1 flex flex-row items-center justify-between">
-            <span class="text-gray-500 font-medium text-xs mr-4"> Alt+a:</span>
-            <span class="text-gray-900 font-medium text-xs">upanime</span>
+            <span class="text-gray-500 font-medium text-xs mr-4">Alt+s:</span>
+            <span class="text-gray-900 font-medium text-xs">fa<u>s</u>t</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Alt+r:</span>
+            <span class="text-gray-900 font-medium text-xs"><u>r</u>elaxed</span>
+        </div>
+        <div class="col-span-1 flex flex-row items-center justify-between">
+            <span class="text-gray-500 font-medium text-xs mr-4">Alt+u:</span>
+            <span class="text-gray-900 font-medium text-xs">t<u>u</u>rbo</span>
         </div>
     </div>
 

@@ -94,14 +94,14 @@ class freeAccountLayoutTest extends DuskTestCase
                 ->assertValue('#prompt', '')
                 //delete row 2
                 ->press('#row-delete-suffix-2')
-                ->assertSee('Suffix string deleted')
+                ->assertSee('Suffix string removed')
                 ->assertInputMissing('#suffix-input-2')
                 ->assertMissing('#suffix-add-2')
                 ->assertMissing('#row-copy-suffix-2')
                 ->assertMissing('#row-delete-suffix-2')
                 //delete row 1
                 ->press('#row-delete-suffix-1')
-                ->assertSee('Suffix string deleted')
+                ->assertSee('Suffix string removed')
                 ->assertInputValue('#suffix-input-1', '')
                 ->uncheck('#suffix-add-1')
                 ->screenShot('free-account-dashboard');

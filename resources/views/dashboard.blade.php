@@ -108,97 +108,174 @@
             </div>
 
             <div id="basic-params" class="card p-0">
-                <div class="card-header bg-gradient-to-r from-green-100 to-green-700">
+                <div class="card-header bg-gradient-to-r from-green-300 to-green-700">
                     <h2>Basic Parameters</h2>
                 </div>
                 <div class="card-body p-0 m-0">
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="aspect-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="aspect">--aspect</label>
-                                <div class="col-span-8">
-                                    <select id="aspect" name="aspect" class="parameter-class w-full"></select>
+                                <label class="col-span-4 text-gray-600" for="aspect">
+                                    --aspect
+                                    <button title="Aspect Ratio" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/aspect-ratios"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <select title="Basic Parameters" id="aspect" name="aspect" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="chaos-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="chaos">--chaos</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="chaos">
+                                    --chaos
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/chaos"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="text" id="chaos" name="chaos" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="quality-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="aspect">--quality</label>
-                                <div class="col-span-8">
-                                    <label for="quality"></label><select id="quality" name="quality"
-                                                                         class="parameter-class w-full"></select>
+                                <label class="col-span-4 text-gray-600" for="aspect">
+                                    --quality
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/quality"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <label for="quality"></label>
+                                    <select id="quality" name="quality" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="no-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="no">--no</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="no">
+                                    --no
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/no"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="text" id="no" name="no" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="seed-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="seed">--seed</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="seed">
+                                    --seed
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/seeds"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="text" id="seed" name="seed" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="stop-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="stop">--stop</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="stop">
+                                    --stop
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/stop"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="text" id="stop" name="stop" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="style-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="style">--style</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="style">
+                                    --style
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/style"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <select id="style" name="style" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="version-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="version">--version</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="version">
+                                    --version
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/model-versions"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <select id="version" name="version" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="stylize-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="stylize">--stylize</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="stylize">
+                                    --stylize
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/stylize"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="number" id="stylize" name="stylize" class="parameter-class w-full">
                                 </div>
                             </div>
                         </div>
                         <div id="iw-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="iw">--iw</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="iw">
+                                    --iw
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/image-prompts#image-weight-parameter"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="number" id="iw" name="iw" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="tile-wrapper" data-color="green" class="bg-green-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="tile">--tile</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="tile">
+                                    --tile
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/tile"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="tile" name="tile" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="repeat-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="repeat">
+                                    --repeat
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/repeat"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="number" id="repeat" name="repeat" class="parameter-class" min="2" max="40">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="zoom-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="zoom">
+                                    --zoom
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/zoom-out"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <select id="zoom" name="zoom" class="parameter-class w-full"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="video-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="video">
+                                    --video
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/video"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="checkbox" id="video" name="video" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="weird-wrapper" data-color="green" class="bg-green-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="weird">
+                                    --weird
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/weird"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="number" id="weird" name="weird" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -206,39 +283,51 @@
                 </div>
             </div>
             <div id="model-params" class="card p-0">
-                <div class="card-header bg-gradient-to-r from-blue-100 to-blue-700">
+                <div class="card-header bg-gradient-to-r from-blue-300 to-blue-700">
                     <h2>Model Version Parameters</h2>
                 </div>
                 <div class="card-body">
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="niji-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="niji">--niji</label>
-                                <div class="col-span-8">
-                                    <input type="checkbox" id="niji" name="niji" class="parameter-class">
+                                <label class="col-span-4 text-gray-600" for="niji">
+                                    --niji
+                                    <button title="Basic Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/style"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <select id="niji" name="niji" class="parameter-class w-full"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="hd-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="hd">--hd</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="hd">
+                                    --hd
+                                    <button title="Model Version Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/legacy/docs/parameter-list"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="hd" name="hd" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="test-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="test">--test</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="test">
+                                    --test
+                                    <button title="Model Version Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/legacy/docs/parameter-list"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="test" name="test" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="testp-wrapper" data-color="sky" class="bg-sky-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="testp">--testp</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="testp">
+                                    --testp
+                                    <button title="Model Version Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/legacy/docs/parameter-list"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="testp" name="testp" class="parameter-class">
                                 </div>
                             </div>
@@ -255,25 +344,66 @@
                     <div class="grid grid-cols-4 gap-2 mt-5 p-2">
                         <div id="uplight-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="uplight">--uplight</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="uplight">
+                                    --uplight
+                                    <button title="Upscaler Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/legacy/docs/parameter-list"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="uplight" name="uplight" class="parameter-class">
                                 </div>
                             </div>
                         </div>
                         <div id="upbeta-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="upbeta">--upbeta</label>
-                                <div class="col-span-8">
+                                <label class="col-span-4 text-gray-600" for="upbeta">
+                                    --upbeta
+                                    <button title="Upscaler Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/legacy/docs/parameter-list"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
                                     <input type="checkbox" id="upbeta" name="upbeta" class="parameter-class">
                                 </div>
                             </div>
                         </div>
-                        <div id="upanime-wrapper" data-color="pink" class="bg-pink-300 parameter-container">
+                    </div>
+                </div>
+            </div>
+
+            <div id="speedModes-params" class="speedModes-params card p-0">
+                <div class="card-header bg-gradient-to-r from-yellow-500 to-yellow-600 bg-yellow-700">
+                    <h2>Speed Mode Parameters</h2>
+                </div>
+                <div class="card-body ">
+                    <div class="grid grid-cols-4 gap-2 mt-5 p-2">
+                        <div id="fast-wrapper" data-color="yellow" class="bg-yellow-300 parameter-container">
                             <div class="grid grid-cols-12 flex items-center">
-                                <label class="col-span-4 text-gray-600" for="upanime">--upanime</label>
-                                <div class="col-span-8">
-                                    <input type="checkbox" id="upanime" name="upanime" class="parameter-class">
+                                <label class="col-span-4 text-gray-600" for="fast">
+                                    --fast
+                                    <button title="Speed Mode Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/fast-relax"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="checkbox" id="fast" name="fast" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="relaxed-wrapper" data-color="yellow" class="bg-yellow-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="relaxed">
+                                    --relaxed
+                                    <button title="Speed Mode Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/fast-relax"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="checkbox" id="relaxed" name="relaxed" class="parameter-class">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="turbo-wrapper" data-color="yellow" class="bg-yellow-300 parameter-container">
+                            <div class="grid grid-cols-12 flex items-center">
+                                <label class="col-span-4 text-gray-600" for="turbo">
+                                    --turbo
+                                    <button title="Speed Mode Parameters" class="open-modal" data-modal-size="xl" data-url="https://docs.midjourney.com/docs/fast-relax"><i class="text-slate-400 fas fa-circle-question"></i></button>
+                                </label>
+                                <div class="col-span-8 flex items-center h-[30px]">
+                                    <input type="checkbox" id="turbo" name="turbo" class="parameter-class">
                                 </div>
                             </div>
                         </div>
@@ -455,6 +585,7 @@
             </div>
         </div>
     </div>
+    <div class="h-[64px]"></div>
     @endsection
 
     @section('script')

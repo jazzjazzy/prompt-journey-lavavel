@@ -48,15 +48,14 @@
                                                     group</label>
                                                 <div class="col-span-9">
                                                     <input id="add-to-group"
-                                                           class="parameter-class w-full">
-                                                    </input>
+                                                           class="parameter-class w-full" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="card-footer grid grid-cols-12">
                                             <div class="col-span-8">
-                                                <div class="alert alert-notice hidden" id="image-save-notice">
+                                                <div class="alert alert-success hidden" id="image-save-notice">
                                                     images copied to clipboard
                                                 </div>
                                             </div>
@@ -71,7 +70,7 @@
                                 <div class="col-span-5">
                                     <div class="pl-0 pb-3 h-1/2">
                                         <div class="h-[19rem] w-[19rem] border-2">
-                                            <img id="image-preview" class="h-[19rem]" src="{{$image}}"
+                                            <img id="image-preview" class="h-[19rem]" style="object-fit: cover" src="{{$image}}"
                                                  alt="Image Preview">
                                         </div>
                                     </div>
@@ -203,7 +202,7 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
-                        imageNoticeAlert('#image-save-notice', 'Image link Image has been saved to your gallery.');
+                        imageNoticeAlert('#image-save-notice', 'Image link has been saved to your gallery.');
 
                         window.parent.postMessage({ type: 'image', elementId: response.imageId, rowIndex: 'row-view-image-' + rowIndex }, '*');
                     } else {
