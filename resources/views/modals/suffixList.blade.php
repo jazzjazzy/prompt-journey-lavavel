@@ -91,7 +91,7 @@
             if($isAlreadyInProject === "true") {
                 removeFromSuffixList(idname);
             }else{
-                addToSuffixList(suffixStr, idname);
+                addToSuffixListFromGallery(suffixStr, idname);
             }
         });
 

@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="col-span-4 footer-right">
                                                 <input type="hidden" name="row_id" id="row-suffix-id" value="" data-row-suffix-id="{{$buttonRow}}">
-                                                <button class="btn btn-primary" id="save-suffixes">Add to gallery
+                                                <button class="btn btn-primary" id="save-suffixes">Add to suffixes
                                                 </button>
                                             </div>
                                         </div>

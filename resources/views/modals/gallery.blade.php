@@ -85,7 +85,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img src="{{$image->link}}" alt="image" class="w-full h-auto">
+                                            <div class="w-[300px] h-[300px]">
+                                                <img src="{{$image->link}}" alt="image" class="w-full h-full" style="object-fit: cover">
+                                            </div>
                                         </div>
                                     </a>
                                     @endforeach
@@ -163,7 +165,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img src="${image.link}" alt="image" class="w-full h-auto">
+                                            <div class="w-[300px] h-[300px]">
+                                                <img src="${image.link}" alt="image" class="w-full h-full" style="object-fit: cover">
+                                            </div>
                                         </div>
                                     </a>
                         `);

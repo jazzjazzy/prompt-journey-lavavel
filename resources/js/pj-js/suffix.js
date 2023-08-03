@@ -213,7 +213,7 @@ $(document).ready(function () {
     $('#input-suffix-fields').on('click', '.suffix-input-delete', function () {
 
         deleteSuffixRow($(this));
-        suffixNoticeAlert('#suffix-notice', 'Suffix string deleted');
+        suffixNoticeAlert('#suffix-notice', 'Suffix string removed');
 
     });
 
@@ -269,7 +269,13 @@ $(document).ready(function () {
         $('#prompt').val($('#prompt').val() + ' ' + suffixText);
     }
 
-    function addToSuffixList(suffixStr = null, id) {
+    /**
+     *
+     * @param suffixStr
+     * @param id
+     */
+    function addToSuffixListFromGallery(suffixStr = null, id) {
+        console.log(suffixStr);
         var inputFields = window.parent.$('#input-suffix-fields').find('.suffix-input');
         var added = false;
         let suffixId = id.split('-')[1];
@@ -404,7 +410,7 @@ $(document).ready(function () {
         allToSuffixList: allToSuffixList,
         paramsToSuffixList: paramsToSuffixList,
         suffixNoticeAlert: suffixNoticeAlert,
-        addToSuffixList: addToSuffixList,
+        addToSuffixListFromGallery: addToSuffixListFromGallery,
         removeFromSuffixList:removeFromSuffixList,
         getSuffixPromptText: getSuffixPromptText,
         setCheckmarkListSuffix: setCheckmarkListSuffix,
